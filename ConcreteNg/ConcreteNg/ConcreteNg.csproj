@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ConcreteNg.Data\ConcreteNg.Data.csproj" />
+    <ProjectReference Include="..\ConcreteNg.Services\ConcreteNg.Services.csproj" />
   </ItemGroup>
 
 </Project>

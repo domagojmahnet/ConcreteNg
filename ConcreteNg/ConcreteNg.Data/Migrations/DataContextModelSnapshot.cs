@@ -24,9 +24,11 @@ namespace ConcreteNg.Data.Migrations
 
             modelBuilder.Entity("ConcreteNg.Shared.Models.Employer", b =>
                 {
-                    b.Property<Guid>("EmployerId")
+                    b.Property<int>("EmployerId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmployerId"), 1L, 1);
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -88,12 +90,14 @@ namespace ConcreteNg.Data.Migrations
 
             modelBuilder.Entity("ConcreteNg.Shared.Models.User", b =>
                 {
-                    b.Property<Guid>("UserId")
+                    b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("EmployerId")
-                        .HasColumnType("uniqueidentifier");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"), 1L, 1);
+
+                    b.Property<int>("EmployerId")
+                        .HasColumnType("int");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -133,8 +137,8 @@ namespace ConcreteNg.Data.Migrations
                     b.Property<int>("ProjectsProjectId")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("UsersUserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("UsersUserId")
+                        .HasColumnType("int");
 
                     b.HasKey("ProjectsProjectId", "UsersUserId");
 

@@ -13,7 +13,8 @@ namespace ConcreteNg.Data.Migrations
                 name: "Employers",
                 columns: table => new
                 {
-                    EmployerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    EmployerId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -48,7 +49,8 @@ namespace ConcreteNg.Data.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -56,7 +58,7 @@ namespace ConcreteNg.Data.Migrations
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     HireDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     UserType = table.Column<int>(type: "int", nullable: false),
-                    EmployerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    EmployerId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -74,7 +76,7 @@ namespace ConcreteNg.Data.Migrations
                 columns: table => new
                 {
                     ProjectsProjectId = table.Column<int>(type: "int", nullable: false),
-                    UsersUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    UsersUserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
