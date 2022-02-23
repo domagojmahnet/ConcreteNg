@@ -1,9 +1,11 @@
 ﻿using ConcreteNg.Shared.Models;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Text.Json;
 
 namespace ConcreteNg.Controllers
 {
@@ -19,17 +21,25 @@ namespace ConcreteNg.Controllers
             configuration = iconfiguration;
         }
 
-        [HttpPost("login")]
-        public async Task<ActionResult<string>> Login(User request)
+        [HttpGet]
+        public async Task<ActionResult<string>> Get1()
         {
-            return Ok(CreateToken(request));
+            User request = new User();
+            return Ok(request);
         }
 
-        private string CreateToken(User user)
+        [HttpPost("login")]
+        public async Task<ActionResult<string>> Login([FromBody]LoginModel loginModel)
+        {
+            //serialize string to json
+            return Ok(JsonSerializer.Serialize(CreateToken(loginModel)));
+        }
+
+        private string CreateToken(LoginModel loginModel)
         {
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.Username)
+                new Claim(ClaimTypes.Name, loginModel.Username)
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(

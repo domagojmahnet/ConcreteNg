@@ -9,33 +9,31 @@ import { environment } from '../../../environments/environment';
 })
 export class AuthService {
 
-  constructor(
-    private http: HttpClient, 
-    private toastr: ToastrService,
-    private router: Router,
-    ) {
-  }
+    constructor(
+        private http: HttpClient, 
+        private toastr: ToastrService,
+        private router: Router,
+        ) {
+    }
 
-  userUrl: string = environment.BASE_URL+ "api/user";
+  userUrl: string = environment.BASE_URL+ "api/Auth";
 
   LogUser(username: string, password: string) {
-    const data = {'username': username, 'password': password};
-    const httpOptions: { headers: any; observe: any; } = {
-      headers: new HttpHeaders({
-        'Content-Type':  'application/json',
-        'username': username,
-        'password': password
-      }),
-      observe: 'body'
-    };
+        const data = {"Username" : username, "Password" : password};
 
-    return this.http.post<any>(this.userUrl + "/login", data, httpOptions).subscribe((result: any) => {
-      //localStorage.setItem('currentUser:firstName', JSON.stringify(result));
-          this.router.navigate(['']);
-      }, (error) => {
-        if(error.status == 400){
-          this.toastr.error("Invalid user credentials")
-        }
-     })
-  }
+        this.http.post<any>(this.userUrl + "/login", data).subscribe((token: any)=>{
+            localStorage.setItem('token', token);
+
+            //this.router.navigate(['/','home']);
+            //TODO get this in interceptor
+            var header = {
+                headers: new HttpHeaders()
+                    .set('Authorization',  `bearer ${token}`)
+                }
+            this.http.get(environment.BASE_URL + "api/WeatherForecast", header).subscribe((weather: any)=>{
+                console.log(weather);
+                debugger;
+            })
+        })
+    }
 }
