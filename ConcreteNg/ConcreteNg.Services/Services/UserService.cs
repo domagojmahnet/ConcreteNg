@@ -1,5 +1,6 @@
 ﻿using ConcreteNg.Data;
 using ConcreteNg.Repositories.Repositories;
+using ConcreteNg.Services.Interfaces;
 using ConcreteNg.Shared.Models;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ConcreteNg.Services.Services
 {
-    public class UserService
+    public class UserService : IUserService
     {
         private readonly UnitOfWork unitOfWork;
 
@@ -21,6 +22,11 @@ namespace ConcreteNg.Services.Services
         public User GetUser(int id)
         {
             return unitOfWork.userRepository.Read(id);
+        }
+
+        public User GetUserByUsernameAndPassword(LoginModel loginModel)
+        {
+            return unitOfWork.userRepository.GetByUsernameAndPassword(loginModel);
         }
     }
 }

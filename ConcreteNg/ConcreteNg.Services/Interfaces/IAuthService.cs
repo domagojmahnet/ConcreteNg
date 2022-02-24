@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConcreteNg.Repositories.Interfaces
+namespace ConcreteNg.Services.Interfaces
 {
-    public interface IUserRepository : IRepository<User>
+    public interface IAuthService
     {
-        User GetByUsernameAndPassword(LoginModel loginModel);
+        string CreateToken(User user);
+        string LogInUser(LoginModel loginModel);
     }
 }

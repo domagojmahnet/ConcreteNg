@@ -1,4 +1,5 @@
 ﻿using ConcreteNg.Data;
+using ConcreteNg.Services.Interfaces;
 using ConcreteNg.Services.Services;
 using ConcreteNg.Shared.Models;
 using Microsoft.AspNetCore.Http;
@@ -10,11 +11,11 @@ namespace ConcreteNg.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly UserService userService;
+        private readonly IUserService userService;
 
-        public UserController(DataContext dbcontext)
+        public UserController(IUserService iUserService)
         {
-            userService = new UserService(dbcontext);
+            userService = iUserService;
         }
 
         [HttpGet]

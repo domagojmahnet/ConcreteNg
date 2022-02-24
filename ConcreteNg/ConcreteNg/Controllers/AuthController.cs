@@ -1,4 +1,5 @@
-﻿using ConcreteNg.Shared.Models;
+﻿using ConcreteNg.Services.Interfaces;
+using ConcreteNg.Shared.Models;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,12 +14,11 @@ namespace ConcreteNg.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        public static User user = new User();
-        private IConfiguration configuration;
+        private IAuthService authService;
 
-        public AuthController(IConfiguration iconfiguration) 
+        public AuthController(IAuthService _authService) 
         {
-            configuration = iconfiguration;
+            authService = _authService;
         }
 
         [HttpGet]
@@ -32,31 +32,7 @@ namespace ConcreteNg.Controllers
         public async Task<ActionResult<string>> Login([FromBody]LoginModel loginModel)
         {
             //serialize string to json
-            return Ok(JsonSerializer.Serialize(CreateToken(loginModel)));
-        }
-
-        private string CreateToken(LoginModel loginModel)
-        {
-            List<Claim> claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, loginModel.Username)
-            };
-
-            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
-                configuration.GetSection("AppSettings:Token").Value)
-            );
-
-            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-
-            var token = new JwtSecurityToken(
-                claims: claims,
-                expires: DateTime.Now.AddDays(1),
-                signingCredentials: credentials
-            );
-
-            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
-
-            return jwt;
+            return Ok(JsonSerializer.Serialize(authService.LogInUser(loginModel)));
         }
     }
 }

@@ -1,4 +1,6 @@
 using ConcreteNg.Data;
+using ConcreteNg.Services.Interfaces;
+using ConcreteNg.Services.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -29,6 +31,9 @@ builder.Services.AddSwaggerGen( options =>
         options.OperationFilter<SecurityRequirementsOperationFilter>();
     }
 );
+
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
         options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
