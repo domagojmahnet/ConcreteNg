@@ -17,10 +17,10 @@ namespace ConcreteNg.Services.Services
         private IConfiguration configuration;
         private readonly IUserService userService;
 
-        public AuthService(IConfiguration iConfiguration, IUserService iUserService)
+        public AuthService(IConfiguration _configuration, IUserService _userService)
         {
-            configuration = iConfiguration;
-            userService = iUserService;
+            configuration = _configuration;
+            userService = _userService;
         }
 
         public string LogInUser(LoginModel loginModel)
@@ -37,7 +37,8 @@ namespace ConcreteNg.Services.Services
         {
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.Username)
+                new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
+                new Claim(ClaimTypes.Role, user.UserType.ToString())
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(

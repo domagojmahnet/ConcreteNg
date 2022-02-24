@@ -1,11 +1,6 @@
 ﻿using ConcreteNg.Services.Interfaces;
 using ConcreteNg.Shared.Models;
-using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using System.Text.Json;
 
 namespace ConcreteNg.Controllers
