@@ -25,7 +25,6 @@ export class AuthService {
         const data = {"Username" : username, "Password" : password};
 
         this.http.post<any>(this.userUrl + "/login", data).subscribe((token: any)=>{
-            debugger
             this.accountService.JwtTokenValue = token
 
             this.http.get(environment.BASE_URL + "api/User").subscribe((weather: any)=>{

@@ -20,7 +20,6 @@ export class RequestInterceptor implements HttpInterceptor {
             catchError((requestError) => {
               if (requestError.status === 401) {
                 const { error } = requestError;
-                debugger;
               }
               return throwError(() => new Error(requestError));
             })

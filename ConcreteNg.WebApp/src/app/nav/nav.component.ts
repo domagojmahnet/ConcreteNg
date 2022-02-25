@@ -13,7 +13,6 @@ export class NavComponent implements OnInit {
     constructor(private accountService: AccountService) { }
 
     ngOnInit(): void {
-        debugger;
         if(this.accountService.JwtTokenValue){
             this.LoggedIn = true
         }

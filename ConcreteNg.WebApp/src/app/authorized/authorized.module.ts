@@ -5,18 +5,23 @@ import { SidenavComponent } from './sidenav/sidenav.component';
 import { SharedModule } from '../shared.module';
 import { RouterModule } from '@angular/router';
 import { ActiveProjectsComponent } from './projects/active-projects/active-projects.component';
+import { ProjectCardComponent } from './projects/project-card/project-card.component';
 
 @NgModule({
     declarations: [
         ProjectOverviewComponent,
         SidenavComponent,
-        ActiveProjectsComponent
+        ActiveProjectsComponent,
+        ProjectCardComponent
     ],
     imports: [
         CommonModule,
         SharedModule
     ],
-    exports:[SidenavComponent],
+    exports: [
+        SidenavComponent,
+        ProjectCardComponent
+    ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
 export class AuthorizedModule { }
