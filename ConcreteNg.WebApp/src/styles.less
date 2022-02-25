@@ -2,9 +2,18 @@
 
 /* Importing Bootstrap SCSS file. */
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
-html, body {
+
+html {
     height: 100%;
+}
+body {
+    min-height: 100%;
     margin: 0;
+}
+
+app-root {
+    display: block;
+    height: 100%;
 }
 
 [ng-reflect-router-link]{
@@ -13,3 +22,12 @@ html, body {
 
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+mat-sidenav[style] {
+    visibility: visible !important;
+  }
+  .mat-drawer {
+    transform: none !important;
+}
+mat-sidenav-content[style]{
+    margin-left: 0px !important;
+}

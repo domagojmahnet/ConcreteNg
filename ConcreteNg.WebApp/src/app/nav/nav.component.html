@@ -9,6 +9,11 @@
             Log In
         </a>
         <a *ngIf="LoggedIn"
+            mat-button [routerLink]="['/project-overview']" routerLinkActive="active-route">
+            <mat-icon>dashboard</mat-icon>
+            Projects
+        </a>
+        <a *ngIf="LoggedIn"
             mat-button (click)="LogOut()">
             <mat-icon>logout</mat-icon>
             Logout

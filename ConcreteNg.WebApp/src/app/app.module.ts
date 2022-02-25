@@ -13,6 +13,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from './shared.module';
 import { RequestInterceptor } from './request-interceptor';
+import { AuthorizedModule } from './authorized/authorized.module';
 
 @NgModule({
     declarations: [
@@ -23,6 +24,7 @@ import { RequestInterceptor } from './request-interceptor';
         SharedModule,
         ToastrModule.forRoot(),
         UnauthorizedModule,
+        AuthorizedModule
     ],
     providers: [{ provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true },],
     bootstrap: [AppComponent],
