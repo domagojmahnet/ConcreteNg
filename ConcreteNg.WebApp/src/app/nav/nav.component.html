@@ -8,5 +8,10 @@
             <mat-icon>login</mat-icon>
             Log In
         </a>
+        <a *ngIf="LoggedIn"
+            mat-button (click)="LogOut()">
+            <mat-icon>logout</mat-icon>
+            Logout
+        </a>
     </span>
 </mat-toolbar>

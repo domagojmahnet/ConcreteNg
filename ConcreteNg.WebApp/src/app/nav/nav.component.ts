@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AccountService } from '../account.service';
 
 @Component({
   selector: 'app-nav',
@@ -7,9 +8,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavComponent implements OnInit {
 
-  constructor() { }
+    LoggedIn: any;
 
-  ngOnInit(): void {
-  }
+    constructor(private accountService: AccountService) { }
+
+    ngOnInit(): void {
+        debugger;
+        if(this.accountService.JwtTokenValue){
+            this.LoggedIn = true
+        }
+
+        this.accountService.LoggedIn.subscribe((value) => {
+            this.LoggedIn = value
+        })
+    }
+
+    public LogOut(){
+        this.accountService.clearCurrentUser();
+    }
 
 }

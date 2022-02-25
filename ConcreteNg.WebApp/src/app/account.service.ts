@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { User } from './models/user';
 
 @Injectable({
@@ -9,27 +9,27 @@ import { User } from './models/user';
 })
 export class AccountService {
 
-    public currentUser: any;
-    public jwtToken: any;
+    LoggedIn = new Subject();
 
-    public get userValue(): User {
-        return this.currentUser;
+    public get userValue(): any {
+        return JSON.parse(localStorage.getItem('FileName') || '{}') as User;
     }
 
     public set userValue(user: User) {
-        this.currentUser = user;
+        localStorage.setItem('currentUser', JSON.stringify(user));
     }
 
-    public get JwtTokenValue(): string{
-        return this.jwtToken;
+    public get JwtTokenValue(): any{
+        return localStorage.getItem('token') as string;
     }
 
     public set JwtTokenValue(token: string) {
-        this.jwtToken = token;
+        this.LoggedIn.next(true)
+        localStorage.setItem('token', token);
     }
 
     public clearCurrentUser(): void {
-        this.jwtToken = null;
-        this.currentUser = null;
+        this.LoggedIn.next(false)
+        localStorage.clear();
     }
 }

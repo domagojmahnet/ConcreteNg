@@ -28,7 +28,7 @@ namespace ConcreteNg.Services.Services
             User user = userService.GetUserByUsernameAndPassword(loginModel);
             if(user == null)
             {
-                return "Invalid username or password";
+                return string.Empty;
             }
             return CreateToken(user);
         }

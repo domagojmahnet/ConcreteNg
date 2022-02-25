@@ -26,8 +26,12 @@ namespace ConcreteNg.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<string>> Login([FromBody]LoginModel loginModel)
         {
-            //serialize string to json
-            return Ok(JsonSerializer.Serialize(authService.LogInUser(loginModel)));
+            string token = authService.LogInUser(loginModel);
+            if (string.IsNullOrEmpty(token))
+            {
+                return Unauthorized();
+            }
+            return Ok(JsonSerializer.Serialize(token));
         }
     }
 }
