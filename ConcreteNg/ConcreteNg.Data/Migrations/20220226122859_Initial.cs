@@ -31,8 +31,9 @@ namespace ConcreteNg.Data.Migrations
                 {
                     ProjectId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    EmployerId = table.Column<int>(type: "int", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ExpoectedStartDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    ExpectedStartDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     ExpectedEndDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     StartDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     EndDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
@@ -43,6 +44,11 @@ namespace ConcreteNg.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Projects", x => x.ProjectId);
+                    table.ForeignKey(
+                        name: "FK_Projects_Employers_EmployerId",
+                        column: x => x.EmployerId,
+                        principalTable: "Employers",
+                        principalColumn: "EmployerId");
                 });
 
             migrationBuilder.CreateTable(
@@ -94,6 +100,11 @@ namespace ConcreteNg.Data.Migrations
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Projects_EmployerId",
+                table: "Projects",
+                column: "EmployerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProjectUser_UsersUserId",

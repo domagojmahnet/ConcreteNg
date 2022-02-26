@@ -6,8 +6,9 @@ namespace ConcreteNg.Shared.Models
     public class Project
     {
         public int ProjectId { get; set; }
+        public Employer? Employer { get; set; }
         public string Name { get; set; }
-        public DateTimeOffset ExpoectedStartDate { get; set; }
+        public DateTimeOffset ExpectedStartDate { get; set; }
         public DateTimeOffset ExpectedEndDate { get; set; }
         public DateTimeOffset? StartDate { get; set; }
         public DateTimeOffset? EndDate { get; set; }

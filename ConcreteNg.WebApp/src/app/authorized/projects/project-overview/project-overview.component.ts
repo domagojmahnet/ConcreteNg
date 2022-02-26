@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ProjectService } from '../services/project.service';
 
 @Component({
   selector: 'app-project-overview',
@@ -13,13 +14,13 @@ export class ProjectOverviewComponent implements OnInit {
         { link: "locations", name: "Locations", icon: "account_balance" },
     ];
 
-    public toggleMenu() {
-        this.isExpanded = !this.isExpanded;
-    }
-
     constructor() { }
 
     ngOnInit(): void {
+
     }
 
+    public toggleMenu() {
+        this.isExpanded = !this.isExpanded;
+    }
 }

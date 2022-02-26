@@ -19,7 +19,7 @@ namespace ConcreteNg.Repositories.Repositories
             dataContext = dbContext;
         }
 
-        public virtual IQueryable<T> List()
+        public virtual IEnumerable<T> List()
         {
             return dataContext.Set<T>();
         }

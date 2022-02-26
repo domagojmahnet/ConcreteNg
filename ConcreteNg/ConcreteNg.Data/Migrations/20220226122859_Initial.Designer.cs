@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ConcreteNg.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220223191701_Initial")]
+    [Migration("20220226122859_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -63,6 +63,9 @@ namespace ConcreteNg.Data.Migrations
                     b.Property<float>("CurrentCost")
                         .HasColumnType("real");
 
+                    b.Property<int?>("EmployerId")
+                        .HasColumnType("int");
+
                     b.Property<DateTimeOffset?>("EndDate")
                         .HasColumnType("datetimeoffset");
 
@@ -72,7 +75,7 @@ namespace ConcreteNg.Data.Migrations
                     b.Property<DateTimeOffset>("ExpectedEndDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<DateTimeOffset>("ExpoectedStartDate")
+                    b.Property<DateTimeOffset>("ExpectedStartDate")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Name")
@@ -86,6 +89,8 @@ namespace ConcreteNg.Data.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.HasKey("ProjectId");
+
+                    b.HasIndex("EmployerId");
 
                     b.ToTable("Projects");
                 });
@@ -147,6 +152,15 @@ namespace ConcreteNg.Data.Migrations
                     b.HasIndex("UsersUserId");
 
                     b.ToTable("ProjectUser");
+                });
+
+            modelBuilder.Entity("ConcreteNg.Shared.Models.Project", b =>
+                {
+                    b.HasOne("ConcreteNg.Shared.Models.Employer", "Employer")
+                        .WithMany()
+                        .HasForeignKey("EmployerId");
+
+                    b.Navigation("Employer");
                 });
 
             modelBuilder.Entity("ConcreteNg.Shared.Models.User", b =>

@@ -2,16 +2,30 @@
 <mat-card class="card-wrapper">
     <img mat-card-image style="width: 150px;" src="https://angular.io/assets/images/logos/angularjs/AngularJS-Shield.svg" alt="Angular Logo">
     <mat-card-header>
-        <mat-card-title>Title for this construction project!</mat-card-title>
+        <mat-card-title>{{projectData.name}}</mat-card-title>
         <mat-card-subtitle>
         Project descriptionProject descriptionProject descriptionProject descriptionProject description
         </mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-        <p>Client: Name Surname</p>
-        <p>End date: 2021-01-11</p>
-        <p>Budget: 500,000$</p>
-        <p>Status: in progress</p>
+        <div class="items-wrapper">
+            <a>Client: Name Surname</a>
+        </div>
+        <div class="items-wrapper">
+            <a>End date: {{projectData.expectedEndDate | date:'longDate'}}</a>
+            <ng-container *ngIf="1===1">
+                <mat-icon class="material-icons color_red">error_outline</mat-icon>
+            </ng-container>
+        </div>
+        <div class="items-wrapper">
+            <a>Budget: {{projectData.expectedCost}}$</a>
+            <ng-container *ngIf="1===1">
+                <mat-icon class="material-icons color_green">check_circle_outline</mat-icon>
+            </ng-container>
+        </div>
+        <div class="items-wrapper">
+            <a>Status: in progress</a>
+        </div>
     </mat-card-content>
     <mat-card-actions align="end">
         <button mat-raised-button color="primary">DETAILS</button>

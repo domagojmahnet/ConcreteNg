@@ -1,7 +1,6 @@
 <div class="projects-wrapper" fxFlexAlign="stretch">
-    <app-project-card></app-project-card>
-    <app-project-card></app-project-card>
-    <app-project-card></app-project-card>
-    <app-project-card></app-project-card>
-    <app-project-card></app-project-card>
+    <ng-container *ngFor="let project of activeProjects">
+        <app-project-card [projectData]="project">
+        </app-project-card>
+    </ng-container>
 </div>
