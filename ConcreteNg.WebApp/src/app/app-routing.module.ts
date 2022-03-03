@@ -2,20 +2,20 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LandingPageComponent } from './unauthorized/landing-page/landing-page.component';
 import { LoginComponent } from './unauthorized/login/login.component';
-import { ProjectOverviewComponent } from './authorized/projects/project-overview/project-overview.component';
-import { ActiveProjectsComponent } from './authorized/projects/active-projects/active-projects.component';
+import { EmployerOverviewComponent } from './authorized/employer-overview/employer-overview.component';
+import { BaseContainerComponent } from './authorized/base-container/base-container.component';
 
 
 const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'home', component: LandingPageComponent },
-    { path: 'project-overview', component: ProjectOverviewComponent,
+    { path: 'authorized', component: BaseContainerComponent,
         children: [
             {
-                path: 'active-projects',
-                component: ActiveProjectsComponent,
+                path: 'employer-overview',
+                component: EmployerOverviewComponent,
             },
-            { path: '',   redirectTo: 'active-projects', pathMatch: 'full'}
+            { path: '',   redirectTo: 'employer-overview', pathMatch: 'full'}
         ]
         },
     { path: '**', component: LandingPageComponent },

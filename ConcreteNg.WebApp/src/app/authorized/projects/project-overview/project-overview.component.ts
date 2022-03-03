@@ -10,8 +10,11 @@ export class ProjectOverviewComponent implements OnInit {
 
     public isExpanded = false;
     public routeLinks = [
-        { link: "active-projects", name: "Active projects", icon: "receipt_long" },
-        { link: "locations", name: "Locations", icon: "account_balance" },
+        { link: "active-projects", name: "Overview", icon: "receipt_long" },
+        { link: "active-projects", name: "Projects", icon: "folder" },
+        { link: "active-projects", name: "Partners", icon: "contacts" },
+        { link: "active-projects", name: "Payroll", icon: "receipt_long" },
+        { link: "locations", name: "Employees", icon: "group" },
     ];
 
     constructor() { }

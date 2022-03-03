@@ -12,11 +12,12 @@
         routerLink="{{ route.link }}"
       >
         <mat-icon
-          mat-list-icon
-          [matTooltip]="!isExpanded ? route.name : ''"
-          matTooltipPosition="right"
+            color="primary"
+            mat-list-icon
+            [matTooltip]="!isExpanded ? route.name : ''"
+            matTooltipPosition="right"
         >
-          {{ route.icon }}</mat-icon
+            {{ route.icon }}</mat-icon
         >
         <p matLine *ngIf="isExpanded">{{ route.name }}</p>
       </a>

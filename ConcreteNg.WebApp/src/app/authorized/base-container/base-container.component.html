@@ -1,0 +1,17 @@
+<mat-sidenav-container autosize style="display: flex;">
+    <mat-sidenav
+      #sidenav
+      mode="side"
+      opened="{{ isExpanded }}"
+      style="position: relative;"
+    >
+      <app-sidenav
+        (toggleMenu)="toggleMenu()"
+        [isExpanded]="isExpanded"
+      ></app-sidenav>
+    </mat-sidenav>
+    <mat-sidenav-content class="content-container">
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>
+

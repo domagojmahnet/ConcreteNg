@@ -1,0 +1,103 @@
+<mat-card class="mat-card-custom-color">
+    <h2>Company Details</h2>
+    <mat-divider></mat-divider>
+    <div class="row">
+        <div class="col" style="align-items: flex-start; flex-direction: column; margin-bottom: 10px;">
+            <mat-card style="height: 100%;">
+                <img mat-card-image style="width: 150px;" src="https://angular.io/assets/images/logos/angularjs/AngularJS-Shield.svg" alt="Angular Logo">
+                <mat-card-header>
+                    <mat-card-title>Company Name</mat-card-title>
+                    <mat-card-subtitle>
+                    Project descriptionProject descriptionProject descriptionProject descriptionProject description
+                    </mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <div class="items-wrapper">
+                        <a>Client: Name Surname</a>
+                    </div>
+                    <div class="items-wrapper">
+                        <a>End date: a</a>
+                    </div>
+                    <div class="items-wrapper">
+                        <a>Budget: a</a>
+                    </div>
+                    <div class="items-wrapper">
+                        <a>Status: in progress</a>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div class="col">
+            <div>
+                <app-number-card
+                    [number]="numberOfActiveProjects"
+                    [positiveMode]="true"
+                    [caption]="'active project/s'"
+                >
+                </app-number-card>
+                <app-number-card
+                    [number]="overdueProjects"
+                    [positiveMode]="false"
+                    [caption]="'overdue project/s'"
+                >
+                </app-number-card>
+            </div>
+            <div>
+                <app-number-card
+                    [number]="numberOfActiveProjects"
+                    [positiveMode]="true"
+                    [caption]="'active project/s'"
+                >
+                </app-number-card>
+                <app-number-card
+                    [number]="overrunProjects"
+                    [positiveMode]="false"
+                    [caption]="'overrun project/s'"
+                >
+                </app-number-card>
+            </div>
+        </div>
+      </div>
+</mat-card>
+
+<mat-card class="mat-card-custom-color">
+    <h2>Active Projects</h2>
+    <mat-divider></mat-divider>
+    <div class="projects-wrapper" fxFlexAlign="stretch">
+        <div class="projects-wrapper active-number">
+            <app-number-card
+                [number]="numberOfActiveProjects"
+                [positiveMode]="true"
+                [caption]="'active project/s'"
+            >
+            </app-number-card>
+            <app-number-card
+                [number]="overdueProjects"
+                [positiveMode]="false"
+                [caption]="'overdue project/s'"
+            >
+            </app-number-card>
+            <app-number-card
+                [number]="overrunProjects"
+                [positiveMode]="false"
+                [caption]="'overrun project/s'"
+            >
+            </app-number-card>
+        </div>
+        <div *ngFor="let project of activeProjects">
+            <app-project-card [projectData]="project">
+            </app-project-card>
+        </div>
+    </div>
+</mat-card>
+
+<mat-card>
+    <h2>To Do Projects</h2>
+    <mat-divider></mat-divider>
+    <div class="projects-wrapper" fxFlexAlign="stretch">
+        <ng-container *ngFor="let project of activeProjects">
+            <app-project-card [projectData]="project">
+            </app-project-card>
+        </ng-container>
+    </div>
+</mat-card>
