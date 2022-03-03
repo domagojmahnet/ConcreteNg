@@ -20,7 +20,11 @@ export class ProjectService {
 
     projectApiUrl: string = environment.BASE_URL+ "api/Project";
 
-    getProjects() {
+    getBaseProjects() {
         return this.http.get<Project[]>(this.projectApiUrl);
+    }
+
+    getProjectDetails(id: number){
+        return this.http.get<Project>(this.projectApiUrl +"/"+id);
     }
 }

@@ -16,7 +16,7 @@ export class EmployerOverviewComponent implements OnInit {
     constructor(private projectService: ProjectService) { }
 
     ngOnInit(): void {
-        this.projectService.getProjects().subscribe((data: Project[]) => {
+        this.projectService.getBaseProjects().subscribe((data: Project[]) => {
             debugger;
             this.activeProjects = data;
             this.numberOfActiveProjects = data.length;

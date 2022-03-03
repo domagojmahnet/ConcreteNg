@@ -10,5 +10,6 @@ namespace ConcreteNg.Services.Interfaces
     public interface IProjectService
     {
         IEnumerable<Project> GetActiveProjects();
+        Project GetProject(int id);
     }
 }

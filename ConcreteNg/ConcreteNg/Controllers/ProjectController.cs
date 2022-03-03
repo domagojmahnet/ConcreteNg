@@ -23,5 +23,13 @@ namespace ConcreteNg.Controllers
             var projects = projectService.GetActiveProjects();
             return Ok(projects);
         }
+
+        [HttpGet]
+        [Route("{projectId}")]
+        public async Task<ActionResult<IEnumerable<Project>>> GetProject(int projectId)
+        {
+            var projects = projectService.GetProject(projectId);
+            return Ok(projects);
+        }
     }
 }

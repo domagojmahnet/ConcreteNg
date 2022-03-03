@@ -4,6 +4,7 @@ import { LandingPageComponent } from './unauthorized/landing-page/landing-page.c
 import { LoginComponent } from './unauthorized/login/login.component';
 import { EmployerOverviewComponent } from './authorized/employer-overview/employer-overview.component';
 import { BaseContainerComponent } from './authorized/base-container/base-container.component';
+import { ProjectDetailsComponent } from './authorized/projects/project-details/project-details/project-details.component';
 
 
 const routes: Routes = [
@@ -15,7 +16,8 @@ const routes: Routes = [
                 path: 'employer-overview',
                 component: EmployerOverviewComponent,
             },
-            { path: '',   redirectTo: 'employer-overview', pathMatch: 'full'}
+            { path: '',   redirectTo: 'employer-overview', pathMatch: 'full'},
+            { path: 'project-details/:id', component: ProjectDetailsComponent },
         ]
         },
     { path: '**', component: LandingPageComponent },

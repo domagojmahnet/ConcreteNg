@@ -22,5 +22,10 @@ namespace ConcreteNg.Services.Services
         {
             return unitOfWork.projectRepository.GetActiveProjects();
         }
+
+        public Project GetProject(int id)
+        {
+            return unitOfWork.projectRepository.Read(id);
+        }
     }
 }

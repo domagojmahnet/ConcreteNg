@@ -9,12 +9,13 @@ import { Project } from '../../../models/project';
 export class ProjectCardComponent implements OnInit {
 
     @Input() public projectData: Project
+    routeLink: any;
 
     constructor() { }
 
     ngOnInit(): void {
         this.projectData.name;
-        debugger
+        this.routeLink = "../project-details/" + this.projectData.projectId;
     }
 
 }
