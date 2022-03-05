@@ -25,10 +25,10 @@ export class AuthService {
         const data = {"Username" : username, "Password" : password};
 
         this.http.post<any>(this.userUrl + "/login", data).subscribe((token: any)=>{
-            this.accountService.JwtTokenValue = token
+            this.accountService.JwtTokenValue = token;
 
-            this.http.get(environment.BASE_URL + "api/User").subscribe((weather: any)=>{
-                console.log(weather);
+            this.http.get(environment.BASE_URL + "api/User").subscribe((data: any)=>{
+                this.accountService.userValue = data;
             })
         })
     }

@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace ConcreteNg.Repositories.Interfaces
 {
-    public interface IProjectRepository : IRepository<Project>
+    public interface IProjectSortStrategy
     {
-        List<Project> GetActiveProjects(int employerID);
-        List<Project> GetProjects(int employerID);
+        object Sort(Project project);
     }
 }

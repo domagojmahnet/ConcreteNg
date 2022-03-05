@@ -16,12 +16,6 @@ namespace ConcreteNg.Controllers
             authService = _authService;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<string>> Get1()
-        {
-            User request = new User();
-            return Ok(request);
-        }
 
         [HttpPost("login")]
         public async Task<ActionResult<string>> Login([FromBody]LoginModel loginModel)

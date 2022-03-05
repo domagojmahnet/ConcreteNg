@@ -8,6 +8,8 @@ import { NumberCardComponent } from './number-card/number-card.component';
 import { EmployerOverviewComponent } from './employer-overview/employer-overview.component';
 import { BaseContainerComponent } from './base-container/base-container.component';
 import { ProjectDetailsComponent } from './projects/project-details/project-details/project-details.component';
+import { PartnerListComponent } from './partners/partner-list/partner-list.component';
+import { ProjectListComponent } from './projects/project-list/project-list.component';
 
 @NgModule({
     declarations: [
@@ -16,7 +18,9 @@ import { ProjectDetailsComponent } from './projects/project-details/project-deta
         NumberCardComponent,
         EmployerOverviewComponent,
         BaseContainerComponent,
-        ProjectDetailsComponent
+        ProjectDetailsComponent,
+        PartnerListComponent,
+        ProjectListComponent
     ],
     imports: [
         CommonModule,

@@ -38,7 +38,8 @@ namespace ConcreteNg.Services.Services
             List<Claim> claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
-                new Claim(ClaimTypes.Role, user.UserType.ToString())
+                new Claim(ClaimTypes.Role, user.UserType.ToString()),
+                new Claim(type: "EmployerID", value: user.Employer.EmployerId.ToString())
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(

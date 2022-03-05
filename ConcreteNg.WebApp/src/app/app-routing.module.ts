@@ -5,6 +5,8 @@ import { LoginComponent } from './unauthorized/login/login.component';
 import { EmployerOverviewComponent } from './authorized/employer-overview/employer-overview.component';
 import { BaseContainerComponent } from './authorized/base-container/base-container.component';
 import { ProjectDetailsComponent } from './authorized/projects/project-details/project-details/project-details.component';
+import { PartnerListComponent } from './authorized/partners/partner-list/partner-list.component';
+import { ProjectListComponent } from './authorized/projects/project-list/project-list.component';
 
 
 const routes: Routes = [
@@ -18,6 +20,8 @@ const routes: Routes = [
             },
             { path: '',   redirectTo: 'employer-overview', pathMatch: 'full'},
             { path: 'project-details/:id', component: ProjectDetailsComponent },
+            { path: 'partners', component: PartnerListComponent },
+            { path: 'projects', component: ProjectListComponent },
         ]
         },
     { path: '**', component: LandingPageComponent },

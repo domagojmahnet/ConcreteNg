@@ -20,7 +20,7 @@ namespace ConcreteNg.Repositories.Repositories
 
         public User GetByUsernameAndPassword(LoginModel loginModel)
         {
-            return dataContext.Users.FirstOrDefault(u => u.Username == loginModel.Username && u.Password == loginModel.Password);
+            return dataContext.Users.Include(x => x.Employer).FirstOrDefault(u => u.Username == loginModel.Username && u.Password == loginModel.Password);
         }
     }
 }

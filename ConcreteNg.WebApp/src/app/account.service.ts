@@ -12,7 +12,7 @@ export class AccountService {
     LoggedIn = new Subject();
 
     public get userValue(): any {
-        return JSON.parse(localStorage.getItem('FileName') || '{}') as User;
+        return JSON.parse(localStorage.getItem('currentUser') || '{}') as User;
     }
 
     public set userValue(user: User) {
