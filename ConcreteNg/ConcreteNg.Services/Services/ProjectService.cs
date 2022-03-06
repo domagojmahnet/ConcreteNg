@@ -28,9 +28,9 @@ namespace ConcreteNg.Services.Services
             return unitOfWork.projectRepository.GetActiveProjects(int.Parse(httpContextAccessor.HttpContext.User.FindFirst("EmployerID").Value));
         }
 
-        public IEnumerable<Project> GetProjects()
+        public TableResponse GetProjects(TableRequest tableRequest)
         {
-            return unitOfWork.projectRepository.GetProjects(int.Parse(httpContextAccessor.HttpContext.User.FindFirst("EmployerID").Value));
+            return unitOfWork.projectRepository.GetProjects(tableRequest, int.Parse(httpContextAccessor.HttpContext.User.FindFirst("EmployerID").Value));
         }
 
         public Project GetProject(int id)

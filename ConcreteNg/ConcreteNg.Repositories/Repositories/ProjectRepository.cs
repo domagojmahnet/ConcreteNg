@@ -26,11 +26,17 @@ namespace ConcreteNg.Repositories.Repositories
             return dataContext.Projects.Where(p => p.ProjectStatus == ProjectStatusEnum.InProgress && p.Employer.EmployerId == employerID).ToList();
         }
 
-        public List<Project> GetProjects(int employerID)
+        public TableResponse GetProjects(TableRequest tableRequest, int employerID)
         {
-            Func<Project, Object> orderByFunction = project => ProjectSortStrategyFactory.GetStrategy("budget").Sort(project);
-
-            return dataContext.Projects.Where(p => p.Employer.EmployerId == employerID).SortBy(SortDirectionEnum.Descending, orderByFunction).ToList();
+            TableResponse tableResponse = new TableResponse();
+            tableResponse.Data = dataContext.Projects
+                .Where(p => p.Employer.EmployerId == employerID)
+                .SortBy(SortDirectionEnum.Descending, project => ProjectSortStrategyFactory.GetStrategy(tableRequest.OrderBy).Sort(project))
+                .Skip(tableRequest.PageSize * tableRequest.CurrentPage)
+                .Take(tableRequest.PageSize)
+                .ToList();
+            tableResponse.TotalRows = dataContext.Projects.Where(p => p.Employer.EmployerId == employerID).Count();
+            return tableResponse;
         }
     }
 }

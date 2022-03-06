@@ -16,7 +16,7 @@ namespace ConcreteNg.Repositories.SortHelpers.Factories
         {
             strategyRepository = new Dictionary<string, IProjectSortStrategy>();
             strategyRepository.Add("name", new ProjectSortByName());
-            strategyRepository.Add("budget", new ProjectSortByBudget());
+            strategyRepository.Add("expectedCost", new ProjectSortByBudget());
         }
 
         public static IProjectSortStrategy GetStrategy(string key)

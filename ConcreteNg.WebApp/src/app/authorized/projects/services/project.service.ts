@@ -1,10 +1,11 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from '../../../../environments/environment';
 import { AccountService } from '../../../account.service';
 import { Project } from '../../../models/project';
+import { TableRequest } from '../../../models/table-request';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +29,7 @@ export class ProjectService {
         return this.http.get<Project>(this.projectApiUrl + "/" + id);
     }
 
-    getProjects(){
-        return this.http.get<Project[]>(this.projectApiUrl + "/allProjects");
+    getProjectsTable(tableRequest: TableRequest){
+        return this.http.post<any>(this.projectApiUrl + "/allProjects", tableRequest);
     }
 }

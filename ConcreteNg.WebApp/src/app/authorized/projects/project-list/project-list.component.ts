@@ -4,6 +4,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Project } from '../../../models/project';
 import { ProjectService } from '../services/project.service';
 import { Router } from '@angular/router';
+import { TableRequest } from '../../../models/table-request';
+import { TableResponse } from '../../../models/table-response';
 
 @Component({
   selector: 'app-project-list',
@@ -16,8 +18,10 @@ export class ProjectListComponent implements OnInit {
 
     displayedColumns = ['projectId', 'name', 'expectedEndDate', 'expectedCost'];
     dataSource: MatTableDataSource<Project> = new MatTableDataSource();
-    pageSize = 10;
-    currentPage = 0;
+    pageSize: number = 10;
+    currentPage: number = 0;
+    sortByColumn = this.displayedColumns[1];
+
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
     constructor(private projectService: ProjectService) { }
@@ -32,10 +36,18 @@ export class ProjectListComponent implements OnInit {
 
     loadData() {
         this.isLoading = true;
-        this.projectService.getProjects().subscribe((data: Project[]) => {
-            this.dataSource.data = data
+
+        let tableRequest: TableRequest = {
+            currentPage: this.currentPage,
+            pageSize: this.pageSize,
+            orderBy: this.sortByColumn
+        }
+
+        this.projectService.getProjectsTable(tableRequest).subscribe((response: TableResponse) => {
+            this.dataSource.data = response.data
             setTimeout(() => {
-                this.paginator.length = 20;
+                this.paginator.pageIndex = this.currentPage;
+                this.paginator.length = response.totalRows;
             });
             this.isLoading = false;
         })
@@ -45,5 +57,5 @@ export class ProjectListComponent implements OnInit {
         this.pageSize = event.pageSize;
         this.currentPage = event.pageIndex;
         this.loadData();
-      }
+    }
 }

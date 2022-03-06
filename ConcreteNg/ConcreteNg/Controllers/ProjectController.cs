@@ -26,11 +26,11 @@ namespace ConcreteNg.Controllers
             return Ok(projects);
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("allProjects")]
-        public async Task<ActionResult<IEnumerable<Project>>> GetProjects()
+        public async Task<ActionResult<IEnumerable<Project>>> GetProjects([FromBody] TableRequest tableRequest)
         {
-            var projects = projectService.GetProjects();
+            var projects = projectService.GetProjects(tableRequest);
             return Ok(projects);
         }
 

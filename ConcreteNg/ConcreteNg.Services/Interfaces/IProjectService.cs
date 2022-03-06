@@ -11,6 +11,6 @@ namespace ConcreteNg.Services.Interfaces
     {
         IEnumerable<Project> GetActiveProjects();
         Project GetProject(int id);
-        IEnumerable<Project> GetProjects();
+        TableResponse GetProjects(TableRequest tableRequest);
     }
 }

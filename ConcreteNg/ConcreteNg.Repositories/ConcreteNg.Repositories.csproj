@@ -19,4 +19,8 @@
     <ProjectReference Include="..\ConcreteNg.Data\ConcreteNg.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="SortHelpers\Enums\" />
+  </ItemGroup>
+
 </Project>

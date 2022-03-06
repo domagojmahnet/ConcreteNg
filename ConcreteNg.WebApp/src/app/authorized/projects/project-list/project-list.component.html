@@ -22,6 +22,6 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;" routerLink="{{'../project-details/' + row.projectId}}"></tr>
     </table>
-    <mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
+    <mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons (page)="pageChanged($event)"></mat-paginator>
     <mat-spinner *ngIf="isLoading"></mat-spinner>
 </mat-card>
