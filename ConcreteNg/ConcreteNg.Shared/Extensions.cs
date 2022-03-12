@@ -11,18 +11,17 @@ namespace ConcreteNg.Shared
     {
         public static IEnumerable<TSource> SortBy<TSource, TKey>(
             this IEnumerable<TSource> source,
-            SortDirectionEnum sortDirection,
+            bool isAscending,
             Func<TSource, TKey> keySelector
         )
         {
-            switch (sortDirection)
+            if (isAscending)
             {
-                case SortDirectionEnum.Ascending:
-                    return source.OrderBy(keySelector);
-                case SortDirectionEnum.Descending:
-                    return source.OrderByDescending(keySelector);
-                default:
-                    throw new ArgumentOutOfRangeException();
+                return source.OrderBy(keySelector);
+            }
+            else
+            {
+                return source.OrderByDescending(keySelector);
             }
         }
     }

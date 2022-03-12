@@ -10,6 +10,8 @@ import { BaseContainerComponent } from './base-container/base-container.componen
 import { ProjectDetailsComponent } from './projects/project-details/project-details/project-details.component';
 import { PartnerListComponent } from './partners/partner-list/partner-list.component';
 import { ProjectListComponent } from './projects/project-list/project-list.component';
+import { ProjectOverviewComponent } from './projects/project-details/project-overview/project-overview.component';
+import { ProjectTasksComponent } from './projects/project-details/project-tasks/project-tasks.component';
 
 @NgModule({
     declarations: [
@@ -20,7 +22,9 @@ import { ProjectListComponent } from './projects/project-list/project-list.compo
         BaseContainerComponent,
         ProjectDetailsComponent,
         PartnerListComponent,
-        ProjectListComponent
+        ProjectListComponent,
+        ProjectOverviewComponent,
+        ProjectTasksComponent
     ],
     imports: [
         CommonModule,

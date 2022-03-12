@@ -1,5 +1,5 @@
 export enum ProjectStatusEnum {
-    ToDo = 0,
-    InProgress = 1,
-    Done = 2
+    "To Do" = 0,
+    "In Progress" = 1,
+    "Completed" = 2
 }

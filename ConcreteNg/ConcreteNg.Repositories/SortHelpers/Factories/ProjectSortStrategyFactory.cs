@@ -10,18 +10,19 @@ namespace ConcreteNg.Repositories.SortHelpers.Factories
 {
     public static class ProjectSortStrategyFactory
     {
-        private static Dictionary<string, IProjectSortStrategy> strategyRepository;
-
-        static ProjectSortStrategyFactory()
-        {
-            strategyRepository = new Dictionary<string, IProjectSortStrategy>();
-            strategyRepository.Add("name", new ProjectSortByName());
-            strategyRepository.Add("expectedCost", new ProjectSortByBudget());
-        }
-
         public static IProjectSortStrategy GetStrategy(string key)
         {
-            return strategyRepository[key];
+            switch (key)
+            {
+                case "name":
+                    return new ProjectSortByName();
+                case "expectedCost":
+                    return new ProjectSortByBudget();
+                case "projectStatus":
+                    return new ProjectSortByStatus();
+                default:
+                    return new ProjectSortByName();
+            }
         }
     }
 }

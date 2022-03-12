@@ -1,2 +1,17 @@
-<p>project-details works!</p>
-<p>{{project.name}}</p>
+<mat-card class="mat-card-custom-color">
+    <h1>{{project.name}}</h1>
+    <mat-tab-group>
+        <mat-tab label="Overview">
+            <ng-template matTabContent>
+                <app-project-overview [(project)]="project"></app-project-overview>
+            </ng-template>
+        </mat-tab>
+        <mat-tab label="Documents"> test 2 </mat-tab>
+        <mat-tab label="Tasks">
+            <ng-template matTabContent>
+                <app-project-tasks [(project)]="project"></app-project-tasks>
+            </ng-template>
+        </mat-tab>
+        <mat-tab label="Diary"> test 3 </mat-tab>
+    </mat-tab-group>
+</mat-card>
