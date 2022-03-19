@@ -13,12 +13,14 @@ namespace ConcreteNg.Repositories.Repositories
         private readonly DataContext dataContext;
         public readonly IUserRepository userRepository;
         public readonly IProjectRepository projectRepository;
+        public readonly IProjectTaskRepository projectTaskRepository;
 
         public UnitOfWork(DataContext dbContext)
         {
             dataContext = dbContext;
             userRepository = new UserRepository(dataContext);
             projectRepository = new ProjectRepository(dataContext);
+            projectTaskRepository = new ProjectTaskRepository(dataContext);
         }
 
         public bool Save()

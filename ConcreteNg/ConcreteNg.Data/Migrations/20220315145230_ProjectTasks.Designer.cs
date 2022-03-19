@@ -4,6 +4,7 @@ using ConcreteNg.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ConcreteNg.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220315145230_ProjectTasks")]
+    partial class ProjectTasks
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -228,7 +230,7 @@ namespace ConcreteNg.Data.Migrations
             modelBuilder.Entity("ConcreteNg.Shared.Models.ProjectTaskItem", b =>
                 {
                     b.HasOne("ConcreteNg.Shared.Models.ProjectTask", "ProjectTask")
-                        .WithMany("ProjectTaskItems")
+                        .WithMany()
                         .HasForeignKey("ProjectTaskId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -260,11 +262,6 @@ namespace ConcreteNg.Data.Migrations
                         .HasForeignKey("UsersUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("ConcreteNg.Shared.Models.ProjectTask", b =>
-                {
-                    b.Navigation("ProjectTaskItems");
                 });
 #pragma warning restore 612, 618
         }

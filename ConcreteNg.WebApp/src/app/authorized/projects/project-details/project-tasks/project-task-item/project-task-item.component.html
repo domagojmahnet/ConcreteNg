@@ -1,0 +1,30 @@
+<div class="task-item-container">
+    <ng-container [ngSwitch]="projectTaskItem.taskItemStatus">
+        <ng-container *ngSwitchCase="projectStatusEnum['In Progress']">
+            <mat-icon class="material-icons color_yellow">build_circle</mat-icon>
+        </ng-container>
+        <ng-container *ngSwitchCase="projectStatusEnum['To Do']">
+            <mat-icon class="material-icons color_red">highlight_off</mat-icon>
+        </ng-container>
+        <ng-container *ngSwitchCase="projectStatusEnum['Completed']">
+            <mat-icon class="material-icons color_green">check_circle_outline</mat-icon>
+        </ng-container>
+    </ng-container>
+    <a style="font-size: large;">{{projectTaskItem.projectTaskItemName}}</a>
+    <div class="right-content-container">
+        <a *ngIf="projectTaskItem.taskItemStatus !== projectStatusEnum['To Do']">Started: {{projectTaskItem.startTime | date:'longDate'}}</a>
+        <a *ngIf="projectTaskItem.taskItemStatus === projectStatusEnum['Completed']">Finished: {{projectTaskItem.finishTime | date:'longDate'}}</a>
+        <ng-container [ngSwitch]="projectTaskItem.taskItemStatus">
+            <ng-container *ngSwitchCase="projectStatusEnum['In Progress']">
+                <button mat-flat-button class="mat-flat-button" color="primary" (click)="updateTaskStatus()">Finish Task</button>
+            </ng-container>
+            <ng-container *ngSwitchCase="projectStatusEnum['To Do']">
+                <button  mat-flat-button class="mat-flat-button" color="primary" (click)="updateTaskStatus()">Start Task</button>
+            </ng-container>
+            <ng-container *ngSwitchCase="projectStatusEnum['Completed']">
+                <button mat-flat-button class="mat-flat-button" color="primary" (click)="updateTaskStatus()">Restart Task</button>
+            </ng-container>
+        </ng-container>
+        <mat-icon (click)="deleteTask()" matTooltip="Delete item">delete</mat-icon>
+    </div>
+</div>

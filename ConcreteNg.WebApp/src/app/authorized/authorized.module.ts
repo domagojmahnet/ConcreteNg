@@ -12,6 +12,8 @@ import { PartnerListComponent } from './partners/partner-list/partner-list.compo
 import { ProjectListComponent } from './projects/project-list/project-list.component';
 import { ProjectOverviewComponent } from './projects/project-details/project-overview/project-overview.component';
 import { ProjectTasksComponent } from './projects/project-details/project-tasks/project-tasks.component';
+import { ProjectTaskComponent } from './projects/project-details/project-tasks/project-task/project-task.component';
+import { ProjectTaskItemComponent } from './projects/project-details/project-tasks/project-task-item/project-task-item.component';
 
 @NgModule({
     declarations: [
@@ -24,7 +26,9 @@ import { ProjectTasksComponent } from './projects/project-details/project-tasks/
         PartnerListComponent,
         ProjectListComponent,
         ProjectOverviewComponent,
-        ProjectTasksComponent
+        ProjectTasksComponent,
+        ProjectTaskComponent,
+        ProjectTaskItemComponent
     ],
     imports: [
         CommonModule,
