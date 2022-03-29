@@ -1,0 +1,27 @@
+<h2 mat-dialog-title>Add/Edit Project Task Item</h2>
+
+<mat-dialog-content
+    [formGroup]="form">
+  
+    <mat-form-field>
+        <input matInput
+                placeholder="Task Item Name"
+               formControlName="name">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>Start Date</mat-label>
+        <input matInput formControlName="startDate" [matDatepicker]="picker">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Finish Date</mat-label>
+        <input matInput formControlName="finishDate" [matDatepicker]="picker">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button style="margin-left: auto;" class="mat-raised-button mat-primary">Save</button>
+</mat-dialog-actions>

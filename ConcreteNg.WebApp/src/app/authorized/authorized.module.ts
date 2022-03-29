@@ -14,6 +14,7 @@ import { ProjectOverviewComponent } from './projects/project-details/project-ove
 import { ProjectTasksComponent } from './projects/project-details/project-tasks/project-tasks.component';
 import { ProjectTaskComponent } from './projects/project-details/project-tasks/project-task/project-task.component';
 import { ProjectTaskItemComponent } from './projects/project-details/project-tasks/project-task-item/project-task-item.component';
+import { AddEditProjectTaskItemComponent } from './projects/project-details/project-tasks/project-task-item/add-edit-project-task-item/add-edit-project-task-item.component';
 
 @NgModule({
     declarations: [
@@ -28,7 +29,8 @@ import { ProjectTaskItemComponent } from './projects/project-details/project-tas
         ProjectOverviewComponent,
         ProjectTasksComponent,
         ProjectTaskComponent,
-        ProjectTaskItemComponent
+        ProjectTaskItemComponent,
+        AddEditProjectTaskItemComponent
     ],
     imports: [
         CommonModule,

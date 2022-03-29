@@ -25,6 +25,7 @@
                 <button mat-flat-button class="mat-flat-button" color="primary" (click)="updateTaskStatus()">Restart Task</button>
             </ng-container>
         </ng-container>
+        <mat-icon (click)="OpenAddEditItemDialog()" matTooltip="Edit item">settings</mat-icon>
         <mat-icon (click)="deleteTask()" matTooltip="Delete item">delete</mat-icon>
     </div>
 </div>
