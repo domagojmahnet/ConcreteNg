@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ConcreteNg.Repositories.Repositories
 {
-    internal class UserRepository : GenericRepository<User>, IUserRepository
+    public class UserRepository : GenericRepository<User>, IUserRepository
     {
         private readonly DataContext dataContext;
         public UserRepository(DataContext dbContext) : base(dbContext)

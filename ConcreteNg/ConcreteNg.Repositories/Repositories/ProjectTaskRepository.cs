@@ -17,6 +17,7 @@ namespace ConcreteNg.Repositories.Repositories
         {
             dataContext = dbContext;
         }
+
         public List<ProjectTask> GetProjectTasks(int projectId)
         {
             return dataContext.ProjectTasks.Include(p => p.ProjectTaskItems).Where(p => p.Project.ProjectId == projectId).ToList();

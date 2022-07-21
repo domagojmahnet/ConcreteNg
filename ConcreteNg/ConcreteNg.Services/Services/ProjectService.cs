@@ -1,4 +1,5 @@
 ﻿using ConcreteNg.Data;
+using ConcreteNg.Repositories;
 using ConcreteNg.Repositories.Repositories;
 using ConcreteNg.Services.Interfaces;
 using ConcreteNg.Shared.Models;
@@ -14,12 +15,12 @@ namespace ConcreteNg.Services.Services
 {
     public class ProjectService : IProjectService
     {
-        private readonly UnitOfWork unitOfWork;
+        private readonly IUnitOfWork unitOfWork;
         private readonly IHttpContextAccessor httpContextAccessor;
 
-        public ProjectService(DataContext dataContext, IHttpContextAccessor _httpContextAccessor)
+        public ProjectService(IHttpContextAccessor _httpContextAccessor, IUnitOfWork _unitOfWork)
         {
-            unitOfWork = new UnitOfWork(dataContext);
+            unitOfWork = _unitOfWork;
             httpContextAccessor = _httpContextAccessor;
         }
 

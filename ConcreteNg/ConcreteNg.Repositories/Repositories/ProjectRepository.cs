@@ -1,7 +1,7 @@
 ﻿using ConcreteNg.Data;
-using ConcreteNg.Repositories.FilterHelpers.Fatories;
 using ConcreteNg.Repositories.Interfaces;
-using ConcreteNg.Repositories.SortHelpers.Factories;
+using ConcreteNg.Repositories.TableRequestHelpers;
+using ConcreteNg.Repositories.TableRequestHelpers.ConcreteFilterSort;
 using ConcreteNg.Shared;
 using ConcreteNg.Shared.Enums;
 using ConcreteNg.Shared.Models;
@@ -32,18 +32,11 @@ namespace ConcreteNg.Repositories.Repositories
             TableResponse tableResponse = new TableResponse();
 
             var query = dataContext.Projects.Where(p => p.Employer.EmployerId == employerID);
-
-            foreach(var filter in tableRequest.Filters.Where(x => !string.IsNullOrEmpty(x.FilterQuery)))
-            {
-                query = ProjectFilterStrategyFactory.GetStrategy(filter.ColumnName).Filter(query, filter.FilterQuery);
-            }
-
-            tableResponse.Data = query
-                .SortBy(tableRequest.IsAscending, project => ProjectSortStrategyFactory.GetStrategy(tableRequest.OrderBy).Sort(project))
-                .Skip(tableRequest.PageSize * tableRequest.CurrentPage)
-                .Take(tableRequest.PageSize)
-                .ToList();
             tableResponse.TotalRows = query.Count();
+
+            IFilterTemplate<Project> filterTemplate = FilterFactory<Project>.CreateSortingObject();
+            tableResponse.Data = filterTemplate.GetData(query, tableRequest);
+
             return tableResponse;
         }
     }

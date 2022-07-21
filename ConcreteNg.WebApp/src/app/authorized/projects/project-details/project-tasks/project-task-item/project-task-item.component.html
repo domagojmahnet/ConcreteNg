@@ -10,7 +10,7 @@
             <mat-icon class="material-icons color_green">check_circle_outline</mat-icon>
         </ng-container>
     </ng-container>
-    <a style="font-size: large;">{{projectTaskItem.projectTaskItemName}}</a>
+    <a style="font-size: large;">{{projectTaskItem.pricingListItem.pricingListItemName}}</a>
     <div class="right-content-container">
         <a *ngIf="projectTaskItem.taskItemStatus !== projectStatusEnum['To Do']">Started: {{projectTaskItem.startTime | date:'longDate'}}</a>
         <a *ngIf="projectTaskItem.taskItemStatus === projectStatusEnum['Completed']">Finished: {{projectTaskItem.finishTime | date:'longDate'}}</a>

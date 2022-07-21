@@ -13,8 +13,14 @@ namespace ConcreteNg.Shared.Models
         public int PageSize { get; set; }
         public string OrderBy { get; set; }
         public bool IsAscending { get; set; }
-        public IEnumerable<TableColumnFilter> Filters { get; set; }
+        public IEnumerable<BaseFilter> Filters { get; set; }
 
+    }
+
+    public class BaseFilter
+    {
+        public int ColumnName { get; set; }
+        public string FilterQuery { get; set; }
     }
 
     public class TableColumnFilter

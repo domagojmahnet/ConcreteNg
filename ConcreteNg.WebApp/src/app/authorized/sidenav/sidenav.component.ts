@@ -15,7 +15,7 @@ export class SidenavComponent implements OnInit {
         { link: "employer-overview", name: "Overview", icon: "receipt_long" },
         { link: "projects", name: "Projects", icon: "folder" },
         { link: "partners", name: "Partners", icon: "contacts" },
-        { link: "active-projects", name: "Payroll", icon: "receipt_long" },
+        { link: "pricing-list", name: "Payroll", icon: "receipt_long" },
         { link: "locations", name: "Employees", icon: "group" },
     ];
 

@@ -1,4 +1,5 @@
 ﻿using ConcreteNg.Data;
+using ConcreteNg.Repositories;
 using ConcreteNg.Repositories.Repositories;
 using ConcreteNg.Services.Interfaces;
 using ConcreteNg.Shared.Models;
@@ -12,11 +13,11 @@ namespace ConcreteNg.Services.Services
 {
     public class UserService : IUserService
     {
-        private readonly UnitOfWork unitOfWork;
+        private readonly IUnitOfWork unitOfWork;
 
-        public UserService(DataContext dataContext)
+        public UserService(IUnitOfWork _unitOfWork)
         {
-            unitOfWork = new UnitOfWork(dataContext);
+            unitOfWork = _unitOfWork;
         }
 
         public User GetUser(int id)

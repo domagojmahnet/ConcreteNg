@@ -11,6 +11,7 @@ namespace ConcreteNg.Data
         public DbSet<Project> Projects { get; set; }
         public DbSet<ProjectTask> ProjectTasks { get; set; }
         public DbSet<ProjectTaskItem> ProjectTaskItems { get; set; }
+        public DbSet<PricingListItem> PricingListItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

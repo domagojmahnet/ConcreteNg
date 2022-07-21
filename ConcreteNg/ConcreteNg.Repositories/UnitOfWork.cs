@@ -1,38 +1,45 @@
 ﻿using ConcreteNg.Data;
 using ConcreteNg.Repositories.Interfaces;
+using ConcreteNg.Repositories.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConcreteNg.Repositories.Repositories
+namespace ConcreteNg.Repositories
 {
-    public sealed class UnitOfWork : IDisposable
+    public class UnitOfWork : IUnitOfWork
     {
         private readonly DataContext dataContext;
-        public readonly IUserRepository userRepository;
-        public readonly IProjectRepository projectRepository;
-        public readonly IProjectTaskRepository projectTaskRepository;
+        public IUserRepository userRepository { get; }
+        public IProjectRepository projectRepository { get; }
+        public IProjectTaskRepository projectTaskRepository { get; }
+        public IPricingListRepository pricingListRepository { get; }
 
-        public UnitOfWork(DataContext dbContext)
+        public UnitOfWork(
+            DataContext dbContext, 
+            IUserRepository _userRepository, 
+            IProjectRepository _projectRepository, 
+            IProjectTaskRepository _projectTaskRepository, 
+            IPricingListRepository _pricingListRepository)
         {
             dataContext = dbContext;
-            userRepository = new UserRepository(dataContext);
-            projectRepository = new ProjectRepository(dataContext);
-            projectTaskRepository = new ProjectTaskRepository(dataContext);
-        }
-
-        public bool Save()
-        {
-            bool isSuccess = dataContext.SaveChanges() > 0;
-            return isSuccess;
+            userRepository = _userRepository;
+            projectRepository = _projectRepository;
+            projectTaskRepository = _projectTaskRepository;
+            pricingListRepository = _pricingListRepository;
         }
 
         public void Dispose()
         {
             if (dataContext == null) return;
             dataContext.Dispose();
+        }
+
+        public int Complete()
+        {
+            return dataContext.SaveChanges();
         }
     }
 }

@@ -1,4 +1,5 @@
 import { ProjectStatusEnum } from "../enums/project-status";
+import { PricingListItem } from "./pricing-list-item";
 
 export interface ProjectTask {
     projectTaskId: number;
@@ -8,8 +9,10 @@ export interface ProjectTask {
 
 export interface ProjectTaskItem {
     projectTaskItemId: number;
-    projectTaskItemName: string;
+    pricingListItem: PricingListItem;
     taskItemStatus: ProjectStatusEnum;
+    quantity: number;
+    expenditure: number;
     startTime?: Date;
     finishTime?: Date;
 }

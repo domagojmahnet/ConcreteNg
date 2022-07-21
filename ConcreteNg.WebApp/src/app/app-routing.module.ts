@@ -7,6 +7,7 @@ import { BaseContainerComponent } from './authorized/base-container/base-contain
 import { ProjectDetailsComponent } from './authorized/projects/project-details/project-details/project-details.component';
 import { PartnerListComponent } from './authorized/partners/partner-list/partner-list.component';
 import { ProjectListComponent } from './authorized/projects/project-list/project-list.component';
+import { PricingListComponent } from './authorized/pricing-list/pricing-list.component';
 
 
 const routes: Routes = [
@@ -20,6 +21,7 @@ const routes: Routes = [
             },
             { path: '',   redirectTo: 'employer-overview', pathMatch: 'full'},
             { path: 'project-details/:id', component: ProjectDetailsComponent },
+            { path: 'pricing-list', component: PricingListComponent },
             { path: 'partners', component: PartnerListComponent },
             { path: 'projects', component: ProjectListComponent },
         ]

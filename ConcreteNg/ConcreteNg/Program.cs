@@ -1,4 +1,6 @@
 using ConcreteNg.Data;
+using ConcreteNg.Repositories;
+using ConcreteNg.Services;
 using ConcreteNg.Services.Interfaces;
 using ConcreteNg.Services.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -32,10 +34,11 @@ builder.Services.AddSwaggerGen( options =>
     }
 );
 
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<IProjectService, ProjectService>();
-builder.Services.AddScoped<IProjectTaskService, ProjectTaskService>();
+builder.Services.AddRepositories();
+builder.Services.AddServices();
+
+
+
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

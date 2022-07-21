@@ -12,10 +12,13 @@ namespace ConcreteNg.Shared.Models
     public class ProjectTaskItem
     {
         public int ProjectTaskItemId { get; set; }
-        public string ProjectTaskItemName { get; set; }
+        public PricingListItem PricingListItem { get; set; }
         public ProjectStatusEnum TaskItemStatus { get; set; }
+        public float? Quantity { get; set; }
+        public float? Expenditure { get; set; }
         public DateTimeOffset? StartTime { get; set; }
         public DateTimeOffset? FinishTime { get; set; }
+
 
         [IgnoreDataMember]
         [JsonIgnore]

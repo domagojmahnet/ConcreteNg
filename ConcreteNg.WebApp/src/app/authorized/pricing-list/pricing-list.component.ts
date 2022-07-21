@@ -1,60 +1,53 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
-import { Project } from '../../../models/project';
-import { ProjectService } from '../services/project.service';
-import { BaseFilter, TableRequest } from '../../../models/table-request';
-import { TableResponse } from '../../../models/table-response';
 import { MatSort, Sort } from '@angular/material/sort';
-import { ProjectStatusEnum } from '../../../enums/project-status';
-import { ProjectFilterColumnsEnum } from '../../../enums/project-filter-columns-enum';
+import { MatTableDataSource } from '@angular/material/table';
+import { PricingListFilterColumnsEnum } from '../../enums/pricing-list-filter-columns-enum';
+import { PricingListItem } from '../../models/pricing-list-item';
+import { BaseFilter, TableRequest } from '../../models/table-request';
+import { TableResponse } from '../../models/table-response';
+import { EmployerService } from '../employer-service.service';
 
 @Component({
-  selector: 'app-project-list',
-  templateUrl: './project-list.component.html',
-  styleUrls: ['./project-list.component.less']
+  selector: 'app-pricing-list',
+  templateUrl: './pricing-list.component.html',
+  styleUrls: ['./pricing-list.component.less']
 })
-export class ProjectListComponent implements OnInit {
+export class PricingListComponent implements OnInit {
 
     isLoading: boolean;
-    dataSource: MatTableDataSource<Project> = new MatTableDataSource();
+    dataSource: MatTableDataSource<PricingListItem> = new MatTableDataSource();
+    
     pageSize: number;
     currentPage: number;
     sortByColumn: string;
     isAscending: boolean;
-    projectStatusEnum = ProjectStatusEnum;
-    projectFilterColumnsEnum = ProjectFilterColumnsEnum;
+    pricingListFilterColumnsEnum = PricingListFilterColumnsEnum;
 
     displayedColumns: string[] = [
-        'projectId', 
-        'name',
-        'expectedEndDate', 
-        'expectedCost',
-        'projectStatus'
+        'pricingListItemName', 
+        'unitOfMeasurement',
+        'price'
     ];
-    
+
     displayedColumnFilters: string[] = [
-        'projectId-filter',
-        'name-filter',
-        'expectedEndDate-filter',
-        'expectedCost-filter',
-        'projectStatus-filter'
+        'pricingListItemName-filter',
+        'unitOfMeasurement-filter',
+        'price-filter'
     ];
 
     filters: BaseFilter[] = [
-        {columnName: ProjectFilterColumnsEnum.ProjectIdFilter, filterQuery: ""},
-        {columnName: ProjectFilterColumnsEnum.NameFilter, filterQuery: ""},
-        {columnName: ProjectFilterColumnsEnum.ExpectedEndDateFilter, filterQuery: ""},
-        {columnName: ProjectFilterColumnsEnum.ExpectedCostFilter, filterQuery: ""},
-        {columnName: ProjectFilterColumnsEnum.ProjectStatusFilter, filterQuery: ""}
+        {columnName: PricingListFilterColumnsEnum.PricingListItemName, filterQuery: ""},
+        {columnName: PricingListFilterColumnsEnum.UnitOfMeasurement, filterQuery: ""},
+        {columnName: PricingListFilterColumnsEnum.Price, filterQuery: ""},
     ];
 
-    defaultOrderColumn: string = "name";
+    defaultOrderColumn: string = "pricingListItemName";
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
 
-    constructor(private projectService: ProjectService) { }
+    constructor(private employerService: EmployerService) { }
 
     ngOnInit(): void {
         this.initializeTable();
@@ -83,7 +76,7 @@ export class ProjectListComponent implements OnInit {
             filters: this.filters
         }
 
-        this.projectService.getProjectsTable(tableRequest).subscribe((response: TableResponse) => {
+        this.employerService.getPricingListItemsTable(tableRequest).subscribe((response: TableResponse) => {
             this.dataSource.data = response.data
             setTimeout(() => {
                 this.paginator.pageIndex = this.currentPage;
@@ -110,7 +103,7 @@ export class ProjectListComponent implements OnInit {
         this.loadData();
     }
 
-    keyup(event: KeyboardEvent, columnName: ProjectFilterColumnsEnum) {
+    keyup(event: KeyboardEvent, columnName: PricingListFilterColumnsEnum) {
         let filter = this.filters.find(f => f.columnName === columnName);
         if (filter) {
             filter.filterQuery = (event.target as HTMLInputElement).value;
@@ -118,5 +111,4 @@ export class ProjectListComponent implements OnInit {
         debugger;
         this.loadData();
     }
-
 }

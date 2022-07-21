@@ -11,7 +11,7 @@ import { ProjectTaskItem } from '../../../../../../models/project-task';
 export class AddEditProjectTaskItemComponent implements OnInit {
 
     form = this.formBuilder.group({
-        name: [this.data.projectTaskItem.projectTaskItemName],
+        name: [this.data.projectTaskItem.pricingListItem.pricingListItemName],
         startDate: [this.data.projectTaskItem.startTime],
         finishDate: [this.data.projectTaskItem.finishTime]
     });
@@ -22,7 +22,7 @@ export class AddEditProjectTaskItemComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-        this.data.projectTaskItem.projectTaskItemName
+        this.data.projectTaskItem.pricingListItem.pricingListItemName
         debugger;
     }
 
