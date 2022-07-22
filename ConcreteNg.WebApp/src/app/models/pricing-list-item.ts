@@ -1,6 +1,7 @@
 export interface PricingListItem {
-    pricingListItemId: number;
+    pricingListItemId: number | null;
     pricingListItemName: string;
     unitOfMeasurement: string;
-    price: number
+    price: number,
+    employer?: any
 }

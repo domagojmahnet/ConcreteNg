@@ -18,4 +18,12 @@ export class EmployerService {
     getPricingListItemsTable (tableRequest: TableRequest){
         return this.http.post<any>(this.employerApiUrl + "/pricingListItems/table", tableRequest);
     }
+
+    createOrUpdatePricingListItem(pricingListItem: PricingListItem){
+        return this.http.post<any>(this.employerApiUrl + "/pricingListItem", pricingListItem);
+    }
+
+    deletePricingListItem(id: number){
+        return this.http.delete<any>(this.employerApiUrl + "/pricingListItem/" + id);
+    }
 }

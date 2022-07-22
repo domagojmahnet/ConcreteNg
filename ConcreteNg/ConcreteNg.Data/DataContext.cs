@@ -15,7 +15,7 @@ namespace ConcreteNg.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
+            modelBuilder.Entity<PricingListItem>().Property(i => i.PricingListItemId).ValueGeneratedOnAdd();
         }
     }
 }

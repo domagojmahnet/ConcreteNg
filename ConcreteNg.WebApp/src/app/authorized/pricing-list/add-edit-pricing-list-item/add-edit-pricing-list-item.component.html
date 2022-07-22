@@ -1,0 +1,25 @@
+<h2 mat-dialog-title>Add/Edit Pricing List Item</h2>
+
+<mat-dialog-content
+    [formGroup]="form">
+  
+    <mat-form-field appearance="fill">
+        <mat-label>Name</mat-label>
+        <input 
+            matInput
+            formControlName="pricingListItemName"
+        >
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>Unit of measurement</mat-label>
+        <input matInput formControlName="unitOfMeasurement">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Price</mat-label>
+        <input matInput formControlName="price" >
+    </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button style="margin-left: auto;" [mat-dialog-close]="true" class="mat-raised-button mat-primary" (click)="saveChanges()">Save</button>
+</mat-dialog-actions>

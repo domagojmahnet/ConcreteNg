@@ -28,7 +28,7 @@ namespace ConcreteNg.Controllers
 
         [HttpPost]
         [Route("allProjects")]
-        public async Task<ActionResult<IEnumerable<Project>>> GetProjects([FromBody] TableRequest tableRequest)
+        public async Task<ActionResult<TableResponse>> GetProjects([FromBody] TableRequest tableRequest)
         {
             var projects = projectService.GetProjects(tableRequest);
             return Ok(projects);
@@ -36,7 +36,7 @@ namespace ConcreteNg.Controllers
 
         [HttpGet]
         [Route("{projectId}")]
-        public async Task<ActionResult<IEnumerable<Project>>> GetProject(int projectId)
+        public async Task<ActionResult<Project>> GetProject(int projectId)
         {
             var projects = projectService.GetProject(projectId);
             return Ok(projects);

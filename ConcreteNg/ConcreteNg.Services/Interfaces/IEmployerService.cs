@@ -10,6 +10,7 @@ namespace ConcreteNg.Services.Interfaces
     public interface IEmployerService
     {
         TableResponse GetEmployersPricingListItemsTable(TableRequest tableRequest);
-        PricingListItem AddPricingListItem(PricingListItem item);
+        int CreateOrUpdatePricingListItem(PricingListItem item);
+        int DeletePricingListItem(int id);
     }
 }

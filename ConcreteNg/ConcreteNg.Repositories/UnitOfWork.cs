@@ -16,19 +16,22 @@ namespace ConcreteNg.Repositories
         public IProjectRepository projectRepository { get; }
         public IProjectTaskRepository projectTaskRepository { get; }
         public IPricingListRepository pricingListRepository { get; }
+        public IEmployerRepository employerRepository { get; }
 
         public UnitOfWork(
             DataContext dbContext, 
             IUserRepository _userRepository, 
             IProjectRepository _projectRepository, 
             IProjectTaskRepository _projectTaskRepository, 
-            IPricingListRepository _pricingListRepository)
+            IPricingListRepository _pricingListRepository,
+            IEmployerRepository _employerRepository)
         {
             dataContext = dbContext;
             userRepository = _userRepository;
             projectRepository = _projectRepository;
             projectTaskRepository = _projectTaskRepository;
             pricingListRepository = _pricingListRepository;
+            employerRepository = _employerRepository;
         }
 
         public void Dispose()

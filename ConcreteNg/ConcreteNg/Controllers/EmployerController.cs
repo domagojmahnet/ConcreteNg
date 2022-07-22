@@ -1,7 +1,5 @@
 ﻿using ConcreteNg.Services.Interfaces;
 using ConcreteNg.Shared.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ConcreteNg.Controllers
@@ -23,6 +21,22 @@ namespace ConcreteNg.Controllers
         {
             var items = employerService.GetEmployersPricingListItemsTable(tableRequest);
             return Ok(items);
+        }
+
+        [HttpPost]
+        [Route("pricingListItem")]
+        public async Task<ActionResult> CreateOrUpdatePricingListItem([FromBody] PricingListItem item)
+        {
+            var result = employerService.CreateOrUpdatePricingListItem(item);
+            return Ok();
+        }
+
+        [HttpDelete]
+        [Route("pricingListItem/{id}")]
+        public async Task<ActionResult> DeletePricingListItem(int id)
+        {
+            var result = employerService.DeletePricingListItem(id);
+            return Ok();
         }
     }
 }

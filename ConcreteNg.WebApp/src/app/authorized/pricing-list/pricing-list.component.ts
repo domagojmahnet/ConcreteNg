@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { DialogPosition, MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -7,6 +8,7 @@ import { PricingListItem } from '../../models/pricing-list-item';
 import { BaseFilter, TableRequest } from '../../models/table-request';
 import { TableResponse } from '../../models/table-response';
 import { EmployerService } from '../employer-service.service';
+import { AddEditPricingListItemComponent } from './add-edit-pricing-list-item/add-edit-pricing-list-item.component';
 
 @Component({
   selector: 'app-pricing-list',
@@ -27,7 +29,8 @@ export class PricingListComponent implements OnInit {
     displayedColumns: string[] = [
         'pricingListItemName', 
         'unitOfMeasurement',
-        'price'
+        'price',
+        'settings'
     ];
 
     displayedColumnFilters: string[] = [
@@ -47,7 +50,9 @@ export class PricingListComponent implements OnInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
 
-    constructor(private employerService: EmployerService) { }
+    constructor(
+        private employerService: EmployerService,
+        public dialog: MatDialog) { }
 
     ngOnInit(): void {
         this.initializeTable();
@@ -108,7 +113,31 @@ export class PricingListComponent implements OnInit {
         if (filter) {
             filter.filterQuery = (event.target as HTMLInputElement).value;
         }
-        debugger;
         this.loadData();
+    }
+
+    OpenAddEditItemDialog(pricingListItem?: PricingListItem){
+        const dialogPosition: DialogPosition = {
+            right: 0 + 'px',
+          }
+          
+        const dialogRef = this.dialog.open(AddEditPricingListItemComponent, {
+            width: '450px',
+            height: '100%',
+            position: dialogPosition,
+            data: {pricingListItem: pricingListItem}
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            if(result){
+                this.loadData();
+            }
+        });
+    }
+
+    deleteItem(id: number){
+        this.employerService.deletePricingListItem(id).subscribe(() => {
+            this.loadData();
+        })
     }
 }

@@ -27,6 +27,13 @@ namespace ConcreteNg.Controllers
         }
 
         [HttpPost]
+        [Route("projectTask/{projectId}")]
+        public async Task<ActionResult> CreateOrUpdateProjectTask([FromBody] ProjectTask projectTask, int projectId)
+        {
+            return Ok();
+        }
+
+        [HttpPost]
         [Route("updateItem")]
         public async Task<ActionResult> UpdateProjectItem([FromBody] ProjectTaskItem projectTaskItem)
         {

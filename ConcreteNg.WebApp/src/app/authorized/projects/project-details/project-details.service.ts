@@ -30,5 +30,9 @@ export class ProjectDetailsService {
         return this.http.post<ProjectTask>(this.projectTaskApiUrl + "/deleteItem", projectTaskItem);
     }
 
+    createOrUpdateProjectTask(task: ProjectTask, projectId: number){
+        return this.http.post<any>(this.projectTaskApiUrl + "/projectTask/" + projectId, task);
+    }
+
 
 }

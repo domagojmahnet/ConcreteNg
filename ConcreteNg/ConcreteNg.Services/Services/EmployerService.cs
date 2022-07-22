@@ -21,15 +21,34 @@ namespace ConcreteNg.Services.Services
             httpContextAccessor = _httpContextAccessor;
         }
 
-        public PricingListItem AddPricingListItem(PricingListItem item)
+        public int CreateOrUpdatePricingListItem(PricingListItem item)
         {
-            throw new NotImplementedException();
+            if (item.PricingListItemId == -1)
+            {
+                Employer employer = unitOfWork.employerRepository.Read(int.Parse(httpContextAccessor.HttpContext.User.FindFirst("EmployerID").Value));
+                unitOfWork.pricingListRepository.Create(new PricingListItem(item.PricingListItemName, item.UnitOfMeasurement, item.Price, employer));
+            }
+            else
+            {
+                var pricingListItem = unitOfWork.pricingListRepository.Read(item.PricingListItemId);
+                pricingListItem.Price = item.Price;
+                pricingListItem.UnitOfMeasurement = item.UnitOfMeasurement;
+                pricingListItem.PricingListItemName = item.PricingListItemName;
+                unitOfWork.pricingListRepository.Update(pricingListItem);
+            }
+            return unitOfWork.Complete();
+        }
+
+        public int DeletePricingListItem(int id)
+        {
+            var itemToDelete = unitOfWork.pricingListRepository.Read(id);
+            unitOfWork.pricingListRepository.Delete(itemToDelete);
+            return unitOfWork.Complete();
         }
 
         public TableResponse GetEmployersPricingListItemsTable(TableRequest tableRequest)
         {
             return unitOfWork.pricingListRepository.GetEmployersPricingListItemsTable(tableRequest ,int.Parse(httpContextAccessor.HttpContext.User.FindFirst("EmployerID").Value));
-            return null;
         }
     }
 }
