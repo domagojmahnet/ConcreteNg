@@ -20,7 +20,7 @@ namespace ConcreteNg.Repositories.Repositories
 
         public List<ProjectTask> GetProjectTasks(int projectId)
         {
-            return dataContext.ProjectTasks.Include(p => p.ProjectTaskItems).Where(p => p.Project.ProjectId == projectId).ToList();
+            return dataContext.ProjectTasks.Include(p => p.ProjectTaskItems).ThenInclude(item => item.PricingListItem).Where(p => p.Project.ProjectId == projectId).ToList();
         }
 
         public bool UpdateProjectTaskItem(ProjectTaskItem projectTaskItem)
@@ -30,7 +30,7 @@ namespace ConcreteNg.Repositories.Repositories
             return updated > 0;
         }
 
-        public bool DeleteProjectTaskItem(ProjectTaskItem projectTaskItem)
+        public bool  DeleteProjectTaskItem(ProjectTaskItem projectTaskItem)
         {
             dataContext.ProjectTaskItems.Remove(projectTaskItem);
             var updated = dataContext.SaveChanges();

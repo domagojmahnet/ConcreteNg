@@ -23,6 +23,14 @@ namespace ConcreteNg.Controllers
             return Ok(items);
         }
 
+        [HttpGet]
+        [Route("pricingListItems")]
+        public async Task<ActionResult<IEnumerable<PricingListItem>>> GetEmployerPricingListItems()
+        {
+            var items = employerService.GetEmployersPricingListItems();
+            return Ok(items);
+        }
+
         [HttpPost]
         [Route("pricingListItem")]
         public async Task<ActionResult> CreateOrUpdatePricingListItem([FromBody] PricingListItem item)

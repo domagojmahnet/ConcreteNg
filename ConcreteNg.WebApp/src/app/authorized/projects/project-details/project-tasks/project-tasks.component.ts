@@ -14,16 +14,20 @@ export class ProjectTasksComponent implements OnInit, OnChanges {
 
     @Input() project: Project;
     @Output() projectChange = new EventEmitter<Project>();
-
+    
     projectTasks: ProjectTask[];
 
     constructor(
-        private projectService: ProjectDetailsService,
+        private projectDetailsService: ProjectDetailsService,
         public dialog: MatDialog
     ) { }
 
     ngOnInit(): void {
-        this.loadTasks();
+        this.projectDetailsService.taskChange.subscribe((res) => {
+            this.projectTasks = this.projectDetailsService.projectTasks;
+            debugger;
+        });
+        this.projectDetailsService.getProjectTasks(this.project.projectId);
     }
 
     ngOnChanges(changes: SimpleChanges) {
@@ -33,12 +37,6 @@ export class ProjectTasksComponent implements OnInit, OnChanges {
     update(){
         this.project.name = "bla";
         this.projectChange.emit(this.project)
-    }
-
-    loadTasks(){
-        this.projectService.getProjectTasks(this.project.projectId).subscribe((data) => {
-            this.projectTasks = data
-        });
     }
 
     OpenAddEditItemDialog(projectTask?: ProjectTask){
@@ -55,7 +53,7 @@ export class ProjectTasksComponent implements OnInit, OnChanges {
 
         dialogRef.afterClosed().subscribe(result => {
             if(result){
-                this.loadTasks();
+                
             }
         });
     }

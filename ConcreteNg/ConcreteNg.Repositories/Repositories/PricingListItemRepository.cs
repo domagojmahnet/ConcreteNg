@@ -19,6 +19,11 @@ namespace ConcreteNg.Repositories.Repositories
             dataContext = dbContext;
         }
 
+        public IEnumerable<PricingListItem> GetEmployersPricingListItems(int employerID)
+        {
+            return dataContext.PricingListItems.Where(x => x.Employer.EmployerId == employerID);
+        }
+
         public TableResponse GetEmployersPricingListItemsTable(TableRequest tableRequest, int employerID)
         {
             TableResponse tableResponse = new TableResponse();

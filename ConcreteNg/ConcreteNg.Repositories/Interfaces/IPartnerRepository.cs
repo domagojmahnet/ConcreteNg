@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace ConcreteNg.Repositories.Interfaces
 {
-    public interface IProjectFilterStrategy
+    public interface IPartnerRepository : IRepository<Partner>
     {
-        IQueryable<Project> Filter(IQueryable<Project> query, string filterQuery);
     }
 }

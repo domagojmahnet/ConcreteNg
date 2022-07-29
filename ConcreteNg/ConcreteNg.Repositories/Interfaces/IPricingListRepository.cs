@@ -10,5 +10,6 @@ namespace ConcreteNg.Repositories.Interfaces
     public interface IPricingListRepository : IRepository<PricingListItem>
     {
         TableResponse GetEmployersPricingListItemsTable(TableRequest tableRequest, int employerID);
+        IEnumerable<PricingListItem> GetEmployersPricingListItems(int employerID);
     }
 }

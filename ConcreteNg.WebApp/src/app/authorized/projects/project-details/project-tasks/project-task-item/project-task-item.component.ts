@@ -4,6 +4,7 @@ import { ProjectStatusEnum } from '../../../../../enums/project-status';
 import { ProjectTaskItem } from '../../../../../models/project-task';
 import { ProjectDetailsService } from '../../project-details.service';
 import { AddEditProjectTaskItemComponent } from './add-edit-project-task-item/add-edit-project-task-item.component';
+import { AddExpenseComponent } from './add-expense/add-expense.component';
 
 @Component({
   selector: 'app-project-task-item',
@@ -13,6 +14,7 @@ import { AddEditProjectTaskItemComponent } from './add-edit-project-task-item/ad
 export class ProjectTaskItemComponent implements OnInit {
 
     @Input() projectTaskItem: ProjectTaskItem
+    @Input() projectTaskId: number;
     @Output() changed = new EventEmitter<ProjectTaskItem>();
     @Output() deleted = new EventEmitter<ProjectTaskItem>();
     projectStatusEnum = ProjectStatusEnum;
@@ -23,7 +25,7 @@ export class ProjectTaskItemComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-        
+        this.projectTaskItem
     }
 
     updateTaskStatus(){
@@ -49,21 +51,32 @@ export class ProjectTaskItemComponent implements OnInit {
     }
 
     deleteTask(){
-        this.projectDetailsService.deleteProjectTaskItem(this.projectTaskItem).subscribe((data) => {
-            this.deleted.emit(this.projectTaskItem);
-        })
+        this.projectDetailsService.deleteProjectTaskItem(this.projectTaskItem.projectTaskItemId, this.projectTaskId);
     }
 
     OpenAddEditItemDialog(){
         const dialogPosition: DialogPosition = {
             right: 0 + 'px',
-          }
+        }
           
         const dialogRef = this.dialog.open(AddEditProjectTaskItemComponent, {
             width: '450px',
             height: '100%',
             position: dialogPosition,
-            data: {projectTaskItem: this.projectTaskItem}
+            data: {projectTaskItem: this.projectTaskItem, projectTaskId: this.projectTaskId}
+        });
+    }
+
+    OpenAddExpenseDialog(){
+        const dialogPosition: DialogPosition = {
+            right: 0 + 'px',
+        }
+          
+        const dialogRef = this.dialog.open(AddExpenseComponent, {
+            width: '450px',
+            height: '100%',
+            position: dialogPosition,
+            data: {projectTaskItemId: this.projectTaskItem.projectTaskItemId, unitOfMeasurement: this.projectTaskItem.pricingListItem.unitOfMeasurement}
         });
     }
 }

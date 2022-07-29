@@ -24,5 +24,27 @@ namespace ConcreteNg.Shared.Models
         [JsonIgnore]
         public ProjectTask? ProjectTask { get; set; }
 
+        public ProjectTaskItem(int projectTaskItemId, PricingListItem pricingListItem, ProjectStatusEnum taskItemStatus, float? quantity, float? expenditure, DateTimeOffset? startTime, DateTimeOffset? finishTime, ProjectTask? projectTask)
+        {
+            ProjectTaskItemId = projectTaskItemId;
+            PricingListItem = pricingListItem;
+            TaskItemStatus = taskItemStatus;
+            Quantity = quantity;
+            Expenditure = expenditure;
+            StartTime = startTime;
+            FinishTime = finishTime;
+            ProjectTask = projectTask;
+        }
+
+        public ProjectTaskItem(PricingListItem pricingListItem, ProjectStatusEnum taskItemStatus, ProjectTask? projectTask)
+        {
+            PricingListItem = pricingListItem;
+            TaskItemStatus = taskItemStatus;
+            ProjectTask = projectTask;
+        }
+
+        public ProjectTaskItem()
+        {
+        }
     }
 }

@@ -17,6 +17,7 @@
         <ng-container [ngSwitch]="projectTaskItem.taskItemStatus">
             <ng-container *ngSwitchCase="projectStatusEnum['In Progress']">
                 <button mat-flat-button class="mat-flat-button" color="primary" (click)="updateTaskStatus()">Finish Task</button>
+                <mat-icon (click)="OpenAddExpenseDialog()" matTooltip="Add expense">attach_money</mat-icon>
             </ng-container>
             <ng-container *ngSwitchCase="projectStatusEnum['To Do']">
                 <button  mat-flat-button class="mat-flat-button" color="primary" (click)="updateTaskStatus()">Start Task</button>

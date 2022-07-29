@@ -11,8 +11,8 @@ export interface ProjectTaskItem {
     projectTaskItemId: number;
     pricingListItem: PricingListItem;
     taskItemStatus: ProjectStatusEnum;
-    quantity: number;
-    expenditure: number;
+    quantity?: number;
+    expenditure?: number;
     startTime?: Date;
     finishTime?: Date;
 }

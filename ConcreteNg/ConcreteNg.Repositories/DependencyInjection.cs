@@ -11,8 +11,11 @@ namespace ConcreteNg.Repositories
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IProjectRepository, ProjectRepository>();
             services.AddScoped<IProjectTaskRepository, ProjectTaskRepository>();
+            services.AddScoped<IProjectTaskItemRepository, ProjectTaskItemRepository>();
             services.AddScoped<IPricingListRepository, PricingListItemRepository>();
             services.AddScoped<IEmployerRepository, EmployerRepository>();
+            services.AddScoped<IPartnerRepository, PartnerRepository>();
+            services.AddScoped<IExpenseRepository, ExpenseRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             return services;

@@ -18,6 +18,7 @@ import { AddEditProjectTaskItemComponent } from './projects/project-details/proj
 import { PricingListComponent } from './pricing-list/pricing-list.component';
 import { AddEditPricingListItemComponent } from './pricing-list/add-edit-pricing-list-item/add-edit-pricing-list-item.component';
 import { AddEditProjectTaskComponent } from './projects/project-details/project-tasks/project-task/add-edit-project-task/add-edit-project-task.component';
+import { AddExpenseComponent } from './projects/project-details/project-tasks/project-task-item/add-expense/add-expense.component';
 
 @NgModule({
     declarations: [
@@ -36,7 +37,8 @@ import { AddEditProjectTaskComponent } from './projects/project-details/project-
         AddEditProjectTaskItemComponent,
         PricingListComponent,
         AddEditPricingListItemComponent,
-        AddEditProjectTaskComponent
+        AddEditProjectTaskComponent,
+        AddExpenseComponent
     ],
     imports: [
         CommonModule,

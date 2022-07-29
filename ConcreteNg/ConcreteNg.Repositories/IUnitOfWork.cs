@@ -11,9 +11,12 @@ namespace ConcreteNg.Repositories
     {
         IProjectRepository projectRepository { get; }
         IProjectTaskRepository projectTaskRepository { get; }
+        IProjectTaskItemRepository projectTaskItemRepository { get; }
         IUserRepository userRepository { get; }
         IPricingListRepository pricingListRepository { get; }
         IEmployerRepository employerRepository { get; }
+        IExpenseRepository expenseRepository { get; }
+        IPartnerRepository partnerRepository { get; }
         int Complete();
     }
     

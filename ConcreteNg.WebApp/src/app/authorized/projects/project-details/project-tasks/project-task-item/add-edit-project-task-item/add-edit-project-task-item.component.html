@@ -3,19 +3,25 @@
 <mat-dialog-content
     [formGroup]="form">
   
-    <mat-form-field>
-        <input matInput
-                placeholder="Task Item Name"
-               formControlName="name">
-    </mat-form-field>
     <mat-form-field appearance="fill">
+        <mat-label>Item</mat-label>
+        <mat-select formControlName="pricingListItem" [compareWith]="comparePricingListObjects">
+            <mat-form-field appearance="fill">
+                <mat-label>Search items</mat-label>
+                <input matInput (keyup)="onKey($any($event.target).value)">
+            </mat-form-field>
+            <mat-option *ngFor="let item of searchedPricingList" [value]="item">{{item.pricingListItemName}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" *ngIf="!isCreateAction && status !== statusEnum['To Do']">
         <mat-label>Start Date</mat-label>
         <input matInput formControlName="startDate" [matDatepicker]="picker">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
-
-    <mat-form-field appearance="fill">
+ 
+    <mat-form-field appearance="fill" *ngIf="!isCreateAction && status === statusEnum['Completed']">
         <mat-label>Finish Date</mat-label>
         <input matInput formControlName="finishDate" [matDatepicker]="picker">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -23,5 +29,5 @@
     </mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions>
-    <button style="margin-left: auto;" class="mat-raised-button mat-primary">Save</button>
+    <button style="margin-left: auto;" class="mat-raised-button mat-primary" (click)="saveChanges()">Save</button>
 </mat-dialog-actions>

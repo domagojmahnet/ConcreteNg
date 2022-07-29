@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, Optional } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit, Optional, Output } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ProjectTask } from '../../../../../../models/project-task';
@@ -35,9 +35,7 @@ export class AddEditProjectTaskComponent implements OnInit {
             projectTaskName: this.form.get("projectTaskName")?.value,
             projectTaskItems: this.data.projectTask === undefined ? [] : this.data.projectTask.projectTaskItems,
         }
-        this.projectDetailsService.createOrUpdateProjectTask(projectTask, this.data.projectId).subscribe(() => {
-            
-        })
+        this.projectDetailsService.createOrUpdateProjectTask(projectTask, this.data.projectId);
     }
 
 }

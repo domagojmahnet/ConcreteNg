@@ -17,7 +17,6 @@ export class EmployerOverviewComponent implements OnInit {
 
     ngOnInit(): void {
         this.projectService.getBaseProjects().subscribe((data: Project[]) => {
-            debugger;
             this.activeProjects = data;
             this.numberOfActiveProjects = data.length;
             let today = new Date();

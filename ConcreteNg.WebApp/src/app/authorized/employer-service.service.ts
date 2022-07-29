@@ -15,8 +15,12 @@ export class EmployerService {
         private http: HttpClient,
     ) { }
 
-    getPricingListItemsTable (tableRequest: TableRequest){
+    getPricingListItemsTable(tableRequest: TableRequest){
         return this.http.post<any>(this.employerApiUrl + "/pricingListItems/table", tableRequest);
+    }
+
+    getPricingListItems(){
+        return this.http.get<PricingListItem[]>(this.employerApiUrl + "/pricingListItems");
     }
 
     createOrUpdatePricingListItem(pricingListItem: PricingListItem){

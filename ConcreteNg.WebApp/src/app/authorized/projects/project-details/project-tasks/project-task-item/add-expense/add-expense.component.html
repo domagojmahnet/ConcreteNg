@@ -1,0 +1,39 @@
+<h2 mat-dialog-title>Add Expense</h2>
+
+<mat-dialog-content
+    [formGroup]="form">
+    <mat-form-field appearance="fill">
+        <mat-label> Expense type</mat-label>
+        <mat-select [(value)]="selectedType">
+          <mat-option>None</mat-option>
+          <mat-option [value]="expenseTypeEnum.Labour">Labour</mat-option>
+          <mat-option [value]="expenseTypeEnum.Material">Material</mat-option>
+          <mat-option [value]="expenseTypeEnum.Partner">Partner</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="fill" *ngIf="selectedType===expenseTypeEnum.Material">
+    <mat-label>Total cost</mat-label>
+    <input 
+            matInput
+            formControlName="totalCost"
+        >
+    </mat-form-field>
+    <mat-form-field appearance="fill" *ngIf="selectedType===expenseTypeEnum.Labour">
+        <mat-label>{{data.unitOfMeasurement}} done</mat-label>
+        <input 
+                matInput
+                formControlName="quantity"
+            >
+    </mat-form-field>
+    <mat-form-field appearance="fill" *ngIf="selectedType===expenseTypeEnum.Partner">
+        <mat-label>Partner</mat-label>
+        <input 
+                matInput
+                formControlName="quantity"
+            >
+    </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button style="margin-left: auto;" class="mat-raised-button mat-primary" >Save</button>
+</mat-dialog-actions>
+

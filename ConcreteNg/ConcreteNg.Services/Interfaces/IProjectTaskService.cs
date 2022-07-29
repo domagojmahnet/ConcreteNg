@@ -10,8 +10,12 @@ namespace ConcreteNg.Services.Interfaces
     public interface IProjectTaskService
     {
         IEnumerable<ProjectTask> GetProjectTasks(int projectId);
+        int DeleteProjectTask(int id);
         bool UpdateTaskItem(ProjectTaskItem projectTaskItem);
         bool DeleteTaskItem(ProjectTaskItem projectTaskItem);
-        int CreateOrUpdateProjectTask(ProjectTask projectTask);
+        ProjectTask CreateOrUpdateProjectTask(ProjectTask projectTask, int projectId);
+        ProjectTaskItem CreateOrUpdateProjectTaskItem(ProjectTaskItem projectTaskItem, int taskId);
+        int DeleteProjectTaskItem(int id);
+        Expense AddExpense(Expense expense, int taskItemId, int? pricingListItemId, int? partnerId);
     }
 }

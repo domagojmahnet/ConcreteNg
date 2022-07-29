@@ -3,6 +3,7 @@ using ConcreteNg.Repositories;
 using ConcreteNg.Repositories.Repositories;
 using ConcreteNg.Services.Interfaces;
 using ConcreteNg.Shared.Models;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,11 +15,14 @@ namespace ConcreteNg.Services.Services
     public class ProjectTaskService : IProjectTaskService
     {
         private readonly IUnitOfWork unitOfWork;
+        private readonly IHttpContextAccessor httpContextAccessor;
 
-        public ProjectTaskService(IUnitOfWork _unitOfWork)
+        public ProjectTaskService(IHttpContextAccessor _httpContextAccessor, IUnitOfWork _unitOfWork)
         {
             unitOfWork = _unitOfWork;
+            httpContextAccessor = _httpContextAccessor;
         }
+
         public IEnumerable<ProjectTask> GetProjectTasks(int projectId)
         {
             return unitOfWork.projectTaskRepository.GetProjectTasks(projectId);
@@ -34,22 +38,104 @@ namespace ConcreteNg.Services.Services
             return unitOfWork.projectTaskRepository.DeleteProjectTaskItem(projectTaskItem);
         }
 
-        public int CreateOrUpdateProjectTask(ProjectTask projectTask)
+        public ProjectTask CreateOrUpdateProjectTask(ProjectTask projectTask, int projectId)
         {
-            /*if (projectTask.ProjectTaskId == -1)
+            ProjectTask task = new ProjectTask();
+            if (projectTask.ProjectTaskId == -1)
             {
-                Employer employer = unitOfWork.employerRepository.Read(int.Parse(httpContextAccessor.HttpContext.User.FindFirst("EmployerID").Value));
-                unitOfWork.pricingListRepository.Create(new PricingListItem(item.PricingListItemName, item.UnitOfMeasurement, item.Price, employer));
+                var project = unitOfWork.projectRepository.Read(projectId);
+                task.ProjectTaskName = projectTask.ProjectTaskName;
+                task.ProjectTaskItems = null;
+                task.Project = project;
+                unitOfWork.projectTaskRepository.Create(task);
             }
             else
             {
-                var pricingListItem = unitOfWork.pricingListRepository.Read(item.PricingListItemId);
-                pricingListItem.Price = item.Price;
-                pricingListItem.UnitOfMeasurement = item.UnitOfMeasurement;
-                pricingListItem.PricingListItemName = item.PricingListItemName;
-                unitOfWork.pricingListRepository.Update(pricingListItem);
-            }*/
+                task = unitOfWork.projectTaskRepository.Read(projectTask.ProjectTaskId);
+                task.ProjectTaskName = projectTask.ProjectTaskName;
+                unitOfWork.projectTaskRepository.Update(task);
+            }
+
+            if(unitOfWork.Complete() == 1 )
+            {
+                return task;
+            }
+            throw new Exception();
+        }
+
+        public int DeleteProjectTask(int id)
+        {
+            var task = unitOfWork.projectTaskRepository.Read(id);
+            unitOfWork.projectTaskItemRepository.DeleteProjectTaskItems(id);
+            unitOfWork.projectTaskRepository.Delete(task);
             return unitOfWork.Complete();
+        }
+
+        public ProjectTaskItem CreateOrUpdateProjectTaskItem(ProjectTaskItem projectTaskItem, int taskId)
+        {
+            ProjectTaskItem item = new ProjectTaskItem();
+            if (projectTaskItem.ProjectTaskItemId == -1)
+            {
+                item.ProjectTask = unitOfWork.projectTaskRepository.Read(taskId);
+                item.PricingListItem = projectTaskItem.PricingListItem;
+                item.TaskItemStatus = Shared.Enums.ProjectStatusEnum.ToDo;
+                item.PricingListItem = unitOfWork.pricingListRepository.Read(projectTaskItem.PricingListItem.PricingListItemId);
+                unitOfWork.projectTaskItemRepository.Create(item);
+            }
+            else
+            {
+                item = unitOfWork.projectTaskItemRepository.Read(projectTaskItem.ProjectTaskItemId);
+                item.PricingListItem = unitOfWork.pricingListRepository.Read(projectTaskItem.PricingListItem.PricingListItemId);
+                item.StartTime = projectTaskItem.StartTime;
+                item.FinishTime = projectTaskItem.FinishTime;
+                unitOfWork.projectTaskItemRepository.Update(item);
+            }
+
+            if (unitOfWork.Complete() == 1)
+            {
+                return item;
+            }
+            throw new Exception();
+        }
+
+        public int DeleteProjectTaskItem(int id)
+        {
+            var itemToDelete = unitOfWork.projectTaskItemRepository.Read(id);
+            unitOfWork.projectTaskRepository.DeleteProjectTaskItem(itemToDelete);
+            return unitOfWork.Complete();
+        }
+
+        public Expense AddExpense(Expense expense, int taskItemId, int? pricingListItemId, int? partnerId)
+        {
+            var item = unitOfWork.projectTaskItemRepository.Read(taskItemId);
+
+            if(expense.ExpenseType == Shared.Enums.ExpenseTypeEnum.Standard)
+            {
+                var cost = unitOfWork.pricingListRepository.Read(pricingListItemId).Price;
+                expense.TotalCost = (float)(cost * expense.Quantity);
+            }
+
+            var expenseToAdd = new ExpenseBuilder(expense.TotalCost, expense.ExpenseType);
+
+            if(expense.ExpenseType == Shared.Enums.ExpenseTypeEnum.Partner)
+            {
+                var partner = unitOfWork.partnerRepository.Read(partnerId);
+                expenseToAdd.SetPartner(partner);
+            }
+
+            if(expense.ExpenseType == Shared.Enums.ExpenseTypeEnum.Standard)
+            {
+                expenseToAdd.SetQuantity((float)expense.Quantity);
+            }
+
+            var result = expenseToAdd.Build();
+
+            unitOfWork.expenseRepository.Create(result);
+            if (unitOfWork.Complete() == 1)
+            {
+                return result;
+            }
+            throw new Exception();
         }
     }
 }

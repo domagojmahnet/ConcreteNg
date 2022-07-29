@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace ConcreteNg.Repositories.Interfaces
 {
-    public interface IEmployerRepository : IRepository<Employer>
+    public interface IExpenseRepository : IRepository<Expense>
     {
-
     }
 }

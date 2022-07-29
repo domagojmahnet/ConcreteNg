@@ -11,6 +11,7 @@ namespace ConcreteNg.Services.Interfaces
     {
         TableResponse GetEmployersPricingListItemsTable(TableRequest tableRequest);
         int CreateOrUpdatePricingListItem(PricingListItem item);
+        IEnumerable<PricingListItem> GetEmployersPricingListItems();
         int DeletePricingListItem(int id);
     }
 }

@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ConcreteNg.Controllers
 {
-    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ProjectTaskController : ControllerBase
@@ -28,9 +27,10 @@ namespace ConcreteNg.Controllers
 
         [HttpPost]
         [Route("projectTask/{projectId}")]
-        public async Task<ActionResult> CreateOrUpdateProjectTask([FromBody] ProjectTask projectTask, int projectId)
+        public async Task<ActionResult<ProjectTask>> CreateOrUpdateProjectTask([FromBody] ProjectTask projectTask, int projectId)
         {
-            return Ok();
+            var result = projectTaskService.CreateOrUpdateProjectTask(projectTask, projectId);
+            return Ok(result);
         }
 
         [HttpPost]
@@ -44,15 +44,42 @@ namespace ConcreteNg.Controllers
             return BadRequest();
         }
 
-        [HttpPost]
-        [Route("deleteItem")]
-        public async Task<ActionResult> DeleteProjectItem([FromBody] ProjectTaskItem projectTaskItem)
+        [HttpDelete]
+        [Route("deleteTask/{id}")]
+        public async Task<ActionResult> DeleteProjectTask(int id)
         {
-            if (projectTaskService.DeleteTaskItem(projectTaskItem))
+            if (projectTaskService.DeleteProjectTask(id) >= 0)
             {
                 return Ok();
             }
             return BadRequest();
+        }
+
+        [HttpDelete]
+        [Route("deleteTaskItem/{id}")]
+        public async Task<ActionResult> DeleteProjectTaskItem(int id)
+        {
+            if (projectTaskService.DeleteProjectTaskItem(id) >= 0)
+            {
+                return Ok();
+            }
+            return BadRequest();
+        }
+
+        [HttpPost]
+        [Route("projectTaskItem/{taskId}")]
+        public async Task<ActionResult<ProjectTask>> CreateOrUpdateProjectTaskItem([FromBody] ProjectTaskItem projectTaskItem, int taskId)
+        {
+            var result = projectTaskService.CreateOrUpdateProjectTaskItem(projectTaskItem, taskId);
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("expense/{taskId}/{pricingListItemId}/{partnerId?}")]
+        public async Task<ActionResult<Expense>> AddExpense(Expense expense, int taskId, int pricingListItemId, int? partnerId)
+        {
+            var result = projectTaskService.AddExpense(expense, taskId, pricingListItemId, partnerId = null);
+            return Ok(result);
         }
     }
 }
