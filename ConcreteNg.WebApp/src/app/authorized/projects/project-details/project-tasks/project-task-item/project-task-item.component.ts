@@ -76,7 +76,7 @@ export class ProjectTaskItemComponent implements OnInit {
             width: '450px',
             height: '100%',
             position: dialogPosition,
-            data: {projectTaskItemId: this.projectTaskItem.projectTaskItemId, unitOfMeasurement: this.projectTaskItem.pricingListItem.unitOfMeasurement}
+            data: {projectTaskItemId: this.projectTaskItem.projectTaskItemId, unitOfMeasurement: this.projectTaskItem.pricingListItem.unitOfMeasurement, pricingListItemId: this.projectTaskItem.pricingListItem.pricingListItemId}
         });
     }
 }

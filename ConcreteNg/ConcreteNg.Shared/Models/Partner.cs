@@ -13,6 +13,6 @@ namespace ConcreteNg.Shared.Models
         public string Address { get; set; }
         public string ContactPerson { get; set; }
         public string ContactNumber { get; set; }
-        public Employer Employer { get; set; }
+        public Employer? Employer { get; set; }
     }
 }

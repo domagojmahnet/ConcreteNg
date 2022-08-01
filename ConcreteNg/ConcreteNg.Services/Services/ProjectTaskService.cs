@@ -115,7 +115,7 @@ namespace ConcreteNg.Services.Services
                 expense.TotalCost = (float)(cost * expense.Quantity);
             }
 
-            var expenseToAdd = new ExpenseBuilder(expense.TotalCost, expense.ExpenseType);
+            var expenseToAdd = new ExpenseBuilder((float)expense.TotalCost, expense.ExpenseType);
 
             if(expense.ExpenseType == Shared.Enums.ExpenseTypeEnum.Partner)
             {

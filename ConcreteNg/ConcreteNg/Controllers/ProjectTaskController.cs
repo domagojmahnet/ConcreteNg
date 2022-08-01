@@ -75,10 +75,10 @@ namespace ConcreteNg.Controllers
         }
 
         [HttpPost]
-        [Route("expense/{taskId}/{pricingListItemId}/{partnerId?}")]
-        public async Task<ActionResult<Expense>> AddExpense(Expense expense, int taskId, int pricingListItemId, int? partnerId)
+        [Route("expense/{taskItemId}/{pricingListItemId}/{partnerId?}")]
+        public async Task<ActionResult<Expense>> AddExpense(Expense expense, int taskItemId, int pricingListItemId, int? partnerId = null)
         {
-            var result = projectTaskService.AddExpense(expense, taskId, pricingListItemId, partnerId = null);
+            var result = projectTaskService.AddExpense(expense, taskItemId, pricingListItemId, partnerId);
             return Ok(result);
         }
     }

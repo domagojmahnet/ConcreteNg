@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable, Output } from '@angular/core';
 import { environment } from '../../../../environments/environment';
+import { Expense } from '../../../models/expense';
 import { Project } from '../../../models/project';
 import { ProjectTask, ProjectTaskItem } from '../../../models/project-task';
 
@@ -67,7 +68,6 @@ export class ProjectDetailsService {
     createOrUpdateProjectTaskItem(taskItem: ProjectTaskItem, taskId: number){
         return this.http.post<ProjectTaskItem>(this.projectTaskApiUrl + "/projectTaskItem/" + taskId, taskItem).subscribe((res) => {
             let taskIndex = this.projectTasks.findIndex(x => x.projectTaskId == taskId);
-            debugger;
             if(this.projectTasks[taskIndex].projectTaskItems !== null){
                 if(this.projectTasks[taskIndex].projectTaskItems?.filter(x => x.projectTaskItemId == taskItem.projectTaskItemId).length > 0){
                     let index = this.projectTasks[taskIndex].projectTaskItems.findIndex(x => x.projectTaskItemId == taskItem.projectTaskItemId);
@@ -80,5 +80,11 @@ export class ProjectDetailsService {
             }
             this.taskChange.emit();
         });
+    }
+
+    addExpense(expense: Expense, taskItemId: number, pricingListItemId: number, partnerId = null){
+        return this.http.post<Expense>(this.projectTaskApiUrl + "/expense/" + taskItemId + "/" + pricingListItemId + (partnerId !== null ? "/" + partnerId : ""), expense).subscribe((res) =>{
+
+        })
     }
 }

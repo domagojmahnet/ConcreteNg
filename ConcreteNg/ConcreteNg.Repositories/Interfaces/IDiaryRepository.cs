@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace ConcreteNg.Repositories.Interfaces
 {
-    public interface IPartnerRepository : IRepository<Partner>
+    public interface IDiaryRepository : IRepository<DiaryItem>
     {
-        IEnumerable<Partner> GetEmployerPartners(int employerId);
+        TableResponse GetProjectDiaryItems(TableRequest tableRequest, int projectId);
     }
 }

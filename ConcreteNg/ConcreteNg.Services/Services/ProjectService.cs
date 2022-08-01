@@ -38,5 +38,23 @@ namespace ConcreteNg.Services.Services
         {
             return unitOfWork.projectRepository.Read(id);
         }
+
+        public TableResponse GetDiaryItems(TableRequest tableRequest, int projectId)
+        {
+            return unitOfWork.diaryRepository.GetProjectDiaryItems(tableRequest, projectId);
+        }
+
+        public DiaryItem AddDiaryItem(DiaryItem diaryItem, int projectId)
+        {
+            var project = unitOfWork.projectRepository.Read(projectId);
+            diaryItem = new DiaryItem(DateTime.UtcNow, diaryItem.Description, project);
+
+            unitOfWork.diaryRepository.Create(diaryItem);
+            if (unitOfWork.Complete() == 1)
+            {
+                return diaryItem;
+            }
+            throw new Exception();
+        }
     }
 }

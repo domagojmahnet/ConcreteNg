@@ -11,7 +11,7 @@
           <mat-option [value]="expenseTypeEnum.Partner">Partner</mat-option>
         </mat-select>
     </mat-form-field>
-    <mat-form-field appearance="fill" *ngIf="selectedType===expenseTypeEnum.Material">
+    <mat-form-field appearance="fill" *ngIf="(selectedType===expenseTypeEnum.Material || selectedType===expenseTypeEnum.Partner)">
     <mat-label>Total cost</mat-label>
     <input 
             matInput
@@ -27,13 +27,16 @@
     </mat-form-field>
     <mat-form-field appearance="fill" *ngIf="selectedType===expenseTypeEnum.Partner">
         <mat-label>Partner</mat-label>
-        <input 
-                matInput
-                formControlName="quantity"
-            >
+        <mat-select formControlName="partner">
+            <mat-form-field appearance="fill">
+                <mat-label>Search items</mat-label>
+                <input matInput (keyup)="onKey($any($event.target).value)">
+            </mat-form-field>
+            <mat-option *ngFor="let item of searchedPartnerList" [value]="item.partnerId">{{item.name}}</mat-option>
+        </mat-select>
     </mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions>
-    <button style="margin-left: auto;" class="mat-raised-button mat-primary" >Save</button>
+    <button style="margin-left: auto;" class="mat-raised-button mat-primary"(click)="saveChanges()">Save</button>
 </mat-dialog-actions>
 

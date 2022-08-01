@@ -21,6 +21,8 @@ namespace ConcreteNg.Repositories.TableRequestHelpers
                     break;
                 case nameof(PricingListItem):
                     return (IFilterTemplate<T>) new PricingListItemFilterSort();
+                case nameof(DiaryItem):
+                    return (IFilterTemplate<T>)new DiaryItemFilterSort();
                 default:
                     throw new ArgumentException();
             }

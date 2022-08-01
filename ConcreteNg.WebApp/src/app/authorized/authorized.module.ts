@@ -19,6 +19,7 @@ import { PricingListComponent } from './pricing-list/pricing-list.component';
 import { AddEditPricingListItemComponent } from './pricing-list/add-edit-pricing-list-item/add-edit-pricing-list-item.component';
 import { AddEditProjectTaskComponent } from './projects/project-details/project-tasks/project-task/add-edit-project-task/add-edit-project-task.component';
 import { AddExpenseComponent } from './projects/project-details/project-tasks/project-task-item/add-expense/add-expense.component';
+import { DiaryComponent } from './projects/project-details/diary/diary.component';
 
 @NgModule({
     declarations: [
@@ -38,7 +39,8 @@ import { AddExpenseComponent } from './projects/project-details/project-tasks/pr
         PricingListComponent,
         AddEditPricingListItemComponent,
         AddEditProjectTaskComponent,
-        AddExpenseComponent
+        AddExpenseComponent,
+        DiaryComponent
     ],
     imports: [
         CommonModule,

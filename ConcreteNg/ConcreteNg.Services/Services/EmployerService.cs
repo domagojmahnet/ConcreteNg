@@ -46,6 +46,11 @@ namespace ConcreteNg.Services.Services
             return unitOfWork.Complete();
         }
 
+        public IEnumerable<Partner> GetEmployerPartners()
+        {
+            return unitOfWork.partnerRepository.GetEmployerPartners(int.Parse(httpContextAccessor.HttpContext.User.FindFirst("EmployerID").Value));
+        }
+
         public IEnumerable<PricingListItem> GetEmployersPricingListItems()
         {
             return unitOfWork.pricingListRepository.GetEmployersPricingListItems(int.Parse(httpContextAccessor.HttpContext.User.FindFirst("EmployerID").Value));

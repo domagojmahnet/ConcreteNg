@@ -22,11 +22,4 @@ namespace ConcreteNg.Shared.Models
         public int ColumnName { get; set; }
         public string FilterQuery { get; set; }
     }
-
-    public class TableColumnFilter
-    {
-        public ProjectFilterColumnsEnum ColumnName { get; set; }
-        public string FilterQuery { get; set; }
-
-    }
 }

@@ -32,4 +32,8 @@ export class ProjectService {
     getProjectsTable(tableRequest: TableRequest){
         return this.http.post<any>(this.projectApiUrl + "/allProjects", tableRequest);
     }
+
+    getDiaryItems(tableRequest: TableRequest, projectId: number){
+        return this.http.post<any>(this.projectApiUrl + "/diaryItems/" + projectId, tableRequest);
+    }
 }

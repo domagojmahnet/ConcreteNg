@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
+import { Partner } from '../models/partner';
 import { PricingListItem } from '../models/pricing-list-item';
 import { TableRequest } from '../models/table-request';
 
@@ -29,5 +30,9 @@ export class EmployerService {
 
     deletePricingListItem(id: number){
         return this.http.delete<any>(this.employerApiUrl + "/pricingListItem/" + id);
+    }
+
+    getPartners(){
+        return this.http.get<Partner[]>(this.employerApiUrl + "/partners");
     }
 }

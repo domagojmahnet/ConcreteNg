@@ -14,6 +14,7 @@ namespace ConcreteNg.Data
         public DbSet<PricingListItem> PricingListItems { get; set; }
         public DbSet<Expense> Expenses { get; set; }
         public DbSet<Partner> Partners { get; set; }
+        public DbSet<DiaryItem> DiaryItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -22,6 +23,7 @@ namespace ConcreteNg.Data
             modelBuilder.Entity<ProjectTaskItem>().Property(i => i.ProjectTaskItemId).ValueGeneratedOnAdd();
             modelBuilder.Entity<Expense>().Property(i => i.ExpenseId).ValueGeneratedOnAdd();
             modelBuilder.Entity<Partner>().Property(i => i.PartnerId).ValueGeneratedOnAdd();
+            modelBuilder.Entity<DiaryItem>().Property(i => i.DiaryItemId).ValueGeneratedOnAdd();
         }
     }
 }

@@ -7,7 +7,7 @@ namespace ConcreteNg.Shared.Models
     {
         public int ExpenseId { get; set; }
         public float? Quantity { get; set; }
-        public float TotalCost { get; set; }
+        public float? TotalCost { get; set; }
         public ProjectTaskItem? ProjectTaskItem { get; set; }
         public ExpenseTypeEnum ExpenseType { get; set; }
         public Partner? Partner { get; set; }

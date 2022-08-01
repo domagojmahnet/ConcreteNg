@@ -46,5 +46,13 @@ namespace ConcreteNg.Controllers
             var result = employerService.DeletePricingListItem(id);
             return Ok();
         }
+
+        [HttpGet]
+        [Route("partners")]
+        public async Task<ActionResult<IEnumerable<PricingListItem>>> GetEmployerPartners()
+        {
+            var items = employerService.GetEmployerPartners();
+            return Ok(items);
+        }
     }
 }

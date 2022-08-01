@@ -12,5 +12,7 @@ namespace ConcreteNg.Services.Interfaces
         IEnumerable<Project> GetActiveProjects();
         Project GetProject(int id);
         TableResponse GetProjects(TableRequest tableRequest);
+        TableResponse GetDiaryItems(TableRequest tableRequest, int projectId);
+        DiaryItem AddDiaryItem(DiaryItem diaryItem, int projectId);
     }
 }

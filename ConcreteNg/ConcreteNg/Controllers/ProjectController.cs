@@ -42,6 +42,21 @@ namespace ConcreteNg.Controllers
             return Ok(projects);
         }
 
+        [HttpPost]
+        [Route("diaryItems/{projectId}")]
+        public async Task<ActionResult<TableResponse>> GetDiaryItemsTable([FromBody] TableRequest tableRequest, int projectId)
+        {
+            var result = projectService.GetDiaryItems(tableRequest, projectId);
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("diaryItem/{projectId}")]
+        public async Task<ActionResult<DiaryItem>> AddDiaryItem([FromBody] DiaryItem diary, int projectId)
+        {
+            var result = projectService.AddDiaryItem(diary, projectId);
+            return Ok(result);
+        }
 
     }
 }
