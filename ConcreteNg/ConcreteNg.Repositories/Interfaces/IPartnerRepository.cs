@@ -10,5 +10,7 @@ namespace ConcreteNg.Repositories.Interfaces
     public interface IPartnerRepository : IRepository<Partner>
     {
         IEnumerable<Partner> GetEmployerPartners(int employerId);
+        TableResponse GetEmployerPartnersTable(TableRequest tableRequest, int employerId);
+        
     }
 }

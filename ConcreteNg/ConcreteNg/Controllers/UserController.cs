@@ -24,5 +24,21 @@ namespace ConcreteNg.Controllers
             //get current user example
             return Ok(userService.GetUser(int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier))));
         }
+
+        [HttpPost]
+        [Route("users")]
+        public async Task<ActionResult<TableResponse>> GetEmployedUsers([FromBody] TableRequest tableRequest)
+        {
+            var items = userService.GetEmployedUsers(tableRequest);
+            return Ok(items);
+        }
+
+        [HttpPost]
+        [Route("user")]
+        public async Task<ActionResult<int>> AddEditUser([FromBody] User user)
+        {
+            var result = userService.AddEditUser(user);
+            return Ok(result);
+        }
     }
 }

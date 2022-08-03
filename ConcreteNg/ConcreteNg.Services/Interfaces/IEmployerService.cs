@@ -14,5 +14,7 @@ namespace ConcreteNg.Services.Interfaces
         IEnumerable<PricingListItem> GetEmployersPricingListItems();
         int DeletePricingListItem(int id);
         IEnumerable<Partner> GetEmployerPartners();
+        TableResponse GetEmployerPartnersTable(TableRequest tableRequest);
+        int AddEditPartner(Partner partner);
     }
 }

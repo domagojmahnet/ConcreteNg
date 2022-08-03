@@ -1,0 +1,82 @@
+<mat-card class="mat-card-custom-color">
+    <h2>Partner List</h2>
+    <mat-divider></mat-divider>
+    <table 
+        mat-table 
+        matSort 
+        (matSortChange)="sortChanged($event)" 
+        [dataSource]="dataSource" style="width: 100%;"
+        >
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="table-header"><mat-icon>key</mat-icon>Name</th>
+            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
+        <ng-container matColumnDef="address">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header><mat-icon>description</mat-icon>Address</th>
+            <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+        </ng-container>
+        <ng-container matColumnDef="contactPerson">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header><mat-icon>date_range</mat-icon>Contact</th>
+            <td mat-cell *matCellDef="let element"> {{element.contactPerson}}</td>
+        </ng-container>
+        <ng-container matColumnDef="contactNumber">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header><mat-icon>date_range</mat-icon>Number</th>
+            <td mat-cell *matCellDef="let element"> {{element.contactNumber}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="settings">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header><mat-icon>settings</mat-icon>Settings</th>
+            <td mat-cell *matCellDef="let element"> 
+                <mat-icon (click)="OpenAddEditItemDialog(element)" matTooltip="Edit item">settings</mat-icon>
+                <mat-icon (click)="deleteItem(element.pricingListItemId)" matTooltip="Edit item">delete</mat-icon></td>
+        </ng-container>
+        
+        <ng-container matColumnDef="name-filter">
+            <th mat-header-cell *matHeaderCellDef>
+                <mat-form-field>
+                    <mat-label>Search by name</mat-label>
+                    <input matInput (keyup)="keyup($event, partnerListFilterEnum.Name)">
+                </mat-form-field>
+            </th>
+         </ng-container>
+
+         <ng-container matColumnDef="address-filter">
+            <th mat-header-cell *matHeaderCellDef>
+                <mat-form-field>
+                    <mat-label>Search by unit</mat-label>
+                    <input matInput (keyup)="keyup($event, partnerListFilterEnum.Address)">
+                </mat-form-field>
+            </th>
+         </ng-container>
+         <ng-container matColumnDef="contactPerson-filter">
+            <th mat-header-cell *matHeaderCellDef>
+                <mat-form-field>
+                    <mat-label>Search by price</mat-label>
+                    <input matInput (keyup)="keyup($event, partnerListFilterEnum.ContactPerson)">
+                </mat-form-field>
+            </th>
+         </ng-container>
+         <ng-container matColumnDef="contactNumber-filter">
+            <th mat-header-cell *matHeaderCellDef>
+                <mat-form-field>
+                    <mat-label>Search by price</mat-label>
+                    <input matInput (keyup)="keyup($event, partnerListFilterEnum.ContactNumber)">
+                </mat-form-field>
+            </th>
+         </ng-container>
+         <ng-container matColumnDef="settings-fillEmptyColumn">
+            <th mat-header-cell *matHeaderCellDef>
+                
+            </th>
+         </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumnFilters"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons (page)="pageChanged($event)"></mat-paginator>
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
+    <div class="fab-container">
+        <button mat-fab class="mat-fab-button" color="primary"><mat-icon  matTooltip="Add Item" (click)="OpenAddEditItemDialog()">add</mat-icon></button>
+    </div>
+</mat-card>

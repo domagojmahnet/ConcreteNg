@@ -11,5 +11,7 @@ namespace ConcreteNg.Services.Interfaces
     {
         User GetUser(int id);
         User GetUserByUsernameAndPassword(LoginModel loginModel);
+        TableResponse GetEmployedUsers(TableRequest tableRequest);
+        int AddEditUser(User user);
     }
 }

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from '../../../../environments/environment';
 import { AccountService } from '../../../account.service';
+import { DiaryItem } from '../../../models/diary-item';
 import { Project } from '../../../models/project';
 import { TableRequest } from '../../../models/table-request';
 
@@ -35,5 +36,9 @@ export class ProjectService {
 
     getDiaryItems(tableRequest: TableRequest, projectId: number){
         return this.http.post<any>(this.projectApiUrl + "/diaryItems/" + projectId, tableRequest);
+    }
+
+    addDIaryItem(diaryItem: DiaryItem, projectId: number){
+        return this.http.post<any>(this.projectApiUrl + "/diaryItem/" + projectId, diaryItem);
     }
 }

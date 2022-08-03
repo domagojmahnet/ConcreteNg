@@ -1,4 +1,5 @@
 import { DiaryFilterColumnsEnum } from "../enums/diary-filter-columns-enum"
+import { PartnerListFilterEnum } from "../enums/partner-list-filter-enum"
 import { PricingListFilterColumnsEnum } from "../enums/pricing-list-filter-columns-enum"
 import { ProjectFilterColumnsEnum } from "../enums/project-filter-columns-enum"
 
@@ -11,6 +12,6 @@ export interface TableRequest {
 }
 
 export interface BaseFilter{
-    columnName: ProjectFilterColumnsEnum | PricingListFilterColumnsEnum | DiaryFilterColumnsEnum,
+    columnName: ProjectFilterColumnsEnum | PricingListFilterColumnsEnum | DiaryFilterColumnsEnum | PartnerListFilterEnum,
     filterQuery: string
 }

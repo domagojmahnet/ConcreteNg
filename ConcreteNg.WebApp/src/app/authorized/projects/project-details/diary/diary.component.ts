@@ -10,6 +10,7 @@ import { BaseFilter, TableRequest } from '../../../../models/table-request';
 import { TableResponse } from '../../../../models/table-response';
 import { EmployerService } from '../../../employer-service.service';
 import { ProjectService } from '../../services/project.service';
+import { AddDiaryItemComponent } from './add-diary-item/add-diary-item.component';
 
 @Component({
   selector: 'app-diary',
@@ -117,21 +118,22 @@ export class DiaryComponent implements OnInit {
     }
 
     OpenAddEditItemDialog(diaryItem?: DiaryItem){
-        /*const dialogPosition: DialogPosition = {
+        const dialogPosition: DialogPosition = {
             right: 0 + 'px',
         }
           
-        const dialogRef = this.dialog.open(AddEditPricingListItemComponent, {
+        const dialogRef = this.dialog.open(AddDiaryItemComponent, {
             width: '450px',
             height: '100%',
             position: dialogPosition,
-            data: {pricingListItem: pricingListItem}
+            data: {project: this.project}
         });
 
         dialogRef.afterClosed().subscribe(result => {
+            debugger;
             if(result){
                 this.loadData();
             }
-        });*/
+        });
     }
 }

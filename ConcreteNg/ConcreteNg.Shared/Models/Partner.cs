@@ -14,5 +14,19 @@ namespace ConcreteNg.Shared.Models
         public string ContactPerson { get; set; }
         public string ContactNumber { get; set; }
         public Employer? Employer { get; set; }
+
+        public Partner()
+        {
+
+        }
+
+        public Partner(string name, string address, string contactPerson, string contactNumber, Employer? employer)
+        {
+            Name = name;
+            Address = address;
+            ContactPerson = contactPerson;
+            ContactNumber = contactNumber;
+            Employer = employer;
+        }
     }
 }

@@ -17,15 +17,6 @@ namespace ConcreteNg.Shared.Models
         [JsonIgnore]
         public Employer? Employer { get; set; }
 
-        public PricingListItem(int pricingListItemId, string pricingListItemName, string unitOfMeasurement, float price, Employer? employer)
-        {
-            PricingListItemId = pricingListItemId;
-            PricingListItemName = pricingListItemName;
-            UnitOfMeasurement = unitOfMeasurement;
-            Price = price;
-            Employer = employer;
-        }
-
         public PricingListItem(string pricingListItemName, string unitOfMeasurement, float price, Employer employer)
         {
             PricingListItemName = pricingListItemName;

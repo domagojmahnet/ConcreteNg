@@ -21,6 +21,25 @@ namespace ConcreteNg.Services.Services
             httpContextAccessor = _httpContextAccessor;
         }
 
+        public int AddEditPartner(Partner partner)
+        {
+            if (partner.PartnerId == -1)
+            {
+                Employer employer = unitOfWork.employerRepository.Read(int.Parse(httpContextAccessor.HttpContext.User.FindFirst("EmployerID").Value));
+                unitOfWork.partnerRepository.Create(new Partner(partner.Name, partner.Address, partner.ContactPerson, partner.ContactNumber, employer));
+            }
+            else
+            {
+                var partnerToUpdate = unitOfWork.partnerRepository.Read(partner.PartnerId);
+                partnerToUpdate.Name = partner.Name;
+                partnerToUpdate.Address = partner.Address;
+                partnerToUpdate.ContactPerson = partner.ContactPerson;
+                partnerToUpdate.ContactNumber = partner.ContactNumber;
+                unitOfWork.partnerRepository.Update(partnerToUpdate);
+            }
+            return unitOfWork.Complete();
+        }
+
         public int CreateOrUpdatePricingListItem(PricingListItem item)
         {
             if (item.PricingListItemId == -1)
@@ -51,6 +70,11 @@ namespace ConcreteNg.Services.Services
             return unitOfWork.partnerRepository.GetEmployerPartners(int.Parse(httpContextAccessor.HttpContext.User.FindFirst("EmployerID").Value));
         }
 
+        public TableResponse GetEmployerPartnersTable(TableRequest tableRequest)
+        {
+            return unitOfWork.partnerRepository.GetEmployerPartnersTable(tableRequest, int.Parse(httpContextAccessor.HttpContext.User.FindFirst("EmployerID").Value));
+        }
+
         public IEnumerable<PricingListItem> GetEmployersPricingListItems()
         {
             return unitOfWork.pricingListRepository.GetEmployersPricingListItems(int.Parse(httpContextAccessor.HttpContext.User.FindFirst("EmployerID").Value));
@@ -60,5 +84,7 @@ namespace ConcreteNg.Services.Services
         {
             return unitOfWork.pricingListRepository.GetEmployersPricingListItemsTable(tableRequest ,int.Parse(httpContextAccessor.HttpContext.User.FindFirst("EmployerID").Value));
         }
+
+
     }
 }

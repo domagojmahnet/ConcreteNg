@@ -35,4 +35,16 @@ export class EmployerService {
     getPartners(){
         return this.http.get<Partner[]>(this.employerApiUrl + "/partners");
     }
+
+    getPartnersTable(tableRequest: TableRequest){
+        return this.http.post<any>(this.employerApiUrl + "/partners", tableRequest);
+    }
+
+    createOrUpdatePartner(partner: Partner){
+        return this.http.post<any>(this.employerApiUrl + "/partner", partner);
+    }
+
+    deletePartner(id: number){
+        return this.http.delete<any>(this.employerApiUrl + "/partner/" + id);
+    }
 }

@@ -1,0 +1,16 @@
+<h2 mat-dialog-title>Add Diary Item</h2>
+
+<mat-dialog-content
+    [formGroup]="form">
+  
+    <mat-form-field appearance="fill">
+        <mat-label>Description</mat-label>
+        <input 
+            matInput
+            formControlName="description"
+        >
+    </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button style="margin-left: auto;" class="mat-raised-button mat-primary" (click)="saveChanges()">Save</button>
+</mat-dialog-actions>

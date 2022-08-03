@@ -54,5 +54,21 @@ namespace ConcreteNg.Controllers
             var items = employerService.GetEmployerPartners();
             return Ok(items);
         }
+
+        [HttpPost]
+        [Route("partners")]
+        public async Task<ActionResult<TableResponse>> GetEmployerPartnersTable([FromBody] TableRequest tableRequest)
+        {
+            var items = employerService.GetEmployerPartnersTable(tableRequest);
+            return Ok(items);
+        }
+
+        [HttpPost]
+        [Route("partner")]
+        public async Task<ActionResult<int>> AddEditPartner([FromBody] Partner partner)
+        {
+            var result = employerService.AddEditPartner(partner);
+            return Ok(result);
+        }
     }
 }
