@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ProjectStatusEnum } from '../../enums/project-status';
 import { Project } from '../../models/project';
 import { ProjectService } from '../projects/services/project.service';
 
@@ -10,6 +11,8 @@ import { ProjectService } from '../projects/services/project.service';
 export class EmployerOverviewComponent implements OnInit {
 
     public activeProjects: Project[];
+    //fix this
+    public toDoProjects: Project[];
     public numberOfActiveProjects: number;
     public overdueProjects: number;
     public overrunProjects: number;
@@ -17,7 +20,8 @@ export class EmployerOverviewComponent implements OnInit {
 
     ngOnInit(): void {
         this.projectService.getBaseProjects().subscribe((data: Project[]) => {
-            this.activeProjects = data;
+            this.activeProjects = data.filter(x => x.projectStatus === ProjectStatusEnum['In Progress']);
+            this.toDoProjects = data.filter(x => x.projectStatus === ProjectStatusEnum['To Do']);
             this.numberOfActiveProjects = data.length;
             let today = new Date();
             this.overdueProjects = data.filter(x => x.expectedEndDate < today).length;

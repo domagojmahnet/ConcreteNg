@@ -7,6 +7,7 @@ import { AccountService } from '../../../account.service';
 import { DiaryItem } from '../../../models/diary-item';
 import { Project } from '../../../models/project';
 import { TableRequest } from '../../../models/table-request';
+import { User } from '../../../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -40,5 +41,13 @@ export class ProjectService {
 
     addDIaryItem(diaryItem: DiaryItem, projectId: number){
         return this.http.post<any>(this.projectApiUrl + "/diaryItem/" + projectId, diaryItem);
+    }
+
+    AddEditProject(project: Project, managerId: number){
+        return this.http.post<any>(this.projectApiUrl + "/project/" + managerId, project);
+    }
+
+    getEligibleManagers(){
+        return this.http.get<User[]>(this.projectApiUrl + "/managers");
     }
 }

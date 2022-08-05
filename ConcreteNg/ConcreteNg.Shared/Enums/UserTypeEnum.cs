@@ -2,9 +2,8 @@
 {
     public enum UserTypeEnum
     {
-        Worker = 1,
-        Manager = 2,
-        Administrator = 3,
-        Buyer = 4,
+        Manager = 0,
+        Administrator = 1,
+        Buyer = 2,
     }
 }

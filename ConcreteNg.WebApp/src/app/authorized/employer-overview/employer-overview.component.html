@@ -95,7 +95,7 @@
     <h2>To Do Projects</h2>
     <mat-divider></mat-divider>
     <div class="projects-wrapper" fxFlexAlign="stretch">
-        <ng-container *ngFor="let project of activeProjects">
+        <ng-container *ngFor="let project of toDoProjects">
             <app-project-card [projectData]="project">
             </app-project-card>
         </ng-container>

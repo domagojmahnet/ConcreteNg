@@ -18,7 +18,6 @@ namespace ConcreteNg.Repositories.TableRequestHelpers
             {
                 case nameof(Project):
                     return (IFilterTemplate<T>) new ProjectFilterSort();
-                    break;
                 case nameof(PricingListItem):
                     return (IFilterTemplate<T>) new PricingListItemFilterSort();
                 case nameof(DiaryItem):

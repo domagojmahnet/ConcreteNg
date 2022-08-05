@@ -1,0 +1,40 @@
+<h2 mat-dialog-title>Add/Edit User</h2>
+
+<mat-dialog-content
+    [formGroup]="form">
+  
+    <mat-form-field appearance="fill">
+        <mat-label>First Name</mat-label>
+        <input 
+            matInput
+            formControlName="firstName"
+        >
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>Last Name</mat-label>
+        <input matInput formControlName="lastName">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Username</mat-label>
+        <input matInput formControlName="username">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>Password</mat-label>
+        <input matInput formControlName="password" type="password">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>Phone</mat-label>
+        <input matInput formControlName="phone">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>Type</mat-label>
+        <mat-select formControlName="userType">
+            <mat-option *ngFor="let item of options" [value]="item">{{typeEnum[item]}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button style="margin-left: auto;" class="mat-raised-button mat-primary" (click)="saveChanges()">Save</button>
+</mat-dialog-actions>
+

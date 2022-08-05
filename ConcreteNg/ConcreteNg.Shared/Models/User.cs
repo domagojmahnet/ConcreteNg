@@ -12,19 +12,19 @@ namespace ConcreteNg.Shared.Models
         public string Password { get; set; }
         public string Phone { get; set; }
         public DateTimeOffset? HireDate { get; set; }
-        public DateTimeOffset? DepartureDate { get; set; }
         public UserTypeEnum UserType { get; set; }
         [JsonIgnore]
-        public Employer Employer { get; set; }
+        public Employer? Employer { get; set; }
         [JsonIgnore]
         public ICollection<Project>? Projects { get; set; }
+        public bool IsActive { get; set; }
 
         public User()
         {
                
         }
 
-        public User(string firstName, string lastName, string username, string password, string phone, DateTimeOffset? hireDate, DateTimeOffset? departureDate, UserTypeEnum userType, Employer employer)
+        public User(string firstName, string lastName, string username, string password, string phone, DateTimeOffset? hireDate, UserTypeEnum userType, Employer employer, bool isActive)
         {
             FirstName = firstName;
             LastName = lastName;
@@ -32,9 +32,9 @@ namespace ConcreteNg.Shared.Models
             Password = password;
             Phone = phone;
             HireDate = hireDate;
-            DepartureDate = departureDate;
             UserType = userType;
             Employer = employer;
+            IsActive = isActive;
         }
     }
 }

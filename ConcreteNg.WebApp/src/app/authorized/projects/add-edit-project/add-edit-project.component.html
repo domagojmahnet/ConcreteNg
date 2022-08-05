@@ -1,0 +1,43 @@
+<h2 mat-dialog-title>Add/Edit Project</h2>
+
+<mat-dialog-content
+    [formGroup]="form">
+  
+    <mat-form-field appearance="fill">
+        <mat-label>Name</mat-label>
+        <input 
+            matInput
+            formControlName="name"
+        >
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>Expected start date</mat-label>
+        <input matInput formControlName="expectedStartDate" [matDatepicker]="picker1">
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Expected end date</mat-label>
+        <input matInput formControlName="expectedEndDate" [matDatepicker]="picker2">
+        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>Expected cost</mat-label>
+        <input matInput formControlName="expectedCost">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>Manager</mat-label>
+        <mat-select formControlName="pricingListItem" [compareWith]="compareUserObjects">
+            <mat-form-field appearance="fill">
+                <mat-label>Search managers</mat-label>
+                <input matInput (keyup)="onKey($any($event.target).value)">
+            </mat-form-field>
+            <mat-option *ngFor="let item of searchedEligibleManagers" [value]="item.userId">{{item.firstName + " " + item.lastName}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button style="margin-left: auto;" class="mat-raised-button mat-primary" (click)="saveChanges()">Save</button>
+</mat-dialog-actions>

@@ -8,6 +8,7 @@ import { ProjectDetailsComponent } from './authorized/projects/project-details/p
 import { PartnerListComponent } from './authorized/partners/partner-list/partner-list.component';
 import { ProjectListComponent } from './authorized/projects/project-list/project-list.component';
 import { PricingListComponent } from './authorized/pricing-list/pricing-list.component';
+import { UserListComponent } from './authorized/users/user-list/user-list.component';
 
 
 const routes: Routes = [
@@ -24,6 +25,7 @@ const routes: Routes = [
             { path: 'pricing-list', component: PricingListComponent },
             { path: 'partners', component: PartnerListComponent },
             { path: 'projects', component: ProjectListComponent },
+            { path: 'employees', component: UserListComponent}
         ]
         },
     { path: '**', component: LandingPageComponent },

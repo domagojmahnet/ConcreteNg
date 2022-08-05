@@ -16,5 +16,21 @@ namespace ConcreteNg.Shared.Models
         public float CurrentCost { get; set; }
         public ProjectStatusEnum ProjectStatus { get; set; }
         public ICollection<User>? Users { get; set; }
+
+        public Project()
+        {
+
+        }
+
+        public Project(Employer? employer, string name, DateTimeOffset expectedStartDate, DateTimeOffset expectedEndDate, float expectedCost, ProjectStatusEnum projectStatus, float currentCost)
+        {
+            Employer = employer;
+            Name = name;
+            ExpectedStartDate = expectedStartDate;
+            ExpectedEndDate = expectedEndDate;
+            ExpectedCost = expectedCost;
+            ProjectStatus = projectStatus;
+            CurrentCost = currentCost;
+        }
     }
 }

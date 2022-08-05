@@ -56,5 +56,20 @@ namespace ConcreteNg.Services.Services
             }
             throw new Exception();
         }
+
+        public int AddProject(Project project)
+        {
+            if (project.ProjectId == -1)
+            {
+                Employer employer = unitOfWork.employerRepository.Read(int.Parse(httpContextAccessor.HttpContext.User.FindFirst("EmployerID").Value));
+                unitOfWork.projectRepository.Create(new Project(employer, project.Name, project.ExpectedStartDate, project.ExpectedEndDate, project.ExpectedCost, Shared.Enums.ProjectStatusEnum.ToDo, 0));
+            }
+            return unitOfWork.Complete();
+        }
+
+        public IEnumerable<User> GetEligibleManagers()
+        {
+            return unitOfWork.userRepository.getEligibleManagers(int.Parse(httpContextAccessor.HttpContext.User.FindFirst("EmployerID").Value), int.Parse(httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value));
+        }
     }
 }

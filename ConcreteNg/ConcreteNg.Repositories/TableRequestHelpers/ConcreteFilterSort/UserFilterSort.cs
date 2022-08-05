@@ -26,9 +26,6 @@ namespace ConcreteNg.Repositories.TableRequestHelpers.ConcreteFilterSort
                 case UserFilterEnum.HireDate:
                     query = query.Where(x => x.HireDate.ToString().Contains(filter.FilterQuery));
                     break;
-                case UserFilterEnum.DepartureDate:
-                    query = query.Where(x => x.DepartureDate.ToString().Contains(filter.FilterQuery));
-                    break;
                 case UserFilterEnum.UserType:
                     query = query.Where(x => x.UserType.ToString().Contains(filter.FilterQuery));
                     break;
@@ -52,8 +49,6 @@ namespace ConcreteNg.Repositories.TableRequestHelpers.ConcreteFilterSort
                     return x.HireDate;
                 case "userType":
                     return x.UserType;
-                case "departureDate":
-                    return x.DepartureDate;
                 default:
                     return x.FirstName;
             }

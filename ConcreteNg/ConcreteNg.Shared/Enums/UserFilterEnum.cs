@@ -13,7 +13,6 @@ namespace ConcreteNg.Shared.Enums
         Username = 2,
         Phone = 3,
         HireDate = 4,
-        DepartureDate = 5,
-        UserType = 6,
+        UserType = 5,
     }
 }

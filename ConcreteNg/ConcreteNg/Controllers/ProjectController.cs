@@ -58,5 +58,20 @@ namespace ConcreteNg.Controllers
             return Ok(result);
         }
 
+        [HttpPost]
+        [Route("project")]
+        public async Task<ActionResult<DiaryItem>> AddProject([FromBody] Project project)
+        {
+            var result = projectService.AddProject(project);
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("managers")]
+        public async Task<ActionResult<DiaryItem>> GetEligibleManagers()
+        {
+            var result = projectService.GetEligibleManagers();
+            return Ok(result);
+        }
     }
 }

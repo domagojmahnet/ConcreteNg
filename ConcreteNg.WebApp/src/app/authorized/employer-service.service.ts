@@ -4,6 +4,7 @@ import { environment } from '../../environments/environment';
 import { Partner } from '../models/partner';
 import { PricingListItem } from '../models/pricing-list-item';
 import { TableRequest } from '../models/table-request';
+import { User } from '../models/user';
 
 @Injectable({
     providedIn: 'root'
@@ -11,6 +12,7 @@ import { TableRequest } from '../models/table-request';
 export class EmployerService {
 
     employerApiUrl: string = environment.BASE_URL+ "api/Employer";
+    userApiUrl: string = environment.BASE_URL + "api/User";
 
     constructor(
         private http: HttpClient,
@@ -46,5 +48,13 @@ export class EmployerService {
 
     deletePartner(id: number){
         return this.http.delete<any>(this.employerApiUrl + "/partner/" + id);
+    }
+
+    getUsersTable(tableRequest: TableRequest){
+        return this.http.post<any>(this.userApiUrl + "/users", tableRequest);
+    }
+
+    createOrUpdateUser(user: User){
+        return this.http.post<any>(this.userApiUrl + "/user", user);
     }
 }

@@ -3,14 +3,12 @@ import { User } from "./user";
 
 export interface Project {
     projectId: number;
-    employer: string;
     name: string;
-    epectedStartDate: Date;
+    expectedStartDate: Date;
     expectedEndDate: Date;
-    startDate: Date;
-    endDate: Date;
+    startDate?: Date;
+    endDate?: Date;
     expectedCost: number;
     currentCost: number;
     projectStatus: ProjectStatusEnum;
-    users: User[];
 }

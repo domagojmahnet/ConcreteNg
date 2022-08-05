@@ -1,63 +1,73 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { DialogPosition, MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Project } from '../../../models/project';
-import { ProjectService } from '../services/project.service';
+import { UserListFilterEnum } from '../../../enums/user-list-filter-enum';
+import { UserTypeEnum } from '../../../enums/user-type';
 import { BaseFilter, TableRequest } from '../../../models/table-request';
 import { TableResponse } from '../../../models/table-response';
-import { MatSort, Sort } from '@angular/material/sort';
-import { ProjectStatusEnum } from '../../../enums/project-status';
-import { ProjectFilterColumnsEnum } from '../../../enums/project-filter-columns-enum';
-import { DialogPosition, MatDialog } from '@angular/material/dialog';
-import { AddEditProjectComponent } from '../add-edit-project/add-edit-project.component';
+import { User } from '../../../models/user';
+import { EmployerService } from '../../employer-service.service';
+import { AddEditUserComponent } from '../add-edit-user/add-edit-user.component';
 
 @Component({
-  selector: 'app-project-list',
-  templateUrl: './project-list.component.html',
-  styleUrls: ['./project-list.component.less']
+  selector: 'app-user-list',
+  templateUrl: './user-list.component.html',
+  styleUrls: ['./user-list.component.less']
 })
-export class ProjectListComponent implements OnInit {
+export class UserListComponent implements OnInit {
 
     isLoading: boolean;
-    dataSource: MatTableDataSource<Project> = new MatTableDataSource();
+    dataSource: MatTableDataSource<User> = new MatTableDataSource();
+    
     pageSize: number;
     currentPage: number;
     sortByColumn: string;
     isAscending: boolean;
-    projectStatusEnum = ProjectStatusEnum;
-    projectFilterColumnsEnum = ProjectFilterColumnsEnum;
+    userListFilterColumnsEnum = UserListFilterEnum;
+
+    get typeEnum(): typeof UserTypeEnum {
+        return UserTypeEnum; 
+    }
+    
 
     displayedColumns: string[] = [
-        'projectId', 
-        'name',
-        'expectedEndDate', 
-        'expectedCost',
-        'projectStatus'
+        "firstName",
+        "lastName",
+        "username",
+        "phone",
+        "hireDate",
+        "userType",
+        "settings"
     ];
-    
+
     displayedColumnFilters: string[] = [
-        'projectId-filter',
-        'name-filter',
-        'expectedEndDate-filter',
-        'expectedCost-filter',
-        'projectStatus-filter'
+        "firstName-filter",
+        "lastName-filter",
+        "username-filter",
+        "phone-filter",
+        "hireDate-filter",
+        "userType-filter",
+        "settings-placeholder"
     ];
 
     filters: BaseFilter[] = [
-        {columnName: ProjectFilterColumnsEnum.ProjectIdFilter, filterQuery: ""},
-        {columnName: ProjectFilterColumnsEnum.NameFilter, filterQuery: ""},
-        {columnName: ProjectFilterColumnsEnum.ExpectedEndDateFilter, filterQuery: ""},
-        {columnName: ProjectFilterColumnsEnum.ExpectedCostFilter, filterQuery: ""},
-        {columnName: ProjectFilterColumnsEnum.ProjectStatusFilter, filterQuery: ""}
+        {columnName: UserListFilterEnum.FirstName, filterQuery: ""},
+        {columnName: UserListFilterEnum.LastName, filterQuery: ""},
+        {columnName: UserListFilterEnum.Username, filterQuery: ""},
+        {columnName: UserListFilterEnum.Phone, filterQuery: ""},
+        {columnName: UserListFilterEnum.HireDate, filterQuery: ""},
+        {columnName: UserListFilterEnum.UserType, filterQuery: ""},
     ];
 
-    defaultOrderColumn: string = "name";
+    defaultOrderColumn: string = "pricingListItemName";
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
 
     constructor(
-        private projectService: ProjectService,
+        private employerService: EmployerService,
         public dialog: MatDialog) { }
 
     ngOnInit(): void {
@@ -87,8 +97,9 @@ export class ProjectListComponent implements OnInit {
             filters: this.filters
         }
 
-        this.projectService.getProjectsTable(tableRequest).subscribe((response: TableResponse) => {
-            this.dataSource.data = response.data
+        this.employerService.getUsersTable(tableRequest).subscribe((response: TableResponse) => {
+            this.dataSource.data = response.data;
+            debugger
             setTimeout(() => {
                 this.paginator.pageIndex = this.currentPage;
                 this.paginator.length = response.totalRows;
@@ -114,25 +125,24 @@ export class ProjectListComponent implements OnInit {
         this.loadData();
     }
 
-    keyup(event: KeyboardEvent, columnName: ProjectFilterColumnsEnum) {
+    keyup(event: KeyboardEvent, columnName: UserListFilterEnum) {
         let filter = this.filters.find(f => f.columnName === columnName);
         if (filter) {
             filter.filterQuery = (event.target as HTMLInputElement).value;
         }
-        debugger;
         this.loadData();
     }
 
-    OpenAddEditItemDialog(project?: Project){
+    OpenAddEditItemDialog(user?: User){
         const dialogPosition: DialogPosition = {
             right: 0 + 'px',
           }
           
-        const dialogRef = this.dialog.open(AddEditProjectComponent, {
+        const dialogRef = this.dialog.open(AddEditUserComponent, {
             width: '450px',
             height: '100%',
             position: dialogPosition,
-            data: {project: project}
+            data: {user: user}
         });
 
         dialogRef.afterClosed().subscribe(result => {
@@ -140,6 +150,12 @@ export class ProjectListComponent implements OnInit {
                 this.loadData();
             }
         });
+    }
+
+    deleteItem(id: number){
+        this.employerService.deletePricingListItem(id).subscribe(() => {
+            this.loadData();
+        })
     }
 
 }

@@ -29,7 +29,7 @@ namespace ConcreteNg.Services.Services
             {
                 Employer employer = unitOfWork.employerRepository.Read(int.Parse(httpContextAccessor.HttpContext.User.FindFirst("EmployerID").Value));
                 unitOfWork.userRepository.Create(new User(
-                    user.FirstName, user.LastName, user.Username, user.Password, user.Phone, user.HireDate, user.DepartureDate, user.UserType, employer)
+                    user.FirstName, user.LastName, user.Username, user.Password, user.Phone, DateTime.UtcNow, user.UserType, employer, true)
                 );
             }
             else
@@ -41,7 +41,6 @@ namespace ConcreteNg.Services.Services
                 userToUpdate.Password = user.Password;
                 userToUpdate.Phone = user.Phone;
                 userToUpdate.HireDate = user.HireDate;
-                userToUpdate.DepartureDate = user.DepartureDate;
                 userToUpdate.UserType = user.UserType;
                 unitOfWork.userRepository.Update(userToUpdate);
             }

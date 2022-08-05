@@ -4,6 +4,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { PricingListFilterColumnsEnum } from '../../enums/pricing-list-filter-columns-enum';
+import { UserListFilterEnum } from '../../enums/user-list-filter-enum';
 import { PricingListItem } from '../../models/pricing-list-item';
 import { BaseFilter, TableRequest } from '../../models/table-request';
 import { TableResponse } from '../../models/table-response';

@@ -11,5 +11,6 @@ namespace ConcreteNg.Repositories.Interfaces
     {
         User GetByUsernameAndPassword(LoginModel loginModel);
         TableResponse GetEmployedUsers(TableRequest tableRequest, int employerId);
+        IEnumerable<User> getEligibleManagers(int employerId, int userId);
     }
 }
