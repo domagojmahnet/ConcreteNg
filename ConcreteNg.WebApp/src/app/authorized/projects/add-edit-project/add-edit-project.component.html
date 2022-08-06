@@ -29,7 +29,7 @@
     </mat-form-field>
     <mat-form-field appearance="fill">
         <mat-label>Manager</mat-label>
-        <mat-select formControlName="pricingListItem" [compareWith]="compareUserObjects">
+        <mat-select formControlName="manager" [compareWith]="compareUserObjects">
             <mat-form-field appearance="fill">
                 <mat-label>Search managers</mat-label>
                 <input matInput (keyup)="onKey($any($event.target).value)">

@@ -17,5 +17,10 @@
                 <app-diary [(project)]="project"></app-diary>
             </ng-template>
         </mat-tab>
+        <mat-tab label="Expenses">
+            <ng-template matTabContent>
+                <app-expenses [(project)]="project"></app-expenses>
+            </ng-template>
+        </mat-tab>
     </mat-tab-group>
 </mat-card>

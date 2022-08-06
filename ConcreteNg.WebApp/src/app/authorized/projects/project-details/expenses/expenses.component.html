@@ -1,0 +1,50 @@
+<mat-card>
+    <mat-expansion-panel *ngFor="let item of costOverviews">
+        <mat-expansion-panel-header>
+            <mat-panel-title style="max-width: 200px;">
+                {{item.taskName}}
+            </mat-panel-title>
+            <mat-panel-description style="justify-content: center;">
+                <a>Total Cost: {{item.totalCost}}</a>
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+        <mat-divider></mat-divider>
+        <ng-container matExpansionPanelContent>
+            <div class="expense-item-container" style="font-size: large;">
+                <a>Total {{item.unitOfMeasurement}} done:</a>
+                <div class="right-content-container">
+                    {{item.totalQuantity}}
+                </div>
+            </div>
+            <mat-divider></mat-divider>
+            <div class="expense-item-container" style="font-size: large;">
+                <a>Total Labour Cost:</a>
+                <div class="right-content-container">
+                    {{item.totalLabourCost}}
+                </div>
+            </div>
+            <mat-divider></mat-divider>
+            <div class="expense-item-container" style="font-size: large;">
+                <a>Total Material Cost:</a>
+                <div class="right-content-container">
+                    {{item.totalmaterialCost}}
+                </div>
+            </div>
+            <mat-divider></mat-divider>
+            <ng-container *ngFor="let partnerCost of item.partnerCosts">
+                <div class="expense-item-container" style="font-size: large;">
+                    <a> {{partnerCost.partnerName}}:</a>
+                    <div class="right-content-container" color="primary">
+                        {{partnerCost.totalCost}}
+                    </div>
+                </div>
+                <mat-divider></mat-divider>
+            </ng-container>
+        </ng-container>
+    </mat-expansion-panel>
+    <div class="expense-item-container" style="font-size: large;">
+        <div class="right-content-container">
+            <a>Total Cost: {{totalCost}}</a> 
+        </div>
+    </div>
+</mat-card>

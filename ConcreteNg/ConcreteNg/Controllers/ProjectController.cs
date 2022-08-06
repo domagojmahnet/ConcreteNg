@@ -7,7 +7,6 @@ using System.Text.Json;
 
 namespace ConcreteNg.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ProjectController : ControllerBase
@@ -59,10 +58,10 @@ namespace ConcreteNg.Controllers
         }
 
         [HttpPost]
-        [Route("project")]
-        public async Task<ActionResult<DiaryItem>> AddProject([FromBody] Project project)
+        [Route("project/{managerId}")]
+        public async Task<ActionResult<DiaryItem>> AddProject([FromBody] Project project, int managerId)
         {
-            var result = projectService.AddProject(project);
+            var result = projectService.AddProject(project, managerId);
             return Ok(result);
         }
 
@@ -71,6 +70,14 @@ namespace ConcreteNg.Controllers
         public async Task<ActionResult<DiaryItem>> GetEligibleManagers()
         {
             var result = projectService.GetEligibleManagers();
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("costOverview/{projectId}")]
+        public async Task<ActionResult<CostOverview>> GetCostOverview(int projectId)
+        {
+            var result = projectService.GetCostOverview(projectId);
             return Ok(result);
         }
     }

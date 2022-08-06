@@ -57,19 +57,24 @@ namespace ConcreteNg.Services.Services
             throw new Exception();
         }
 
-        public int AddProject(Project project)
+        public int AddProject(Project project, int managerId)
         {
-            if (project.ProjectId == -1)
-            {
-                Employer employer = unitOfWork.employerRepository.Read(int.Parse(httpContextAccessor.HttpContext.User.FindFirst("EmployerID").Value));
-                unitOfWork.projectRepository.Create(new Project(employer, project.Name, project.ExpectedStartDate, project.ExpectedEndDate, project.ExpectedCost, Shared.Enums.ProjectStatusEnum.ToDo, 0));
-            }
+            Employer employer = unitOfWork.employerRepository.Read(int.Parse(httpContextAccessor.HttpContext.User.FindFirst("EmployerID").Value));
+            var projectToAdd = new Project(employer, project.Name, project.ExpectedStartDate, project.ExpectedEndDate, project.ExpectedCost, Shared.Enums.ProjectStatusEnum.ToDo, 0);
+            var manager = unitOfWork.userRepository.Read(managerId);
+            projectToAdd.Users = new List<User>() { manager};
+            unitOfWork.projectRepository.Create(projectToAdd);
             return unitOfWork.Complete();
         }
 
         public IEnumerable<User> GetEligibleManagers()
         {
             return unitOfWork.userRepository.getEligibleManagers(int.Parse(httpContextAccessor.HttpContext.User.FindFirst("EmployerID").Value), int.Parse(httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value));
+        }
+
+        public IEnumerable<CostOverview> GetCostOverview(int projectId)
+        {
+            return unitOfWork.projectRepository.GetCostOverview(projectId);
         }
     }
 }

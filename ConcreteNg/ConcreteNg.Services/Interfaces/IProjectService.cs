@@ -14,7 +14,8 @@ namespace ConcreteNg.Services.Interfaces
         TableResponse GetProjects(TableRequest tableRequest);
         TableResponse GetDiaryItems(TableRequest tableRequest, int projectId);
         DiaryItem AddDiaryItem(DiaryItem diaryItem, int projectId);
-        int AddProject(Project project);
+        int AddProject(Project project, int managerId);
         IEnumerable<User> GetEligibleManagers();
+        IEnumerable<CostOverview> GetCostOverview(int projectId);
     }
 }

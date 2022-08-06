@@ -24,7 +24,8 @@ import { AddDiaryItemComponent } from './projects/project-details/diary/add-diar
 import { AddEditPartnerComponent } from './partners/partner-list/add-edit-partner/add-edit-partner.component';
 import { UserListComponent } from './users/user-list/user-list.component';
 import { AddEditUserComponent } from './users/add-edit-user/add-edit-user.component';
-import { AddEditProjectComponent } from './projects/add-edit-project/add-edit-project.component'
+import { AddEditProjectComponent } from './projects/add-edit-project/add-edit-project.component';
+import { ExpensesComponent } from './projects/project-details/expenses/expenses.component'
 
 @NgModule({
     declarations: [
@@ -50,7 +51,8 @@ import { AddEditProjectComponent } from './projects/add-edit-project/add-edit-pr
         AddEditPartnerComponent,
         UserListComponent,
         AddEditUserComponent,
-        AddEditProjectComponent
+        AddEditProjectComponent,
+        ExpensesComponent
     ],
     imports: [
         CommonModule,

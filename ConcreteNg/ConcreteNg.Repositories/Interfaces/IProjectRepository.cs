@@ -11,5 +11,6 @@ namespace ConcreteNg.Repositories.Interfaces
     {
         List<Project> GetActiveProjects(int employerID);
         TableResponse GetProjects(TableRequest tableRequest, int employerID);
+        IEnumerable<CostOverview> GetCostOverview(int projectId);
     }
 }

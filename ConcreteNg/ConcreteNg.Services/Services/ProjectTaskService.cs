@@ -129,7 +129,7 @@ namespace ConcreteNg.Services.Services
             }
 
             var result = expenseToAdd.Build();
-
+            result.ProjectTaskItem = item;
             unitOfWork.expenseRepository.Create(result);
             if (unitOfWork.Complete() == 1)
             {

@@ -48,7 +48,8 @@ export class AddEditProjectComponent implements OnInit {
             projectStatus: this.data.project === undefined ? ProjectStatusEnum['To Do'] : this.data.project.projectStatus,
             currentCost: 0
         }
-        this.projectService.AddEditProject(project, this.form.get("manager")?.value,).subscribe(() => {
+        debugger;
+        this.projectService.AddEditProject(project, this.form.get("manager")?.value).subscribe(() => {
             this.dialogRef.close(true);
         })
     }

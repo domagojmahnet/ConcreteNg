@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from '../../../../environments/environment';
 import { AccountService } from '../../../account.service';
+import { CostOverview } from '../../../models/cost-everview';
 import { DiaryItem } from '../../../models/diary-item';
 import { Project } from '../../../models/project';
 import { TableRequest } from '../../../models/table-request';
@@ -49,5 +50,9 @@ export class ProjectService {
 
     getEligibleManagers(){
         return this.http.get<User[]>(this.projectApiUrl + "/managers");
+    }
+
+    getCostOverview(projectId: number){
+        return this.http.get<CostOverview[]>(this.projectApiUrl + "/costOverview/" + projectId);
     }
 }
