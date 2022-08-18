@@ -12,14 +12,12 @@
         <app-project-task-item *ngFor="let taskItem of task.projectTaskItems; let i = index" 
             [projectTaskItem]="task.projectTaskItems[i]"
             [projectTaskId]="task.projectTaskId"
-            (changed)="onChange($event)"
-            (deleted)="onDelete($event)"
         >
         </app-project-task-item>
     </ng-container>
     <div class="fab-container" *ngIf="userRole !== userTypeEnum.Buyer">
         <button mat-mini-fab class="mat-fab-button" color="primary"><mat-icon  matTooltip="Add item" (click)="OpenAddEditItemDialog()">add</mat-icon></button>
-        <button mat-mini-fab class="mat-fab-button" color="primary"><mat-icon  matTooltip="Edit task" (click)="emitChange()">settings</mat-icon></button>
+        <button mat-mini-fab class="mat-fab-button" color="primary"><mat-icon  matTooltip="Edit task" >settings</mat-icon></button>
         <button mat-mini-fab class="mat-fab-button" color="primary"><mat-icon  matTooltip="Delete task" (click)="deleteProjectTask()">delete</mat-icon></button>
     </div>
 </mat-expansion-panel>

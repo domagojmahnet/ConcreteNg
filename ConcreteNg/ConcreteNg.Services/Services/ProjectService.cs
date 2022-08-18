@@ -55,7 +55,9 @@ namespace ConcreteNg.Services.Services
 
         public Project GetProject(int id)
         {
-            return unitOfWork.projectRepository.Read(id);
+            var project = unitOfWork.projectRepository.Read(id);
+            project.CurrentCost = (float)unitOfWork.expenseRepository.FindAll().Where(x => x.ProjectTaskItem.ProjectTask.Project.ProjectId == id).Select(x => x.TotalCost).Sum();
+            return project;
         }
 
         public TableResponse GetDiaryItems(TableRequest tableRequest, int projectId)

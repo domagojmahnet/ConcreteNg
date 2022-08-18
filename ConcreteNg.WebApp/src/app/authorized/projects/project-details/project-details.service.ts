@@ -84,7 +84,15 @@ export class ProjectDetailsService {
 
     addExpense(expense: Expense, taskItemId: number, pricingListItemId: number, partnerId = null){
         return this.http.post<Expense>(this.projectTaskApiUrl + "/expense/" + taskItemId + "/" + pricingListItemId + (partnerId !== null ? "/" + partnerId : ""), expense).subscribe((res) =>{
-
+            this.projectTasks.forEach(task => {
+                let index = task.projectTaskItems.findIndex(x =>x.projectTaskItemId == res.projectTaskItem?.projectTaskItemId);
+                if(index !== -1){
+                    let totalCost = task.projectTaskItems[index].expenditure ?? 0;
+                    if(res.totalCost !== undefined){
+                        task.projectTaskItems[index].expenditure = totalCost + res.totalCost;
+                    }
+                }
+            });
         })
     }
 }

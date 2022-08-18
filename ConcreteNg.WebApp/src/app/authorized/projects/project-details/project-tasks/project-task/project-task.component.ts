@@ -30,31 +30,18 @@ export class ProjectTaskComponent implements OnInit, OnChanges {
 
     ngOnInit(): void {
         this.calculateProgress();
-        this.userRole = this.accountService.userValue?.userType
+        this.projectDetailsService.taskChange.subscribe(() => {
+            this.calculateProgress();
+        })
     }
 
     ngOnChanges(changes: SimpleChanges): void {
         this.calculateProgress();
     }
 
-    onChange(item: ProjectTaskItem){
-        let index = this.task.projectTaskItems.findIndex(x => x.projectTaskItemId === item.projectTaskItemId)
-        this.task.projectTaskItems[index] = item;
-        this.calculateProgress();
-    }
-
-    onDelete(item: ProjectTaskItem){
-        let index = this.task.projectTaskItems.findIndex(x => x.projectTaskItemId === item.projectTaskItemId)
-        this.task.projectTaskItems.splice(index, 1);
-        this.calculateProgress();
-    }
-
+    
     calculateProgress(){
         this.progressPercentage = Math.floor((this.task.projectTaskItems.filter(p => p.taskItemStatus === ProjectStatusEnum.Completed).length / this.task.projectTaskItems.length) * 100);
-    }
-
-    emitChange(){
-        this.taskChange.emit(this.task);
     }
 
     deleteProjectTask(){

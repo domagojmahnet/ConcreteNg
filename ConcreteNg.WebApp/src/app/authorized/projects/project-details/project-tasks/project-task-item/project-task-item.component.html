@@ -10,10 +10,20 @@
             <mat-icon class="material-icons color_green">check_circle_outline</mat-icon>
         </ng-container>
     </ng-container>
-    <a style="font-size: large;">{{projectTaskItem.pricingListItem.pricingListItemName}}</a>
+    <div>
+        <a style="font-size: large;">{{projectTaskItem.pricingListItem.pricingListItemName}}</a>
+    </div>
+    <div class="content">
+        <a style="font-size: large;">Expenditure: {{projectTaskItem.expenditure}}</a>
+    </div>
+    <div class="content" *ngIf="projectTaskItem.taskItemStatus !== projectStatusEnum['To Do']">
+        <a>Started: {{projectTaskItem.startTime | date:'longDate'}}</a>
+    </div>
+    <div class="content" *ngIf="projectTaskItem.taskItemStatus === projectStatusEnum['Completed']">
+        <a>Finished: {{projectTaskItem.finishTime | date:'longDate'}}</a>
+    </div>
+        
     <div class="right-content-container">
-        <a *ngIf="projectTaskItem.taskItemStatus !== projectStatusEnum['To Do']">Started: {{projectTaskItem.startTime | date:'longDate'}}</a>
-        <a *ngIf="projectTaskItem.taskItemStatus === projectStatusEnum['Completed']">Finished: {{projectTaskItem.finishTime | date:'longDate'}}</a>
         <ng-container [ngSwitch]="projectTaskItem.taskItemStatus" *ngIf="userRole !== userTypeEnum.Buyer">
             <ng-container *ngSwitchCase="projectStatusEnum['In Progress']">
                 <button mat-flat-button class="mat-flat-button" color="primary" (click)="updateTaskStatus()">Finish Task</button>

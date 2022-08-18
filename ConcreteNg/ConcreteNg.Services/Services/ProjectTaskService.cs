@@ -25,7 +25,15 @@ namespace ConcreteNg.Services.Services
 
         public IEnumerable<ProjectTask> GetProjectTasks(int projectId)
         {
-            return unitOfWork.projectTaskRepository.GetProjectTasks(projectId);
+            var tasks = unitOfWork.projectTaskRepository.GetProjectTasks(projectId).ToList();
+            foreach (var task in tasks)
+            {
+                foreach(var item in task.ProjectTaskItems)
+                {
+                    item.Expenditure = unitOfWork.expenseRepository.FindAll().Where(x => x.ProjectTaskItem.ProjectTaskItemId == item.ProjectTaskItemId).Select(x => x.TotalCost).Sum();
+                }
+            }
+            return tasks;
         }
 
         public bool UpdateTaskItem(ProjectTaskItem projectTaskItem)

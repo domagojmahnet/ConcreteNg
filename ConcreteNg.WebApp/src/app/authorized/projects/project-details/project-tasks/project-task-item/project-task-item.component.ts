@@ -17,8 +17,6 @@ export class ProjectTaskItemComponent implements OnInit {
 
     @Input() projectTaskItem: ProjectTaskItem
     @Input() projectTaskId: number;
-    @Output() changed = new EventEmitter<ProjectTaskItem>();
-    @Output() deleted = new EventEmitter<ProjectTaskItem>();
     projectStatusEnum = ProjectStatusEnum;
     userRole: UserTypeEnum | undefined;
 
@@ -53,12 +51,13 @@ export class ProjectTaskItemComponent implements OnInit {
         }
         this.projectDetailsService.updateProjectTaskItem(updatedProjectTaskItem).subscribe((data) => {
             this.projectTaskItem = updatedProjectTaskItem;
-            this.changed.emit(this.projectTaskItem);
+            this.projectDetailsService.taskChange.emit();
         })
     }
 
     deleteTask(){
         this.projectDetailsService.deleteProjectTaskItem(this.projectTaskItem.projectTaskItemId, this.projectTaskId);
+        this.projectDetailsService.taskChange.emit();
     }
 
     OpenAddEditItemDialog(){
