@@ -14,7 +14,7 @@
     <div class="right-content-container">
         <a *ngIf="projectTaskItem.taskItemStatus !== projectStatusEnum['To Do']">Started: {{projectTaskItem.startTime | date:'longDate'}}</a>
         <a *ngIf="projectTaskItem.taskItemStatus === projectStatusEnum['Completed']">Finished: {{projectTaskItem.finishTime | date:'longDate'}}</a>
-        <ng-container [ngSwitch]="projectTaskItem.taskItemStatus">
+        <ng-container [ngSwitch]="projectTaskItem.taskItemStatus" *ngIf="userRole !== userTypeEnum.Buyer">
             <ng-container *ngSwitchCase="projectStatusEnum['In Progress']">
                 <button mat-flat-button class="mat-flat-button" color="primary" (click)="updateTaskStatus()">Finish Task</button>
                 <mat-icon (click)="OpenAddExpenseDialog()" matTooltip="Add expense">attach_money</mat-icon>
@@ -26,7 +26,7 @@
                 <button mat-flat-button class="mat-flat-button" color="primary" (click)="updateTaskStatus()">Restart Task</button>
             </ng-container>
         </ng-container>
-        <mat-icon (click)="OpenAddEditItemDialog()" matTooltip="Edit item">settings</mat-icon>
-        <mat-icon (click)="deleteTask()" matTooltip="Delete item">delete</mat-icon>
+        <mat-icon *ngIf="userRole !== userTypeEnum.Buyer" (click)="OpenAddEditItemDialog()" matTooltip="Edit item">settings</mat-icon>
+        <mat-icon *ngIf="userRole !== userTypeEnum.Buyer" (click)="deleteTask()" matTooltip="Delete item">delete</mat-icon>
     </div>
 </div>

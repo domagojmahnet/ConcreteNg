@@ -24,34 +24,5 @@ namespace ConcreteNg.Repositories.Repositories
         {
             return dataContext.Users.Include(x => x.Employer).FirstOrDefault(u => u.Username == loginModel.Username && u.Password == loginModel.Password);
         }
-
-        public IEnumerable<User> getEligibleManagers(int employerId, int userId)
-        {
-            User user = dataContext.Users.FirstOrDefault(x => x.UserId == userId);
-            if(user.UserType == UserTypeEnum.Administrator)
-            {
-                List<User> users = dataContext.Users.Where(x => x.Employer.EmployerId == employerId && x.UserType == UserTypeEnum.Manager).ToList();
-                foreach(User fetchedUser in users)
-                {
-                    fetchedUser.Password = null;
-                }
-                return users;
-            }
-            user.Password = null;
-            return new List<User>() {user};
-        }
-
-        public TableResponse GetEmployedUsers(TableRequest tableRequest, int employerId)
-        {
-            TableResponse tableResponse = new TableResponse();
-
-            var query = dataContext.Users.Where(x => x.Employer.EmployerId == employerId && x.UserType != UserTypeEnum.Buyer);
-            tableResponse.TotalRows = query.Count();
-
-            IFilterTemplate<User> filterTemplate = FilterFactory<User>.CreateSortingObject();
-            tableResponse.Data = filterTemplate.GetData(query, tableRequest);
-
-            return tableResponse;
-        }
     }
 }

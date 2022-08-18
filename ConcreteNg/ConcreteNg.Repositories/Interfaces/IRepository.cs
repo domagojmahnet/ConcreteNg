@@ -8,7 +8,7 @@ namespace ConcreteNg.Repositories.Interfaces
 {
     public interface IRepository<T> where T : class
     {
-        IEnumerable<T> List();
+        IQueryable<T> FindAll();
         void Create(T entity);
         T Read(object keys);
         void Update(T entity);

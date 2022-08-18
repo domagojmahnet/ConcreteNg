@@ -3,7 +3,9 @@ import { DialogPosition, MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { AccountService } from '../../../account.service';
 import { PartnerListFilterEnum } from '../../../enums/partner-list-filter-enum';
+import { UserTypeEnum } from '../../../enums/user-type';
 import { Partner } from '../../../models/partner';
 import { BaseFilter, TableRequest } from '../../../models/table-request';
 import { TableResponse } from '../../../models/table-response';
@@ -25,7 +27,11 @@ export class PartnerListComponent implements OnInit {
     sortByColumn: string;
     isAscending: boolean;
     partnerListFilterEnum = PartnerListFilterEnum;
+    userRole: UserTypeEnum | undefined;
 
+    public get userTypeEnum(): typeof UserTypeEnum {
+        return UserTypeEnum; 
+    }
     displayedColumns: string[] = [
         'name', 
         'address',
@@ -56,9 +62,11 @@ export class PartnerListComponent implements OnInit {
 
     constructor(
         private employerService: EmployerService,
-        public dialog: MatDialog) { }
+        public dialog: MatDialog,
+        private accountService: AccountService) { }
 
     ngOnInit(): void {
+        this.userRole = this.accountService.userValue?.userType;
         this.initializeTable();
         this.loadData();
     }

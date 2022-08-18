@@ -30,12 +30,16 @@ namespace ConcreteNg.Services.Services
 
         public bool UpdateTaskItem(ProjectTaskItem projectTaskItem)
         {
-            return unitOfWork.projectTaskRepository.UpdateProjectTaskItem(projectTaskItem);
+            unitOfWork.projectTaskItemRepository.Update(projectTaskItem);
+            var updated = unitOfWork.Complete();
+            return updated > 0;
         }
 
         public bool DeleteTaskItem(ProjectTaskItem projectTaskItem)
         {
-            return unitOfWork.projectTaskRepository.DeleteProjectTaskItem(projectTaskItem);
+            unitOfWork.projectTaskItemRepository.Delete(projectTaskItem);
+            var updated = unitOfWork.Complete();
+            return updated > 0;
         }
 
         public ProjectTask CreateOrUpdateProjectTask(ProjectTask projectTask, int projectId)
@@ -66,7 +70,16 @@ namespace ConcreteNg.Services.Services
         public int DeleteProjectTask(int id)
         {
             var task = unitOfWork.projectTaskRepository.Read(id);
-            unitOfWork.projectTaskItemRepository.DeleteProjectTaskItems(id);
+            var itemsToDelete = unitOfWork.projectTaskItemRepository.FindAll().Where(x => x.ProjectTask.ProjectTaskId == id).ToList();
+            foreach(var item in itemsToDelete)
+            {
+                var expenses = unitOfWork.expenseRepository.FindAll().Where(x => x.ProjectTaskItem.ProjectTaskItemId == item.ProjectTaskItemId);
+                foreach (var expense in expenses)
+                {
+                    unitOfWork.expenseRepository.Delete(expense);
+                }
+                unitOfWork.projectTaskItemRepository.Delete(item);
+            }
             unitOfWork.projectTaskRepository.Delete(task);
             return unitOfWork.Complete();
         }
@@ -101,7 +114,12 @@ namespace ConcreteNg.Services.Services
         public int DeleteProjectTaskItem(int id)
         {
             var itemToDelete = unitOfWork.projectTaskItemRepository.Read(id);
-            unitOfWork.projectTaskRepository.DeleteProjectTaskItem(itemToDelete);
+            var expenses = unitOfWork.expenseRepository.FindAll().Where(x => x.ProjectTaskItem.ProjectTaskItemId == id);
+            foreach (var expense in expenses)
+            {
+                unitOfWork.expenseRepository.Delete(expense);
+            }
+            unitOfWork.projectTaskItemRepository.Delete(itemToDelete);
             return unitOfWork.Complete();
         }
 

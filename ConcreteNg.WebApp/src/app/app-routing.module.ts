@@ -9,12 +9,15 @@ import { PartnerListComponent } from './authorized/partners/partner-list/partner
 import { ProjectListComponent } from './authorized/projects/project-list/project-list.component';
 import { PricingListComponent } from './authorized/pricing-list/pricing-list.component';
 import { UserListComponent } from './authorized/users/user-list/user-list.component';
+import { AuthGuard } from './auth.guard';
+import { UserTypeEnum } from './enums/user-type';
 
 
 const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'home', component: LandingPageComponent },
     { path: 'authorized', component: BaseContainerComponent,
+        canActivate: [AuthGuard],
         children: [
             {
                 path: 'employer-overview',
@@ -23,9 +26,9 @@ const routes: Routes = [
             { path: '',   redirectTo: 'employer-overview', pathMatch: 'full'},
             { path: 'project-details/:id', component: ProjectDetailsComponent },
             { path: 'pricing-list', component: PricingListComponent },
-            { path: 'partners', component: PartnerListComponent },
-            { path: 'projects', component: ProjectListComponent },
-            { path: 'employees', component: UserListComponent}
+            { path: 'partners', component: PartnerListComponent},
+            { path: 'projects', component: ProjectListComponent},
+            { path: 'employees', component: UserListComponent, data:{role: UserTypeEnum.Administrator}}
         ]
         },
     { path: '**', component: LandingPageComponent },
@@ -34,6 +37,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [AuthGuard]
 })
 export class AppRoutingModule { }

@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { DialogPosition, MatDialog } from '@angular/material/dialog';
+import { AccountService } from '../../../../account.service';
+import { UserTypeEnum } from '../../../../enums/user-type';
 import { Project } from '../../../../models/project';
 import { ProjectTask } from '../../../../models/project-task';
 import { ProjectDetailsService } from '../project-details.service';
@@ -16,16 +18,21 @@ export class ProjectTasksComponent implements OnInit, OnChanges {
     @Output() projectChange = new EventEmitter<Project>();
     
     projectTasks: ProjectTask[];
+    userRole: UserTypeEnum | undefined;
 
+    public get userTypeEnum(): typeof UserTypeEnum {
+        return UserTypeEnum; 
+    }
     constructor(
         private projectDetailsService: ProjectDetailsService,
-        public dialog: MatDialog
+        public dialog: MatDialog,
+        private accountService: AccountService
     ) { }
 
     ngOnInit(): void {
+        this.userRole = this.accountService.userValue?.userType;
         this.projectDetailsService.taskChange.subscribe((res) => {
             this.projectTasks = this.projectDetailsService.projectTasks;
-            debugger;
         });
         this.projectDetailsService.getProjectTasks(this.project.projectId);
     }

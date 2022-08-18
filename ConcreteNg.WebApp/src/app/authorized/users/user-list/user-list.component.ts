@@ -3,6 +3,7 @@ import { DialogPosition, MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { AccountService } from '../../../account.service';
 import { UserListFilterEnum } from '../../../enums/user-list-filter-enum';
 import { UserTypeEnum } from '../../../enums/user-type';
 import { BaseFilter, TableRequest } from '../../../models/table-request';
@@ -26,12 +27,12 @@ export class UserListComponent implements OnInit {
     sortByColumn: string;
     isAscending: boolean;
     userListFilterColumnsEnum = UserListFilterEnum;
+    userRole: UserTypeEnum;
 
     get typeEnum(): typeof UserTypeEnum {
         return UserTypeEnum; 
     }
     
-
     displayedColumns: string[] = [
         "firstName",
         "lastName",
@@ -68,9 +69,11 @@ export class UserListComponent implements OnInit {
 
     constructor(
         private employerService: EmployerService,
-        public dialog: MatDialog) { }
+        public dialog: MatDialog,
+        private accountService: AccountService) { }
 
     ngOnInit(): void {
+        this.userRole = this.accountService.userValue?.userType;
         this.initializeTable();
         this.loadData();
     }
@@ -153,7 +156,7 @@ export class UserListComponent implements OnInit {
     }
 
     deleteItem(id: number){
-        this.employerService.deletePricingListItem(id).subscribe(() => {
+        this.employerService.deleteEmployee(id).subscribe(() => {
             this.loadData();
         })
     }

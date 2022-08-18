@@ -1,3 +1,4 @@
+using ConcreteNg;
 using ConcreteNg.Data;
 using ConcreteNg.Repositories;
 using ConcreteNg.Services;
@@ -33,13 +34,8 @@ builder.Services.AddSwaggerGen( options =>
         options.OperationFilter<SecurityRequirementsOperationFilter>();
     }
 );
-
 builder.Services.AddRepositories();
 builder.Services.AddServices();
-
-
-
-
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -51,29 +47,24 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = false,
         }
     );
-
 var app = builder.Build();
 app.UseStatusCodePages();
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
 app.UseCors(options => options.WithOrigins("http://localhost:4200")
     .AllowAnyMethod()
     .AllowAnyHeader()
 );
 app.UseHttpsRedirection();
-
 app.UseAuthentication();
-
 app.UseRouting();
-
 app.UseAuthorization();
 
-app.MapControllers();
+app.UseMiddleware<RequestMiddleware>();
 
+app.MapControllers();
 app.Run();

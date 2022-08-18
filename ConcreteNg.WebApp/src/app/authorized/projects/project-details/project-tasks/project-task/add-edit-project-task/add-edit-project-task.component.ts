@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Inject, OnInit, Optional, Output } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ProjectTask } from '../../../../../../models/project-task';
 import { ProjectDetailsService } from '../../../project-details.service';
@@ -12,7 +12,7 @@ import { ProjectDetailsService } from '../../../project-details.service';
 export class AddEditProjectTaskComponent implements OnInit {
 
     form = this.formBuilder.group({
-        projectTaskName: []
+        projectTaskName: ['', Validators.required]
     });
 
     constructor(
@@ -30,12 +30,14 @@ export class AddEditProjectTaskComponent implements OnInit {
     }
 
     saveChanges(){
-        let projectTask: ProjectTask = {
-            projectTaskId: this.data.projectTask === undefined ? -1 : this.data.projectTask.projectTaskId,
-            projectTaskName: this.form.get("projectTaskName")?.value,
-            projectTaskItems: this.data.projectTask === undefined ? [] : this.data.projectTask.projectTaskItems,
+        if(this.form.valid){
+            let projectTask: ProjectTask = {
+                projectTaskId: this.data.projectTask === undefined ? -1 : this.data.projectTask.projectTaskId,
+                projectTaskName: this.form.get("projectTaskName")?.value,
+                projectTaskItems: this.data.projectTask === undefined ? [] : this.data.projectTask.projectTaskItems,
+            }
+            this.projectDetailsService.createOrUpdateProjectTask(projectTask, this.data.projectId);
         }
-        this.projectDetailsService.createOrUpdateProjectTask(projectTask, this.data.projectId);
     }
 
 }

@@ -37,7 +37,7 @@
 </table>
 <mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons (page)="pageChanged($event)"></mat-paginator>
 <mat-spinner *ngIf="isLoading"></mat-spinner>
-<div class="fab-container">
+<div class="fab-container" *ngIf="userRole !== userTypeEnum.Buyer">
     <button mat-fab class="mat-fab-button" color="primary"><mat-icon  matTooltip="Add Item" (click)="OpenAddEditItemDialog()">add</mat-icon></button>
 </div>
 

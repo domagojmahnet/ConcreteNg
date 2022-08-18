@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, Optional } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ProjectStatusEnum } from '../../../enums/project-status';
 import { Project } from '../../../models/project';
@@ -17,11 +17,11 @@ export class AddEditProjectComponent implements OnInit {
     searchedEligibleManagers: User[];
 
     form = this.formBuilder.group({
-        name: [],
-        expectedStartDate: [],
-        expectedEndDate: [],
-        expectedCost: [],
-        manager: []
+        name: ['', Validators.required],
+        expectedStartDate: ['', Validators.required],
+        expectedEndDate: ['', Validators.required],
+        expectedCost: ['', Validators.required],
+        manager: ['', Validators.required]
     });
 
     constructor(
@@ -39,20 +39,22 @@ export class AddEditProjectComponent implements OnInit {
     }
 
     saveChanges(){
-        let project: Project = {
-            projectId: this.data.project === undefined ? -1 : this.data.project.projectId,
-            name: this.form.get("name")?.value,
-            expectedStartDate: this.form.get("expectedStartDate")?.value,
-            expectedEndDate: this.form.get("expectedEndDate")?.value,
-            expectedCost: this.form.get("expectedCost")?.value,
-            projectStatus: this.data.project === undefined ? ProjectStatusEnum['To Do'] : this.data.project.projectStatus,
-            currentCost: 0
+        if(this.form.valid){
+            let project: Project = {
+                projectId: this.data.project === undefined ? -1 : this.data.project.projectId,
+                name: this.form.get("name")?.value,
+                expectedStartDate: this.form.get("expectedStartDate")?.value,
+                expectedEndDate: this.form.get("expectedEndDate")?.value,
+                expectedCost: this.form.get("expectedCost")?.value,
+                projectStatus: this.data.project === undefined ? ProjectStatusEnum['To Do'] : this.data.project.projectStatus,
+                currentCost: 0
+            }
+            this.projectService.AddEditProject(project, this.form.get("manager")?.value).subscribe(() => {
+                this.dialogRef.close(true);
+            });
         }
-        debugger;
-        this.projectService.AddEditProject(project, this.form.get("manager")?.value).subscribe(() => {
-            this.dialogRef.close(true);
-        })
     }
+    
     onKey(value: string) { 
         this.searchedEligibleManagers = this.search(value);
     }

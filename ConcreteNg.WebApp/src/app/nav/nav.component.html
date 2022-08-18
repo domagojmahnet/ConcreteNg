@@ -4,7 +4,8 @@
             <mat-icon>home</mat-icon>
             Home
         </a>
-        <a mat-button [routerLink]="['/login']" routerLinkActive="active-route">
+        <a *ngIf="!LoggedIn"
+            mat-button [routerLink]="['/login']" routerLinkActive="active-route">
             <mat-icon>login</mat-icon>
             Log In
         </a>

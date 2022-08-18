@@ -3,8 +3,10 @@ import { DialogPosition, MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { AccountService } from '../../account.service';
 import { PricingListFilterColumnsEnum } from '../../enums/pricing-list-filter-columns-enum';
 import { UserListFilterEnum } from '../../enums/user-list-filter-enum';
+import { UserTypeEnum } from '../../enums/user-type';
 import { PricingListItem } from '../../models/pricing-list-item';
 import { BaseFilter, TableRequest } from '../../models/table-request';
 import { TableResponse } from '../../models/table-response';
@@ -26,6 +28,11 @@ export class PricingListComponent implements OnInit {
     sortByColumn: string;
     isAscending: boolean;
     pricingListFilterColumnsEnum = PricingListFilterColumnsEnum;
+    userRole: UserTypeEnum | undefined;
+
+    public get userTypeEnum(): typeof UserTypeEnum {
+        return UserTypeEnum; 
+    }
 
     displayedColumns: string[] = [
         'pricingListItemName', 
@@ -53,11 +60,13 @@ export class PricingListComponent implements OnInit {
 
     constructor(
         private employerService: EmployerService,
+        private accountService: AccountService,
         public dialog: MatDialog) { }
 
     ngOnInit(): void {
         this.initializeTable();
         this.loadData();
+        this.userRole = this.accountService.userValue?.userType;
     }
 
     ngAfterViewInit() {

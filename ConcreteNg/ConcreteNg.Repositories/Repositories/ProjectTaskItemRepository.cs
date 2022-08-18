@@ -17,11 +17,5 @@ namespace ConcreteNg.Repositories.Repositories
         {
             dataContext = dbContext;
         }
-
-        public void DeleteProjectTaskItems(int taskId)
-        {
-            var itemsToDelete = dataContext.ProjectTaskItems.Where(x => x.ProjectTask.ProjectTaskId == taskId);
-            dataContext.RemoveRange(itemsToDelete);
-        }
     }
 }

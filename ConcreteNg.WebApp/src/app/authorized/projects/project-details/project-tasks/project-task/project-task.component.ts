@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { DialogPosition, MatDialog } from '@angular/material/dialog';
+import { AccountService } from '../../../../../account.service';
 import { ProjectStatusEnum } from '../../../../../enums/project-status';
+import { UserTypeEnum } from '../../../../../enums/user-type';
 import { ProjectTask, ProjectTaskItem } from '../../../../../models/project-task';
 import { ProjectDetailsService } from '../../project-details.service';
 import { AddEditProjectTaskItemComponent } from '../project-task-item/add-edit-project-task-item/add-edit-project-task-item.component';
@@ -15,14 +17,20 @@ export class ProjectTaskComponent implements OnInit, OnChanges {
     @Input() task: ProjectTask;
     @Output() taskChange = new EventEmitter<ProjectTask>();
     progressPercentage: number;
+    userRole: UserTypeEnum | undefined;
 
+    public get userTypeEnum(): typeof UserTypeEnum {
+        return UserTypeEnum; 
+    }
     constructor(
         private projectDetailsService: ProjectDetailsService,
-        private dialog: MatDialog
+        private dialog: MatDialog,
+        private accountService: AccountService
     ) { }
 
     ngOnInit(): void {
         this.calculateProgress();
+        this.userRole = this.accountService.userValue?.userType
     }
 
     ngOnChanges(changes: SimpleChanges): void {

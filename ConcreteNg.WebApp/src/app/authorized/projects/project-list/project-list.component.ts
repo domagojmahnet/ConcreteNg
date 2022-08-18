@@ -10,6 +10,8 @@ import { ProjectStatusEnum } from '../../../enums/project-status';
 import { ProjectFilterColumnsEnum } from '../../../enums/project-filter-columns-enum';
 import { DialogPosition, MatDialog } from '@angular/material/dialog';
 import { AddEditProjectComponent } from '../add-edit-project/add-edit-project.component';
+import { UserTypeEnum } from '../../../enums/user-type';
+import { AccountService } from '../../../account.service';
 
 @Component({
   selector: 'app-project-list',
@@ -26,7 +28,11 @@ export class ProjectListComponent implements OnInit {
     isAscending: boolean;
     projectStatusEnum = ProjectStatusEnum;
     projectFilterColumnsEnum = ProjectFilterColumnsEnum;
+    userRole: UserTypeEnum | undefined;
 
+    public get userTypeEnum(): typeof UserTypeEnum {
+        return UserTypeEnum; 
+    }
     displayedColumns: string[] = [
         'projectId', 
         'name',
@@ -58,11 +64,13 @@ export class ProjectListComponent implements OnInit {
 
     constructor(
         private projectService: ProjectService,
+        private accountService: AccountService,
         public dialog: MatDialog) { }
 
     ngOnInit(): void {
         this.initializeTable();
         this.loadData();
+        this.userRole = this.accountService.userValue?.userType;
     }
 
     ngAfterViewInit() {

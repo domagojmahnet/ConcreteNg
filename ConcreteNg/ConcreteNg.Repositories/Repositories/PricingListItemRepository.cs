@@ -18,23 +18,5 @@ namespace ConcreteNg.Repositories.Repositories
         {
             dataContext = dbContext;
         }
-
-        public IEnumerable<PricingListItem> GetEmployersPricingListItems(int employerID)
-        {
-            return dataContext.PricingListItems.Where(x => x.Employer.EmployerId == employerID);
-        }
-
-        public TableResponse GetEmployersPricingListItemsTable(TableRequest tableRequest, int employerID)
-        {
-            TableResponse tableResponse = new TableResponse();
-
-            var query = dataContext.PricingListItems.Where(x => x.Employer.EmployerId == employerID);
-            tableResponse.TotalRows = query.Count();
-
-            IFilterTemplate<PricingListItem> filterTemplate = FilterFactory<PricingListItem>.CreateSortingObject();
-            tableResponse.Data = filterTemplate.GetData(query, tableRequest);
-
-            return tableResponse;
-        }
     }
 }

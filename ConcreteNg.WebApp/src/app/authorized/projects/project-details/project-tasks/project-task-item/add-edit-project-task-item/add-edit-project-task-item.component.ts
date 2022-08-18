@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, Optional } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ProjectStatusEnum } from '../../../../../../enums/project-status';
 import { PricingListItem } from '../../../../../../models/pricing-list-item';
@@ -24,7 +24,7 @@ export class AddEditProjectTaskItemComponent implements OnInit {
     }
 
     form = this.formBuilder.group({
-        pricingListItem: [],
+        pricingListItem: ['', Validators.required],
         startDate: [],
         finishDate: [],
     });
@@ -62,14 +62,16 @@ export class AddEditProjectTaskItemComponent implements OnInit {
     }
 
     saveChanges(){
-        let projectTaskItem: ProjectTaskItem = {
-            projectTaskItemId: this.data.projectTaskItem === undefined ? -1 : this.data.projectTaskItem.projectTaskItemId,
-            pricingListItem: this.form.get("pricingListItem")?.value,
-            startTime: this.form.get("startDate")?.value,
-            finishTime: this.form.get("finishDate")?.value,
-            taskItemStatus: this.data.projectTaskItem === undefined ? ProjectStatusEnum['To Do'] : this.data.projectTaskItem.taskItemStatus,
+        if(this.form.valid){
+            let projectTaskItem: ProjectTaskItem = {
+                projectTaskItemId: this.data.projectTaskItem === undefined ? -1 : this.data.projectTaskItem.projectTaskItemId,
+                pricingListItem: this.form.get("pricingListItem")?.value,
+                startTime: this.form.get("startDate")?.value,
+                finishTime: this.form.get("finishDate")?.value,
+                taskItemStatus: this.data.projectTaskItem === undefined ? ProjectStatusEnum['To Do'] : this.data.projectTaskItem.taskItemStatus,
+            }
+            this.projectDetailsService.createOrUpdateProjectTaskItem(projectTaskItem, this.data.projectTaskId);
         }
-        this.projectDetailsService.createOrUpdateProjectTaskItem(projectTaskItem, this.data.projectTaskId);
     }
 
     loadValues(){

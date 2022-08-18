@@ -1,7 +1,9 @@
 ﻿using ConcreteNg.Data;
 using ConcreteNg.Repositories;
 using ConcreteNg.Repositories.Repositories;
+using ConcreteNg.Repositories.TableRequestHelpers;
 using ConcreteNg.Services.Interfaces;
+using ConcreteNg.Shared.Enums;
 using ConcreteNg.Shared.Models;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -26,12 +28,29 @@ namespace ConcreteNg.Services.Services
 
         public IEnumerable<Project> GetActiveProjects()
         {
-            return unitOfWork.projectRepository.GetActiveProjects(int.Parse(httpContextAccessor.HttpContext.User.FindFirst("EmployerID").Value));
+            var query = unitOfWork.projectRepository.FindAll().Where(p => p.ProjectStatus == ProjectStatusEnum.InProgress && p.Employer.EmployerId == int.Parse(httpContextAccessor.HttpContext.User.FindFirst("EmployerID").Value));
+            if ((UserTypeEnum)Enum.Parse(typeof(UserTypeEnum), httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value) != UserTypeEnum.Administrator)
+            {
+                query = query.Where(x => x.Users.Any(u => u.UserId == int.Parse(httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value)));
+            }
+            return query.ToList();
         }
 
         public TableResponse GetProjects(TableRequest tableRequest)
         {
-            return unitOfWork.projectRepository.GetProjects(tableRequest, int.Parse(httpContextAccessor.HttpContext.User.FindFirst("EmployerID").Value));
+            TableResponse tableResponse = new TableResponse();
+
+            var query = unitOfWork.projectRepository.FindAll().Where(p => p.Employer.EmployerId == int.Parse(httpContextAccessor.HttpContext.User.FindFirst("EmployerID").Value));
+            if ((UserTypeEnum)Enum.Parse(typeof(UserTypeEnum), httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value) != UserTypeEnum.Administrator)
+            {
+                query = query.Where(x => x.Users.Any(u => u.UserId == int.Parse(httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value)));
+            }
+            tableResponse.TotalRows = query.Count();
+
+            IFilterTemplate<Project> filterTemplate = FilterFactory<Project>.CreateSortingObject();
+            tableResponse.Data = filterTemplate.GetData(query, tableRequest);
+
+            return tableResponse;
         }
 
         public Project GetProject(int id)
@@ -41,7 +60,15 @@ namespace ConcreteNg.Services.Services
 
         public TableResponse GetDiaryItems(TableRequest tableRequest, int projectId)
         {
-            return unitOfWork.diaryRepository.GetProjectDiaryItems(tableRequest, projectId);
+            TableResponse tableResponse = new TableResponse();
+
+            var query = unitOfWork.diaryRepository.FindAll().Where(x => x.Project.ProjectId == projectId);
+            tableResponse.TotalRows = query.Count();
+
+            IFilterTemplate<DiaryItem> filterTemplate = FilterFactory<DiaryItem>.CreateSortingObject();
+            tableResponse.Data = filterTemplate.GetData(query, tableRequest);
+
+            return tableResponse;
         }
 
         public DiaryItem AddDiaryItem(DiaryItem diaryItem, int projectId)
@@ -69,12 +96,60 @@ namespace ConcreteNg.Services.Services
 
         public IEnumerable<User> GetEligibleManagers()
         {
-            return unitOfWork.userRepository.getEligibleManagers(int.Parse(httpContextAccessor.HttpContext.User.FindFirst("EmployerID").Value), int.Parse(httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value));
+            int id = int.Parse(httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value);
+            User user = unitOfWork.userRepository.FindAll().FirstOrDefault(x => x.UserId == id);
+            if (user.UserType == UserTypeEnum.Administrator)
+            {
+                List<User> users = unitOfWork.userRepository.FindAll().Where(x => x.Employer.EmployerId == int.Parse(httpContextAccessor.HttpContext.User.FindFirst("EmployerID").Value) && x.UserType == UserTypeEnum.Manager).ToList();
+                foreach (User fetchedUser in users)
+                {
+                    fetchedUser.Password = null;
+                }
+                return users;
+            }
+            user.Password = null;
+            return new List<User>() { user };
         }
 
         public IEnumerable<CostOverview> GetCostOverview(int projectId)
         {
-            return unitOfWork.projectRepository.GetCostOverview(projectId);
+            List<CostOverview> costOverviews = new List<CostOverview>();
+
+            var taskItems = unitOfWork.expenseRepository.FindAll().Where(x => x.ProjectTaskItem.ProjectTask.Project.ProjectId == projectId).Select(x => x.ProjectTaskItem.PricingListItem).Distinct().ToList();
+
+            foreach (PricingListItem item in taskItems)
+            {
+                List<PartnerCost> partnerCosts = new List<PartnerCost>();
+
+                var totalLabourCost = unitOfWork.expenseRepository.FindAll().Where(x =>
+                    x.ProjectTaskItem.ProjectTask.Project.ProjectId == projectId
+                    && x.ProjectTaskItem.PricingListItem.PricingListItemId == item.PricingListItemId
+                    && x.ExpenseType == ExpenseTypeEnum.Standard).Select(x => x.TotalCost).Sum();
+
+                var totalLabourQuantity = unitOfWork.expenseRepository.FindAll().Where(x =>
+                    x.ProjectTaskItem.ProjectTask.Project.ProjectId == projectId
+                    && x.ProjectTaskItem.PricingListItem.PricingListItemId == item.PricingListItemId
+                    && x.ExpenseType == ExpenseTypeEnum.Standard).Select(x => x.Quantity).Sum();
+
+                var totalMaterialCost = unitOfWork.expenseRepository.FindAll().Where(x =>
+                    x.ProjectTaskItem.ProjectTask.Project.ProjectId == projectId
+                    && x.ProjectTaskItem.PricingListItem.PricingListItemId == item.PricingListItemId
+                    && x.ExpenseType == ExpenseTypeEnum.Material).Select(x => x.TotalCost).Sum();
+
+                var partners = unitOfWork.expenseRepository.FindAll().Where(x => x.ProjectTaskItem.PricingListItem.PricingListItemId == item.PricingListItemId && x.Partner != null).Select(x => x.Partner).Distinct().ToList();
+                float totalCost = (float)(totalLabourCost + totalMaterialCost);
+                foreach (Partner partner in partners)
+                {
+                    var totalPartnerCost = unitOfWork.expenseRepository.FindAll().Where(x =>
+                        x.ProjectTaskItem.ProjectTask.Project.ProjectId == projectId
+                        && x.ProjectTaskItem.PricingListItem.PricingListItemId == item.PricingListItemId
+                        && x.ExpenseType == ExpenseTypeEnum.Partner && x.Partner.PartnerId == partner.PartnerId).Select(x => x.TotalCost).Sum();
+                    totalCost = totalCost + (float)totalPartnerCost;
+                    partnerCosts.Add(new PartnerCost(partner.Name, (float)totalPartnerCost));
+                }
+                costOverviews.Add(new CostOverview(item.PricingListItemName, (float)totalMaterialCost, (float)totalLabourCost, (float)totalLabourQuantity, item.UnitOfMeasurement, partnerCosts, totalCost));
+            }
+            return costOverviews;
         }
     }
 }

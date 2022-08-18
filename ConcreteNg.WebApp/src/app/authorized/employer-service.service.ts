@@ -57,4 +57,8 @@ export class EmployerService {
     createOrUpdateUser(user: User){
         return this.http.post<any>(this.userApiUrl + "/user", user);
     }
+
+    deleteEmployee(id: number){
+        return this.http.delete<any>(this.userApiUrl + "/" + id);
+    }
 }

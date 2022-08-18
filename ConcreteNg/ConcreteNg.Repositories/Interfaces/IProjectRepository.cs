@@ -1,4 +1,5 @@
-﻿using ConcreteNg.Shared.Models;
+﻿using ConcreteNg.Shared.Enums;
+using ConcreteNg.Shared.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,6 @@ namespace ConcreteNg.Repositories.Interfaces
 {
     public interface IProjectRepository : IRepository<Project>
     {
-        List<Project> GetActiveProjects(int employerID);
-        TableResponse GetProjects(TableRequest tableRequest, int employerID);
-        IEnumerable<CostOverview> GetCostOverview(int projectId);
+
     }
 }

@@ -12,24 +12,24 @@ export class AccountService {
     LoggedIn = new Subject();
 
     public get userValue(): any {
-        return JSON.parse(localStorage.getItem('currentUser') || '{}') as User;
+        return JSON.parse(sessionStorage.getItem('currentUser') || '{}') as User;
     }
 
     public set userValue(user: User) {
-        localStorage.setItem('currentUser', JSON.stringify(user));
+        sessionStorage.setItem('currentUser', JSON.stringify(user));
     }
 
     public get JwtTokenValue(): any{
-        return localStorage.getItem('token') as string;
+        return sessionStorage.getItem('token') as string;
     }
 
     public set JwtTokenValue(token: string) {
         this.LoggedIn.next(true)
-        localStorage.setItem('token', token);
+        sessionStorage.setItem('token', token);
     }
 
     public clearCurrentUser(): void {
         this.LoggedIn.next(false)
-        localStorage.clear();
+        sessionStorage.clear();
     }
 }

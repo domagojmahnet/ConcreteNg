@@ -16,13 +16,6 @@ export class RequestInterceptor implements HttpInterceptor {
                 setHeaders: { Authorization: `bearer ${token}` }
             });
         }
-        return next.handle(request).pipe(
-            catchError((requestError) => {
-              if (requestError.status === 401) {
-                const { error } = requestError;
-              }
-              return throwError(() => new Error(requestError));
-            })
-        )
+        return next.handle(request);
     }
 }

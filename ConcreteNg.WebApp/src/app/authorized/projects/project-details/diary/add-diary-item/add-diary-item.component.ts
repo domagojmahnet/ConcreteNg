@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, Optional } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DiaryItem } from '../../../../../models/diary-item';
 import { Project } from '../../../../../models/project';
@@ -13,7 +13,7 @@ import { ProjectService } from '../../../services/project.service';
 export class AddDiaryItemComponent implements OnInit {
 
     form = this.formBuilder.group({
-        description: []
+        description: ['', Validators.required]
     });
 
     constructor(
@@ -28,15 +28,17 @@ export class AddDiaryItemComponent implements OnInit {
     }
 
     saveChanges(){
-        let diaryItem: DiaryItem = {
-            diaryItemId: -1,
-            dateTime: new Date(),
-            description: this.form.get("description")?.value
-        }
+        if(this.form.valid){
+            let diaryItem: DiaryItem = {
+                diaryItemId: -1,
+                dateTime: new Date(),
+                description: this.form.get("description")?.value
+            }
 
-        this.projectService.addDIaryItem(diaryItem, this.data.project.projectId).subscribe(() => {
-            this.dialogRef.close(true);
-        })
+            this.projectService.addDIaryItem(diaryItem, this.data.project.projectId).subscribe(() => {
+                this.dialogRef.close(true);
+            });
+        }
     }
 
 }

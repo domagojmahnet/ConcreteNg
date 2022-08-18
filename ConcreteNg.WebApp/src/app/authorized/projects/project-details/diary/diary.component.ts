@@ -3,7 +3,9 @@ import { DialogPosition, MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { AccountService } from '../../../../account.service';
 import { DiaryFilterColumnsEnum } from '../../../../enums/diary-filter-columns-enum';
+import { UserTypeEnum } from '../../../../enums/user-type';
 import { DiaryItem } from '../../../../models/diary-item';
 import { Project } from '../../../../models/project';
 import { BaseFilter, TableRequest } from '../../../../models/table-request';
@@ -30,7 +32,11 @@ export class DiaryComponent implements OnInit {
     sortByColumn: string;
     isAscending: boolean;
     diaryFilterColumnsEnum = DiaryFilterColumnsEnum;
+    userRole: UserTypeEnum | undefined;
 
+    public get userTypeEnum(): typeof UserTypeEnum {
+        return UserTypeEnum; 
+    }
     displayedColumns: string[] = [
         'dateTime', 
         'description'
@@ -53,9 +59,11 @@ export class DiaryComponent implements OnInit {
 
     constructor(
         private projectService: ProjectService,
-        public dialog: MatDialog) { }
+        public dialog: MatDialog,
+        private accountService: AccountService) { }
 
     ngOnInit(): void {
+        this.userRole = this.accountService.userValue?.userType;
         this.initializeTable();
         this.loadData();
     }

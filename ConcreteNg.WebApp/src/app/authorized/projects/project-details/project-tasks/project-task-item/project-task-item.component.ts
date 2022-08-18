@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { DialogPosition, MatDialog } from '@angular/material/dialog';
+import { AccountService } from '../../../../../account.service';
 import { ProjectStatusEnum } from '../../../../../enums/project-status';
+import { UserTypeEnum } from '../../../../../enums/user-type';
 import { ProjectTaskItem } from '../../../../../models/project-task';
 import { ProjectDetailsService } from '../../project-details.service';
 import { AddEditProjectTaskItemComponent } from './add-edit-project-task-item/add-edit-project-task-item.component';
@@ -18,14 +20,19 @@ export class ProjectTaskItemComponent implements OnInit {
     @Output() changed = new EventEmitter<ProjectTaskItem>();
     @Output() deleted = new EventEmitter<ProjectTaskItem>();
     projectStatusEnum = ProjectStatusEnum;
+    userRole: UserTypeEnum | undefined;
 
+    public get userTypeEnum(): typeof UserTypeEnum {
+        return UserTypeEnum; 
+    }
     constructor(
         private projectDetailsService: ProjectDetailsService,
-        public dialog: MatDialog
+        public dialog: MatDialog,
+        private accountService: AccountService
     ) { }
 
     ngOnInit(): void {
-        this.projectTaskItem
+        this.userRole = this.accountService.userValue?.userType;
     }
 
     updateTaskStatus(){

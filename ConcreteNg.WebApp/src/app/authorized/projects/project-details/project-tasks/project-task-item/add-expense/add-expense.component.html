@@ -16,6 +16,7 @@
     <input 
             matInput
             formControlName="totalCost"
+            type="number"
         >
     </mat-form-field>
     <mat-form-field appearance="fill" *ngIf="selectedType===expenseTypeEnum.Labour">
@@ -23,6 +24,7 @@
         <input 
                 matInput
                 formControlName="quantity"
+                type="number"
             >
     </mat-form-field>
     <mat-form-field appearance="fill" *ngIf="selectedType===expenseTypeEnum.Partner">

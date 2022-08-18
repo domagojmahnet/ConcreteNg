@@ -10,7 +10,5 @@ namespace ConcreteNg.Repositories.Interfaces
     public interface IProjectTaskRepository : IRepository<ProjectTask>
     {
         List<ProjectTask> GetProjectTasks(int projectId);
-        bool UpdateProjectTaskItem(ProjectTaskItem projectTaskItem);
-        bool DeleteProjectTaskItem(ProjectTaskItem projectTaskItem);
     }
 }

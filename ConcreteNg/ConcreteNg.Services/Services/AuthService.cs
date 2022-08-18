@@ -41,11 +41,9 @@ namespace ConcreteNg.Services.Services
                 new Claim(ClaimTypes.Role, user.UserType.ToString()),
                 new Claim(type: "EmployerID", value: user.Employer.EmployerId.ToString())
             };
-
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
                 configuration.GetSection("AppSettings:Token").Value)
             );
-
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
             var token = new JwtSecurityToken(
@@ -55,7 +53,6 @@ namespace ConcreteNg.Services.Services
             );
 
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
-
             return jwt;
         }
 

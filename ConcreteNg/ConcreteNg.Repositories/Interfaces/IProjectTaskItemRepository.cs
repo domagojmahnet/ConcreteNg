@@ -9,6 +9,6 @@ namespace ConcreteNg.Repositories.Interfaces
 {
     public interface IProjectTaskItemRepository : IRepository<ProjectTaskItem>
     {
-        void DeleteProjectTaskItems(int taskId);
+
     }
 }

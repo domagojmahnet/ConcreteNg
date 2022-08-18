@@ -40,5 +40,16 @@ namespace ConcreteNg.Controllers
             var result = userService.AddEditUser(user);
             return Ok(result);
         }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<ActionResult> DeleteUser(int id)
+        {
+            if (userService.DeleteUser(id) >= 0)
+            {
+                return Ok();
+            }
+            return BadRequest();
+        }
     }
 }

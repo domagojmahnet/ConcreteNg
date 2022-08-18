@@ -17,18 +17,5 @@ namespace ConcreteNg.Repositories.Repositories
         {
             dataContext = dbContext;
         }
-
-        public TableResponse GetProjectDiaryItems(TableRequest tableRequest, int projectId)
-        {
-            TableResponse tableResponse = new TableResponse();
-
-            var query = dataContext.DiaryItems.Where(x => x.Project.ProjectId == projectId);
-            tableResponse.TotalRows = query.Count();
-
-            IFilterTemplate<DiaryItem> filterTemplate = FilterFactory<DiaryItem>.CreateSortingObject();
-            tableResponse.Data = filterTemplate.GetData(query, tableRequest);
-
-            return tableResponse;
-        }
     }
 }

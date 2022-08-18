@@ -1,7 +1,9 @@
 ﻿using ConcreteNg.Data;
 using ConcreteNg.Repositories;
 using ConcreteNg.Repositories.Repositories;
+using ConcreteNg.Repositories.TableRequestHelpers;
 using ConcreteNg.Services.Interfaces;
+using ConcreteNg.Shared.Enums;
 using ConcreteNg.Shared.Models;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -47,9 +49,24 @@ namespace ConcreteNg.Services.Services
             return unitOfWork.Complete();
         }
 
+        public int DeleteUser(int id)
+        {
+            var userToDelete = unitOfWork.userRepository.Read(id);
+            unitOfWork.userRepository.Delete(userToDelete);
+            return unitOfWork.Complete();
+        }
+
         public TableResponse GetEmployedUsers(TableRequest tableRequest)
         {
-            return unitOfWork.userRepository.GetEmployedUsers(tableRequest, int.Parse(httpContextAccessor.HttpContext.User.FindFirst("EmployerID").Value));
+            TableResponse tableResponse = new TableResponse();
+
+            var query = unitOfWork.userRepository.FindAll().Where(x => x.Employer.EmployerId == int.Parse(httpContextAccessor.HttpContext.User.FindFirst("EmployerID").Value) && x.UserType != UserTypeEnum.Buyer);
+            tableResponse.TotalRows = query.Count();
+
+            IFilterTemplate<User> filterTemplate = FilterFactory<User>.CreateSortingObject();
+            tableResponse.Data = filterTemplate.GetData(query, tableRequest);
+
+            return tableResponse;
         }
 
         public User GetUser(int id)

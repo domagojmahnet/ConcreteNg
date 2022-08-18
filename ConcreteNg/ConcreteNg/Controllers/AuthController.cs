@@ -23,7 +23,7 @@ namespace ConcreteNg.Controllers
             string token = authService.LogInUser(loginModel);
             if (string.IsNullOrEmpty(token))
             {
-                return Unauthorized();
+                return NotFound("Invalid credentials");
             }
             return Ok(JsonSerializer.Serialize(token));
         }
