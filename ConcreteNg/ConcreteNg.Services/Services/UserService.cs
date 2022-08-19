@@ -25,28 +25,53 @@ namespace ConcreteNg.Services.Services
             httpContextAccessor = _httpContextAccessor;
         }
 
-        public int AddEditUser(User user)
+        public User AddEditUser(User user)
         {
+            bool error = false;
             if(user.UserId == -1)
             {
-                Employer employer = unitOfWork.employerRepository.Read(int.Parse(httpContextAccessor.HttpContext.User.FindFirst("EmployerID").Value));
-                unitOfWork.userRepository.Create(new User(
-                    user.FirstName, user.LastName, user.Username, user.Password, user.Phone, DateTime.UtcNow, user.UserType, employer, true)
-                );
+                if (unitOfWork.userRepository.FindAll().Any(x => x.Username == user.Username))
+                {
+                    error = true;
+                }
+                else
+                {
+                    Employer employer = unitOfWork.employerRepository.Read(int.Parse(httpContextAccessor.HttpContext.User.FindFirst("EmployerID").Value));
+                    user = new User(user.FirstName, user.LastName, user.Username, user.Password, user.Phone, DateTime.UtcNow, user.UserType, employer, true);
+                    unitOfWork.userRepository.Create(user);
+                }
             }
             else
             {
                 var userToUpdate = unitOfWork.userRepository.Read(user.UserId);
-                userToUpdate.FirstName = user.FirstName;
-                userToUpdate.LastName = user.LastName;
-                userToUpdate.Username = user.Username;
-                userToUpdate.Password = user.Password;
-                userToUpdate.Phone = user.Phone;
-                userToUpdate.HireDate = user.HireDate;
-                userToUpdate.UserType = user.UserType;
-                unitOfWork.userRepository.Update(userToUpdate);
+                if(userToUpdate.Username != user.Username)
+                {
+                    if(unitOfWork.userRepository.FindAll().Any(x => x.Username == user.Username))
+                    {
+                        error = true;
+                    }
+                    else
+                    {
+                        userToUpdate.FirstName = user.FirstName;
+                        userToUpdate.LastName = user.LastName;
+                        userToUpdate.Username = user.Username;
+                        userToUpdate.Password = user.Password;
+                        userToUpdate.Phone = user.Phone;
+                        userToUpdate.HireDate = user.HireDate;
+                        userToUpdate.UserType = user.UserType;
+                        user = userToUpdate;
+                        unitOfWork.userRepository.Update(user);
+                    }
+                }
             }
-            return unitOfWork.Complete();
+            if(!error)
+            {
+                if(unitOfWork.Complete() > 0)
+                {
+                    return user;
+                }
+            }
+            return null;
         }
 
         public int DeleteUser(int id)

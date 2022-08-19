@@ -10,6 +10,7 @@ namespace ConcreteNg.Repositories.Interfaces
 {
     public interface IProjectRepository : IRepository<Project>
     {
-
+        User GetProjectBuyer(int projectId);
+        int AssignBuyer(int userId, int projectId);
     }
 }

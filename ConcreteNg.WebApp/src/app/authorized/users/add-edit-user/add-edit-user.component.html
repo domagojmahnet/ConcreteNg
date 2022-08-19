@@ -27,7 +27,7 @@
         <mat-label>Phone</mat-label>
         <input matInput formControlName="phone">
     </mat-form-field>
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="fill" *ngIf="!data.isBuyerAccount">
         <mat-label>Type</mat-label>
         <mat-select formControlName="userType">
             <mat-option *ngFor="let item of options" [value]="item">{{typeEnum[item]}}</mat-option>

@@ -29,6 +29,7 @@ export class ProjectTaskComponent implements OnInit, OnChanges {
     ) { }
 
     ngOnInit(): void {
+        this.userRole = this.accountService.userValue?.userType;
         this.calculateProgress();
         this.projectDetailsService.taskChange.subscribe(() => {
             this.calculateProgress();

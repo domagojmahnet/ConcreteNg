@@ -23,11 +23,19 @@ namespace ConcreteNg.Repositories.TableRequestHelpers.ConcreteFilterSort
                 case UserFilterEnum.Username:
                     query = query.Where(x => x.Username.Contains(filter.FilterQuery));
                     break;
-                case UserFilterEnum.HireDate:
-                    query = query.Where(x => x.HireDate.ToString().Contains(filter.FilterQuery));
+                case UserFilterEnum.HireDateStart:
+                    var dateFrom = DateTimeOffset.Parse(filter.FilterQuery).UtcDateTime;
+                    query = query.Where(x => x.HireDate >= dateFrom);
+                    break;
+                case UserFilterEnum.HireDateEnd:
+                    var dateTo = DateTimeOffset.Parse(filter.FilterQuery).UtcDateTime.AddDays(1);
+                    query = query.Where(x => x.HireDate <= dateTo);
                     break;
                 case UserFilterEnum.UserType:
                     query = query.Where(x => x.UserType.ToString().Contains(filter.FilterQuery));
+                    break;
+                case UserFilterEnum.Phone:
+                    query = query.Where(x => x.Phone.ToString().Contains(filter.FilterQuery));
                     break;
                 default:
                     break;
@@ -49,6 +57,8 @@ namespace ConcreteNg.Repositories.TableRequestHelpers.ConcreteFilterSort
                     return x.HireDate;
                 case "userType":
                     return x.UserType;
+                case "phone":
+                    return x.Phone;
                 default:
                     return x.FirstName;
             }

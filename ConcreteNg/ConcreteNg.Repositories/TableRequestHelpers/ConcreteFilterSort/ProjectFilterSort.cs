@@ -25,8 +25,13 @@ namespace ConcreteNg.Repositories.TableRequestHelpers.ConcreteFilterSort
                 case ProjectFilterColumnsEnum.ExpectedCostFilter:
                     query = query.Where(p => p.ExpectedCost.ToString().Contains(filter.FilterQuery));
                     break;
-                case ProjectFilterColumnsEnum.ExpectedEndDateFilter:
-                    //finish
+                case ProjectFilterColumnsEnum.ExpectedEndDateFilterStart:
+                    var dateFrom = DateTimeOffset.Parse(filter.FilterQuery).UtcDateTime;
+                    query = query.Where(x => x.ExpectedEndDate >= dateFrom);
+                    break;
+                case ProjectFilterColumnsEnum.ExpectedEndDateFilterEnd:
+                    var dateTo = DateTimeOffset.Parse(filter.FilterQuery).UtcDateTime.AddDays(1);
+                    query = query.Where(x => x.ExpectedEndDate <= dateTo);
                     break;
                 default:
                     break;

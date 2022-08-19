@@ -21,5 +21,30 @@ namespace ConcreteNg.Repositories.Repositories
         {
             dataContext = dbContext;
         }
+
+        public User GetProjectBuyer(int projectId)
+        {
+            var project = dataContext.Projects.Include(x => x.Users).FirstOrDefault(x => x.ProjectId == projectId);
+            if (project.Users != null)
+            {
+                return project.Users.FirstOrDefault(x => x.UserType == UserTypeEnum.Buyer);
+            }
+            return null;
+        }
+
+        public int AssignBuyer(int userId, int projectId)
+        {
+            var user = dataContext.Users.Find(userId);
+            var project = dataContext.Projects.Include(x => x.Users).FirstOrDefault(x => x.ProjectId == projectId);
+            if (project.Users == null)
+            {
+                project.Users = new List<User>() { user };
+            }
+            else
+            {
+                project.Users.Add(user);
+            }
+            return dataContext.SaveChanges();
+        }
     }
 }

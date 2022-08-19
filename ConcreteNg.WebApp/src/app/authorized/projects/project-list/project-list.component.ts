@@ -34,7 +34,6 @@ export class ProjectListComponent implements OnInit {
         return UserTypeEnum; 
     }
     displayedColumns: string[] = [
-        'projectId', 
         'name',
         'expectedEndDate', 
         'expectedCost',
@@ -42,7 +41,6 @@ export class ProjectListComponent implements OnInit {
     ];
     
     displayedColumnFilters: string[] = [
-        'projectId-filter',
         'name-filter',
         'expectedEndDate-filter',
         'expectedCost-filter',
@@ -52,7 +50,8 @@ export class ProjectListComponent implements OnInit {
     filters: BaseFilter[] = [
         {columnName: ProjectFilterColumnsEnum.ProjectIdFilter, filterQuery: ""},
         {columnName: ProjectFilterColumnsEnum.NameFilter, filterQuery: ""},
-        {columnName: ProjectFilterColumnsEnum.ExpectedEndDateFilter, filterQuery: ""},
+        {columnName: ProjectFilterColumnsEnum.ExpectedEndDateFilterStart, filterQuery: ""},
+        {columnName: ProjectFilterColumnsEnum.ExpectedEndDateFilterEnd, filterQuery: ""},
         {columnName: ProjectFilterColumnsEnum.ExpectedCostFilter, filterQuery: ""},
         {columnName: ProjectFilterColumnsEnum.ProjectStatusFilter, filterQuery: ""}
     ];
@@ -120,6 +119,14 @@ export class ProjectListComponent implements OnInit {
             this.isAscending = true;
         }
         this.loadData();
+    }
+
+    dateChange(event: any, columnName: ProjectFilterColumnsEnum){
+        let filter = this.filters.find(f => f.columnName === columnName);
+        if (filter) {
+            filter.filterQuery = (event.target as HTMLInputElement).value !== null ? new Date((event.target as HTMLInputElement).value).toUTCString() : "";
+            this.loadData();
+        }
     }
 
     keyup(event: KeyboardEvent, columnName: ProjectFilterColumnsEnum) {

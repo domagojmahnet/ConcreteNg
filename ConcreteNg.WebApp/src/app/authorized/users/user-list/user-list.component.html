@@ -75,8 +75,15 @@
          <ng-container matColumnDef="hireDate-filter">
             <th mat-header-cell *matHeaderCellDef>
                 <mat-form-field>
-                    <mat-label>Search by hire date</mat-label>
-                    <input matInput (keyup)="keyup($event, userListFilterColumnsEnum.HireDate)">
+                    <mat-label>Search by date</mat-label>
+                    <mat-date-range-input [rangePicker]="picker">
+                        <input matStartDate placeholder="Start date" 
+                            (dateChange)="dateChange($event, userListFilterColumnsEnum.HireDateStart)">
+                        <input matEndDate placeholder="End date" 
+                            (dateChange)="dateChange($event, userListFilterColumnsEnum.HireDateEnd)">
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-date-range-picker #picker></mat-date-range-picker>
                 </mat-form-field>
             </th>
          </ng-container>

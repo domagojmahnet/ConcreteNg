@@ -31,7 +31,8 @@ namespace ConcreteNg.Services.Services
             var query = unitOfWork.projectRepository.FindAll().Where(p => p.ProjectStatus == ProjectStatusEnum.InProgress && p.Employer.EmployerId == int.Parse(httpContextAccessor.HttpContext.User.FindFirst("EmployerID").Value));
             if ((UserTypeEnum)Enum.Parse(typeof(UserTypeEnum), httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value) != UserTypeEnum.Administrator)
             {
-                query = query.Where(x => x.Users.Any(u => u.UserId == int.Parse(httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value)));
+                int userId = int.Parse(httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value);
+                query = query.Where(x => x.Users.Any(u => u.UserId == userId));
             }
             return query.ToList();
         }
@@ -43,7 +44,8 @@ namespace ConcreteNg.Services.Services
             var query = unitOfWork.projectRepository.FindAll().Where(p => p.Employer.EmployerId == int.Parse(httpContextAccessor.HttpContext.User.FindFirst("EmployerID").Value));
             if ((UserTypeEnum)Enum.Parse(typeof(UserTypeEnum), httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value) != UserTypeEnum.Administrator)
             {
-                query = query.Where(x => x.Users.Any(u => u.UserId == int.Parse(httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value)));
+                int userId = int.Parse(httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value);
+                query = query.Where(x => x.Users.Any(u => u.UserId == userId));
             }
             tableResponse.TotalRows = query.Count();
 
@@ -152,6 +154,16 @@ namespace ConcreteNg.Services.Services
                 costOverviews.Add(new CostOverview(item.PricingListItemName, (float)totalMaterialCost, (float)totalLabourCost, (float)totalLabourQuantity, item.UnitOfMeasurement, partnerCosts, totalCost));
             }
             return costOverviews;
+        }
+
+        public User GetProjectBuyer(int projectId)
+        {
+            return unitOfWork.projectRepository.GetProjectBuyer(projectId);
+        }
+
+        public int AssignBuyer(int userId, int projectId)
+        {
+            return unitOfWork.projectRepository.AssignBuyer(userId, projectId);
         }
     }
 }

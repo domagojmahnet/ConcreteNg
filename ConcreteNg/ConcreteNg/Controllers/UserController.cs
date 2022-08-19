@@ -35,10 +35,17 @@ namespace ConcreteNg.Controllers
 
         [HttpPost]
         [Route("user")]
-        public async Task<ActionResult<int>> AddEditUser([FromBody] User user)
+        public async Task<ActionResult<User>> AddEditUser([FromBody] User user)
         {
             var result = userService.AddEditUser(user);
-            return Ok(result);
+            if(result != null)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest("Username already exists!");
+            }
         }
 
         [HttpDelete]

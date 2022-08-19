@@ -17,5 +17,7 @@ namespace ConcreteNg.Services.Interfaces
         int AddProject(Project project, int managerId);
         IEnumerable<User> GetEligibleManagers();
         IEnumerable<CostOverview> GetCostOverview(int projectId);
+        User GetProjectBuyer (int projectId);
+        int AssignBuyer(int userId, int projectId);
     }
 }

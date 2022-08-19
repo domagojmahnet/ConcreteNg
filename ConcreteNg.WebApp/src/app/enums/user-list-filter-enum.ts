@@ -3,6 +3,7 @@ export enum UserListFilterEnum{
     LastName = 1,
     Username = 2,
     Phone = 3,
-    HireDate = 4,
-    UserType = 5,
+    HireDateStart = 4,
+    HireDateEnd = 5,
+    UserType = 6,
 }

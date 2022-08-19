@@ -11,6 +11,7 @@ import { AngularMaterialModule } from './angular-material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @NgModule({
     declarations: [],
@@ -23,6 +24,7 @@ import { RouterModule } from '@angular/router';
         ToastrModule,
         NgbModule,
         HttpClientModule,
+        NgxChartsModule,
         BrowserAnimationsModule,
         AngularMaterialModule,
         FlexLayoutModule,

@@ -1,3 +1,10 @@
-<div style="display: flex;">
-    <img mat-card-image style="width: 100%" src="https://cdna.artstation.com/p/assets/images/images/021/313/056/large/tommaso-villa-picmodernhouse1.jpg?1571191274" alt="Angular Logo">
+<div style="display: flex; padding-top: 20px;">
+    <button mat-raised-button color="primary" (click)="OpenAddEditItemDialog()">Buyer Account</button>
+    
 </div>
+<ngx-charts-pie-grid
+        [view]="view"
+        [scheme]="colorScheme"
+        [results]="single"
+        (select)="onSelect($event)">
+    </ngx-charts-pie-grid>

@@ -7,10 +7,6 @@
         (matSortChange)="sortChanged($event)" 
         [dataSource]="dataSource" style="width: 100%;"
         >
-        <ng-container matColumnDef="projectId">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header class="table-header"><mat-icon>key</mat-icon>Serial number</th>
-            <td mat-cell *matCellDef="let element"> {{element.projectId}} </td>
-        </ng-container>
         <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef mat-sort-header><mat-icon>description</mat-icon>Name</th>
             <td mat-cell *matCellDef="let element"> {{element.name}} </td>
@@ -28,14 +24,6 @@
             <td mat-cell *matCellDef="let element">{{projectStatusEnum[element.projectStatus]}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="projectId-filter">
-            <th mat-header-cell *matHeaderCellDef>
-                <mat-form-field>
-                    <mat-label>Search by ID</mat-label>
-                    <input matInput>
-                </mat-form-field>
-            </th>
-         </ng-container>
          <ng-container matColumnDef="name-filter">
             <th mat-header-cell *matHeaderCellDef>
                 <mat-form-field>
@@ -47,8 +35,15 @@
          <ng-container matColumnDef="expectedEndDate-filter">
             <th mat-header-cell *matHeaderCellDef>
                 <mat-form-field>
-                    <mat-label>Search by due date</mat-label>
-                    <input matInput>
+                    <mat-label>Search by date</mat-label>
+                    <mat-date-range-input [rangePicker]="picker">
+                        <input matStartDate placeholder="Start date" 
+                            (dateChange)="dateChange($event, projectFilterColumnsEnum.ExpectedEndDateFilterStart)">
+                        <input matEndDate placeholder="End date" 
+                            (dateChange)="dateChange($event, projectFilterColumnsEnum.ExpectedEndDateFilterEnd)">
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-date-range-picker #picker></mat-date-range-picker>
                 </mat-form-field>
             </th>
          </ng-container>

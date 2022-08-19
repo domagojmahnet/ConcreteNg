@@ -95,4 +95,12 @@ export class ProjectDetailsService {
             });
         })
     }
+
+    getProjectBuyer(projectId: number){
+        return this.http.get<any>(this.projectApiUrl + "/projectBuyer/" + projectId);
+    }
+
+    assignBuyerToProject(userId: number, projectId: number){
+        return this.http.get<any>(this.projectApiUrl + "/assignBuyer/" + userId + "/" + projectId);
+    }
 }

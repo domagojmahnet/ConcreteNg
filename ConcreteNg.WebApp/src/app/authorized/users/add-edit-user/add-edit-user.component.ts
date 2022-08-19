@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
 import { UserTypeEnum } from '../../../enums/user-type';
 import { User } from '../../../models/user';
 import { EmployerService } from '../../employer-service.service';
@@ -30,10 +31,11 @@ export class AddEditUserComponent implements OnInit {
     });
 
     constructor(
-        @Optional() @Inject(MAT_DIALOG_DATA) public data: {user: User},
+        @Optional() @Inject(MAT_DIALOG_DATA) public data: {user: User, isBuyerAccount: boolean},
         private dialogRef: MatDialogRef<AddEditUserComponent>,
         private formBuilder: FormBuilder,
-        private employerService: EmployerService
+        private employerService: EmployerService,
+        private toastr: ToastrService
     ) { }
 
     ngOnInit(): void {
@@ -57,13 +59,20 @@ export class AddEditUserComponent implements OnInit {
             username: this.form.get("username")?.value,
             password: this.form.get("password")?.value,
             phone: this.form.get("phone")?.value,
-            userType: this.form.get("userType")?.value,
+            userType: this.data.isBuyerAccount === true ? UserTypeEnum.Buyer : this.form.get("userType")?.value,
             hireDate: new Date(),
             isActive: true
         }
-        this.employerService.createOrUpdateUser(user).subscribe(() => {
-            this.dialogRef.close(true);
+        this.employerService.createOrUpdateUser(user).subscribe({
+            next: (res: any) =>{
+                this.dialogRef.close(res)
+            },
+            error: err => {
+                debugger;
+                this.toastr.error(err.error, "",{
+                    positionClass: 'toast-top-full-width'
+                })
+            },
         })
     }
-
 }

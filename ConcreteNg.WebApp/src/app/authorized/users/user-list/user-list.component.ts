@@ -58,7 +58,8 @@ export class UserListComponent implements OnInit {
         {columnName: UserListFilterEnum.LastName, filterQuery: ""},
         {columnName: UserListFilterEnum.Username, filterQuery: ""},
         {columnName: UserListFilterEnum.Phone, filterQuery: ""},
-        {columnName: UserListFilterEnum.HireDate, filterQuery: ""},
+        {columnName: UserListFilterEnum.HireDateStart, filterQuery: ""},
+        {columnName: UserListFilterEnum.HireDateEnd, filterQuery: ""},
         {columnName: UserListFilterEnum.UserType, filterQuery: ""},
     ];
 
@@ -136,6 +137,14 @@ export class UserListComponent implements OnInit {
         this.loadData();
     }
 
+    dateChange(event: any, columnName: UserListFilterEnum){
+        let filter = this.filters.find(f => f.columnName === columnName);
+        if (filter) {
+            filter.filterQuery = (event.target as HTMLInputElement).value !== null ? new Date((event.target as HTMLInputElement).value).toUTCString() : "";
+            this.loadData();
+        }
+    }
+
     OpenAddEditItemDialog(user?: User){
         const dialogPosition: DialogPosition = {
             right: 0 + 'px',
@@ -145,7 +154,7 @@ export class UserListComponent implements OnInit {
             width: '450px',
             height: '100%',
             position: dialogPosition,
-            data: {user: user}
+            data: {user: user, isBuyerAccount: false}
         });
 
         dialogRef.afterClosed().subscribe(result => {

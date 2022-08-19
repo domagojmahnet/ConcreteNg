@@ -80,5 +80,21 @@ namespace ConcreteNg.Controllers
             var result = projectService.GetCostOverview(projectId);
             return Ok(result);
         }
+
+        [HttpGet]
+        [Route("projectBuyer/{projectId}")]
+        public async Task<ActionResult<User>> GetProjectBuyer(int projectId)
+        {
+            var result = projectService.GetProjectBuyer(projectId);
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("assignBuyer/{userId}/{projectId}")]
+        public async Task<ActionResult> AssignBuyer(int userId, int projectId)
+        {
+            var result = projectService.AssignBuyer(userId, projectId);
+            return Ok(result);
+        }
     }
 }
