@@ -5,6 +5,7 @@ using ConcreteNg.Repositories.TableRequestHelpers;
 using ConcreteNg.Services.Interfaces;
 using ConcreteNg.Shared.Enums;
 using ConcreteNg.Shared.Models;
+using ConcreteNg.Shared.Models.GraphModels;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -164,6 +165,20 @@ namespace ConcreteNg.Services.Services
         public int AssignBuyer(int userId, int projectId)
         {
             return unitOfWork.projectRepository.AssignBuyer(userId, projectId);
+        }
+
+        public GraphData GetGraphData(int projectId)
+        {
+            var taskCompletions = unitOfWork.projectTaskRepository.GetTaskCompletions(projectId);
+
+            var expenses = unitOfWork.expenseRepository.FindAll().Where(x => x.ProjectTaskItem.ProjectTask.Project.ProjectId == projectId);
+            var labourExpenses = (float)expenses.Where(x => x.ExpenseType == ExpenseTypeEnum.Standard).Select(x => x.TotalCost).Sum();
+            var materialExpenses = (float)expenses.Where(x => x.ExpenseType == ExpenseTypeEnum.Material).Select(x => x.TotalCost).Sum();
+            var partnerExpenses = (float)expenses.Where(x => x.ExpenseType == ExpenseTypeEnum.Partner).Select(x => x.TotalCost).Sum();
+            List<PieGrid> gaugeData = new List<PieGrid>() { new PieGrid("Labour", labourExpenses), new PieGrid("Material", materialExpenses), new PieGrid("Partners", partnerExpenses), };
+
+
+            return new GraphData(taskCompletions, gaugeData);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using ConcreteNg.Shared.Models;
+using ConcreteNg.Shared.Models.GraphModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,5 +20,6 @@ namespace ConcreteNg.Services.Interfaces
         IEnumerable<CostOverview> GetCostOverview(int projectId);
         User GetProjectBuyer (int projectId);
         int AssignBuyer(int userId, int projectId);
+        GraphData GetGraphData(int projectId);
     }
 }

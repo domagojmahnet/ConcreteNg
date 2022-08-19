@@ -1,10 +1,26 @@
-<div style="display: flex; padding-top: 20px;">
-    <button mat-raised-button color="primary" (click)="OpenAddEditItemDialog()">Buyer Account</button>
-    
+<h1>Task Completion</h1>
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
+    <mat-divider></mat-divider>
+    <div #containerRef *ngFor="let item of graphData.taskCompletions">
+        <ngx-charts-pie-grid
+        [view]="[containerRef.offsetWidth, 400]"
+        [results]="item.pieGrid"
+        [designatedTotal]="item.designatedTotal"
+        label="Finished">
+        </ngx-charts-pie-grid>
+    </div>
 </div>
-<ngx-charts-pie-grid
-        [view]="view"
-        [scheme]="colorScheme"
-        [results]="single"
-        (select)="onSelect($event)">
-    </ngx-charts-pie-grid>
+<h1>Total Expenditure</h1>
+<div style="display: flex; min-height: 400px;">
+    <mat-divider></mat-divider>
+    <ngx-charts-gauge
+    [results]="graphData.gaugeData"
+    [legend]="legend"
+    [legendPosition]="legendPosition"
+    >
+</ngx-charts-gauge>
+</div>
+<div style="display: flex; padding-top: 20px; margin-left: auto;">
+    <button mat-raised-button color="primary" (click)="OpenAddEditItemDialog()">Buyer Account</button>
+</div>
+

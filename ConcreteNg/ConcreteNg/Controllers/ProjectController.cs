@@ -1,5 +1,6 @@
 ﻿using ConcreteNg.Services.Interfaces;
 using ConcreteNg.Shared.Models;
+using ConcreteNg.Shared.Models.GraphModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -94,6 +95,14 @@ namespace ConcreteNg.Controllers
         public async Task<ActionResult> AssignBuyer(int userId, int projectId)
         {
             var result = projectService.AssignBuyer(userId, projectId);
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("graphData/{projectId}")]
+        public async Task<ActionResult<GraphData>> GetGraphData(int projectId)
+        {
+            var result = projectService.GetGraphData(projectId);
             return Ok(result);
         }
     }

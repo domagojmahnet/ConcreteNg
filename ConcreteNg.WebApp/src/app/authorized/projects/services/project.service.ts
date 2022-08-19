@@ -6,6 +6,7 @@ import { environment } from '../../../../environments/environment';
 import { AccountService } from '../../../account.service';
 import { CostOverview } from '../../../models/cost-everview';
 import { DiaryItem } from '../../../models/diary-item';
+import { GraphData } from '../../../models/graph-models/graph-data';
 import { Project } from '../../../models/project';
 import { TableRequest } from '../../../models/table-request';
 import { User } from '../../../models/user';
@@ -54,5 +55,9 @@ export class ProjectService {
 
     getCostOverview(projectId: number){
         return this.http.get<CostOverview[]>(this.projectApiUrl + "/costOverview/" + projectId);
+    }
+
+    getProjectGraphData(projectId: number){
+        return this.http.get<GraphData>(this.projectApiUrl + "/graphData/" + projectId);
     }
 }
