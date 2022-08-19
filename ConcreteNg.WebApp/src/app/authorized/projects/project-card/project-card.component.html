@@ -3,28 +3,28 @@
     <img mat-card-image style="width: 150px;" src="https://angular.io/assets/images/logos/angularjs/AngularJS-Shield.svg" alt="Angular Logo">
     <mat-card-header>
         <mat-card-title>{{projectData.name}}</mat-card-title>
-        <mat-card-subtitle>
-        Project descriptionProject descriptionProject descriptionProject descriptionProject description
-        </mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
         <div class="items-wrapper">
-            <a>Client: Name Surname</a>
-        </div>
-        <div class="items-wrapper">
             <a>End date: {{projectData.expectedEndDate | date:'longDate'}}</a>
-            <ng-container *ngIf="1===1">
+            <ng-container *ngIf="!isGreaterThanToday">
                 <mat-icon class="material-icons color_red">error_outline</mat-icon>
             </ng-container>
-        </div>
-        <div class="items-wrapper">
-            <a>Budget: {{projectData.expectedCost}}$</a>
-            <ng-container *ngIf="1===1">
+            <ng-container *ngIf="isGreaterThanToday">
                 <mat-icon class="material-icons color_green">check_circle_outline</mat-icon>
             </ng-container>
         </div>
         <div class="items-wrapper">
-            <a>Status: in progress</a>
+            <a>Budget: {{projectData.expectedCost}}$</a>
+            <ng-container *ngIf="projectData.expectedCost >= projectData.currentCost">
+                <mat-icon class="material-icons color_green">check_circle_outline</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="projectData.expectedCost < projectData.currentCost">
+                <mat-icon class="material-icons color_red">error_outline</mat-icon>
+            </ng-container>
+        </div>
+        <div class="items-wrapper">
+            <a>Status: {{projectStatusEnum[projectData.projectStatus]}}</a>
         </div>
     </mat-card-content>
     <mat-card-actions align="end">

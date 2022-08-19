@@ -22,10 +22,9 @@ export class EmployerOverviewComponent implements OnInit {
         this.projectService.getBaseProjects().subscribe((data: Project[]) => {
             this.activeProjects = data.filter(x => x.projectStatus === ProjectStatusEnum['In Progress']);
             this.toDoProjects = data.filter(x => x.projectStatus === ProjectStatusEnum['To Do']);
-            this.numberOfActiveProjects = data.length;
-            let today = new Date();
-            this.overdueProjects = data.filter(x => x.expectedEndDate < today).length;
-            this.overrunProjects = data.filter(x => x.currentCost > x.expectedCost).length;
+            this.numberOfActiveProjects = this.activeProjects.length;
+            this.overdueProjects = this.activeProjects.filter(x => new Date(x.expectedEndDate) >= new Date()).length;
+            this.overrunProjects = this.activeProjects.filter(x => x.currentCost >= x.expectedCost).length;
         })
     }
 }

@@ -29,13 +29,18 @@ namespace ConcreteNg.Services.Services
 
         public IEnumerable<Project> GetActiveProjects()
         {
-            var query = unitOfWork.projectRepository.FindAll().Where(p => p.ProjectStatus == ProjectStatusEnum.InProgress && p.Employer.EmployerId == int.Parse(httpContextAccessor.HttpContext.User.FindFirst("EmployerID").Value));
+            var query = unitOfWork.projectRepository.FindAll().Where(p => (p.ProjectStatus == ProjectStatusEnum.InProgress || p.ProjectStatus == ProjectStatusEnum.ToDo) && p.Employer.EmployerId == int.Parse(httpContextAccessor.HttpContext.User.FindFirst("EmployerID").Value));
             if ((UserTypeEnum)Enum.Parse(typeof(UserTypeEnum), httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value) != UserTypeEnum.Administrator)
             {
                 int userId = int.Parse(httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value);
                 query = query.Where(x => x.Users.Any(u => u.UserId == userId));
             }
-            return query.ToList();
+            var projects = query.ToList();
+            foreach(var project in projects)
+            {
+                project.CurrentCost = (float)unitOfWork.expenseRepository.FindAll().Where(x => x.ProjectTaskItem.ProjectTask.Project.ProjectId == project.ProjectId).Select(x => x.TotalCost).Sum();
+            }
+            return projects;
         }
 
         public TableResponse GetProjects(TableRequest tableRequest)
