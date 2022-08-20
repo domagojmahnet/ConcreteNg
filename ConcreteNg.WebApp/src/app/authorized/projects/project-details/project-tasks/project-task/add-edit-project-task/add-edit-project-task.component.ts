@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Inject, OnInit, Optional, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ProjectTask } from '../../../../../../models/project-task';
 import { ProjectDetailsService } from '../../../project-details.service';
 
@@ -18,7 +18,8 @@ export class AddEditProjectTaskComponent implements OnInit {
     constructor(
         @Optional() @Inject(MAT_DIALOG_DATA) public data: {projectTask: ProjectTask, projectId: number},
         private formBuilder: FormBuilder,
-        private projectDetailsService: ProjectDetailsService
+        private projectDetailsService: ProjectDetailsService,
+        private dialogRef: MatDialogRef<AddEditProjectTaskComponent>
     ) { }
 
     ngOnInit(): void {
@@ -36,7 +37,10 @@ export class AddEditProjectTaskComponent implements OnInit {
                 projectTaskName: this.form.get("projectTaskName")?.value,
                 projectTaskItems: this.data.projectTask === undefined ? [] : this.data.projectTask.projectTaskItems,
             }
-            this.projectDetailsService.createOrUpdateProjectTask(projectTask, this.data.projectId);
+            this.projectDetailsService.createOrUpdateProjectTask(projectTask, this.data.projectId).subscribe((res) => {
+                this.projectDetailsService.handleProjectTaskCreateOrUpdate(projectTask, res);
+                this.dialogRef.close(true);
+            });
         }
     }
 

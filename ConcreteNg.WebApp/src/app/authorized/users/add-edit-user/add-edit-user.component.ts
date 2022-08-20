@@ -65,10 +65,12 @@ export class AddEditUserComponent implements OnInit {
         }
         this.employerService.createOrUpdateUser(user).subscribe({
             next: (res: any) =>{
+                this.toastr.success("Succesfully added/edited user!", "",{
+                    positionClass: 'toast-top-full-width'
+                });
                 this.dialogRef.close(res)
             },
             error: err => {
-                debugger;
                 this.toastr.error(err.error, "",{
                     positionClass: 'toast-top-full-width'
                 })

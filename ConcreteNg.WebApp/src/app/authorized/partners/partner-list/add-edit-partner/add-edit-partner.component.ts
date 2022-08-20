@@ -42,7 +42,8 @@ export class AddEditPartnerComponent implements OnInit {
             name: this.form.get("name")?.value,
             address: this.form.get("address")?.value,
             contactPerson: this.form.get("contactPerson")?.value,
-            contactNumber: this.form.get("contactNumber")?.value
+            contactNumber: this.form.get("contactNumber")?.value,
+            isActive: true
         }
         this.employerService.createOrUpdatePartner(partner).subscribe(() => {
             this.dialogRef.close(true);

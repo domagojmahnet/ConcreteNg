@@ -3,6 +3,7 @@ import { DialogPosition, MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { ToastrService } from 'ngx-toastr';
 import { AccountService } from '../../../../account.service';
 import { DiaryFilterColumnsEnum } from '../../../../enums/diary-filter-columns-enum';
 import { UserTypeEnum } from '../../../../enums/user-type';
@@ -60,7 +61,9 @@ export class DiaryComponent implements OnInit {
     constructor(
         private projectService: ProjectService,
         public dialog: MatDialog,
-        private accountService: AccountService) { }
+        private accountService: AccountService,
+        private toastr: ToastrService
+        ) { }
 
     ngOnInit(): void {
         this.userRole = this.accountService.userValue?.userType;
@@ -138,8 +141,10 @@ export class DiaryComponent implements OnInit {
         });
 
         dialogRef.afterClosed().subscribe(result => {
-            debugger;
             if(result){
+                this.toastr.success("Succesfully added diary item!", "",{
+                    positionClass: 'toast-top-full-width'
+                });
                 this.loadData();
             }
         });

@@ -34,7 +34,7 @@
                 <mat-label>Search managers</mat-label>
                 <input matInput (keyup)="onKey($any($event.target).value)">
             </mat-form-field>
-            <mat-option *ngFor="let item of searchedEligibleManagers" [value]="item.userId">{{item.firstName + " " + item.lastName}}</mat-option>
+            <mat-option *ngFor="let item of searchedEligibleManagers" [value]="item">{{item.firstName + " " + item.lastName}}</mat-option>
         </mat-select>
     </mat-form-field>
 </mat-dialog-content>

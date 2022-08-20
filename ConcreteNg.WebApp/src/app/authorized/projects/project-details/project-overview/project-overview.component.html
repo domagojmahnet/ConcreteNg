@@ -20,7 +20,20 @@
     >
 </ngx-charts-gauge>
 </div>
-<div style="display: flex; padding-top: 20px; margin-left: auto;">
+<div style="display: flex; padding-top: 20px; margin-left: auto; gap: 10px;">
     <button mat-raised-button color="primary" (click)="OpenAddEditItemDialog()">Buyer Account</button>
+    <ng-container [ngSwitch]="project.projectStatus" *ngIf="userRole !== userTypeEnum.Buyer">
+        <ng-container *ngSwitchCase="projectStatusEnum['In Progress']">
+            <button mat-flat-button class="mat-flat-button" color="primary" (click)="updateProjectStatus(projectStatusEnum['Completed'])">Finish Project</button>
+            <button mat-flat-button class="mat-flat-button" color="primary" (click)="updateProjectStatus(projectStatusEnum['To Do'])">Stop Project</button>
+        </ng-container>
+        <ng-container *ngSwitchCase="projectStatusEnum['To Do']">
+            <button  mat-flat-button class="mat-flat-button" color="primary" (click)="updateProjectStatus(projectStatusEnum['In Progress'])">Start Project</button>
+        </ng-container>
+        <ng-container *ngSwitchCase="projectStatusEnum['Completed']">
+            <button mat-flat-button class="mat-flat-button" color="primary" (click)="updateProjectStatus(projectStatusEnum['To Do'])">Stop Project</button>
+        </ng-container>
+    </ng-container>
 </div>
+
 

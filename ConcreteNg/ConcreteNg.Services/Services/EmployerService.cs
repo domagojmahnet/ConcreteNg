@@ -27,7 +27,7 @@ namespace ConcreteNg.Services.Services
             if (partner.PartnerId == -1)
             {
                 Employer employer = unitOfWork.employerRepository.Read(int.Parse(httpContextAccessor.HttpContext.User.FindFirst("EmployerID").Value));
-                unitOfWork.partnerRepository.Create(new Partner(partner.Name, partner.Address, partner.ContactPerson, partner.ContactNumber, employer));
+                unitOfWork.partnerRepository.Create(new Partner(partner.Name, partner.Address, partner.ContactPerson, partner.ContactNumber, partner.IsActive, employer));
             }
             else
             {
@@ -46,7 +46,7 @@ namespace ConcreteNg.Services.Services
             if (item.PricingListItemId == -1)
             {
                 Employer employer = unitOfWork.employerRepository.Read(int.Parse(httpContextAccessor.HttpContext.User.FindFirst("EmployerID").Value));
-                unitOfWork.pricingListRepository.Create(new PricingListItem(item.PricingListItemName, item.UnitOfMeasurement, item.Price, employer));
+                unitOfWork.pricingListRepository.Create(new PricingListItem(item.PricingListItemName, item.UnitOfMeasurement, item.Price, item.IsActive, employer));
             }
             else
             {
@@ -62,20 +62,29 @@ namespace ConcreteNg.Services.Services
         public int DeletePricingListItem(int id)
         {
             var itemToDelete = unitOfWork.pricingListRepository.Read(id);
-            unitOfWork.pricingListRepository.Delete(itemToDelete);
+            itemToDelete.IsActive = false;
+            unitOfWork.pricingListRepository.Update(itemToDelete);
+            return unitOfWork.Complete();
+        }
+
+        public int DeletePartner(int id)
+        {
+            var partnerToDelete = unitOfWork.partnerRepository.Read(id);
+            partnerToDelete.IsActive = false;
+            unitOfWork.partnerRepository.Update(partnerToDelete);
             return unitOfWork.Complete();
         }
 
         public IEnumerable<Partner> GetEmployerPartners()
         {
-            return unitOfWork.partnerRepository.FindAll().Where(x => x.Employer.EmployerId == int.Parse(httpContextAccessor.HttpContext.User.FindFirst("EmployerID").Value));
+            return unitOfWork.partnerRepository.FindAll().Where(x => x.Employer.EmployerId == int.Parse(httpContextAccessor.HttpContext.User.FindFirst("EmployerID").Value) && x.IsActive);
         }
 
         public TableResponse GetEmployerPartnersTable(TableRequest tableRequest)
         {
             TableResponse tableResponse = new TableResponse();
 
-            var query = unitOfWork.partnerRepository.FindAll().Where(x => x.Employer.EmployerId == int.Parse(httpContextAccessor.HttpContext.User.FindFirst("EmployerID").Value));
+            var query = unitOfWork.partnerRepository.FindAll().Where(x => x.Employer.EmployerId == int.Parse(httpContextAccessor.HttpContext.User.FindFirst("EmployerID").Value) && x.IsActive);
             tableResponse.TotalRows = query.Count();
 
             IFilterTemplate<Partner> filterTemplate = FilterFactory<Partner>.CreateSortingObject();
@@ -86,14 +95,14 @@ namespace ConcreteNg.Services.Services
 
         public IEnumerable<PricingListItem> GetEmployersPricingListItems()
         {
-            return unitOfWork.pricingListRepository.FindAll().Where(x => x.Employer.EmployerId == int.Parse(httpContextAccessor.HttpContext.User.FindFirst("EmployerID").Value));
+            return unitOfWork.pricingListRepository.FindAll().Where(x => x.Employer.EmployerId == int.Parse(httpContextAccessor.HttpContext.User.FindFirst("EmployerID").Value) && x.IsActive);
         }
 
         public TableResponse GetEmployersPricingListItemsTable(TableRequest tableRequest)
         {
             TableResponse tableResponse = new TableResponse();
 
-            var query = unitOfWork.pricingListRepository.FindAll().Where(x => x.Employer.EmployerId == int.Parse(httpContextAccessor.HttpContext.User.FindFirst("EmployerID").Value));
+            var query = unitOfWork.pricingListRepository.FindAll().Where(x => x.Employer.EmployerId == int.Parse(httpContextAccessor.HttpContext.User.FindFirst("EmployerID").Value) && x.IsActive);
             tableResponse.TotalRows = query.Count();
 
             IFilterTemplate<PricingListItem> filterTemplate = FilterFactory<PricingListItem>.CreateSortingObject();

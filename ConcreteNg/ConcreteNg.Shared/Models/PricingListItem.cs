@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+﻿using System.Text.Json.Serialization;
 
 namespace ConcreteNg.Shared.Models
 {
@@ -14,14 +8,16 @@ namespace ConcreteNg.Shared.Models
         public string PricingListItemName { get; set; }
         public string UnitOfMeasurement { get; set; }
         public float Price { get; set; }
+        public bool IsActive { get; set; }
         [JsonIgnore]
         public Employer? Employer { get; set; }
 
-        public PricingListItem(string pricingListItemName, string unitOfMeasurement, float price, Employer employer)
+        public PricingListItem(string pricingListItemName, string unitOfMeasurement, float price, bool isActive, Employer employer)
         {
             PricingListItemName = pricingListItemName;
             UnitOfMeasurement = unitOfMeasurement;
             Price = price;
+            IsActive = isActive;
             Employer = employer;
         }
 

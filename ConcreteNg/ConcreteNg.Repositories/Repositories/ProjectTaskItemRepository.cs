@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ConcreteNg.Repositories.Repositories
 {
-    internal class ProjectTaskItemRepository : GenericRepository<ProjectTaskItem>, IProjectTaskItemRepository
+    public class ProjectTaskItemRepository : GenericRepository<ProjectTaskItem>, IProjectTaskItemRepository
     {
         private readonly DataContext dataContext;
 

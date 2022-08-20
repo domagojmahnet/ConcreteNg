@@ -13,6 +13,7 @@ namespace ConcreteNg.Shared.Models
         public string Address { get; set; }
         public string ContactPerson { get; set; }
         public string ContactNumber { get; set; }
+        public bool IsActive { get; set; }
         public Employer? Employer { get; set; }
 
         public Partner()
@@ -20,12 +21,13 @@ namespace ConcreteNg.Shared.Models
 
         }
 
-        public Partner(string name, string address, string contactPerson, string contactNumber, Employer? employer)
+        public Partner(string name, string address, string contactPerson, string contactNumber, bool isActive, Employer? employer)
         {
             Name = name;
             Address = address;
             ContactPerson = contactPerson;
             ContactNumber = contactNumber;
+            IsActive = isActive;
             Employer = employer;
         }
     }

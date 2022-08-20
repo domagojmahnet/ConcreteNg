@@ -37,14 +37,16 @@ export class ProjectListComponent implements OnInit {
         'name',
         'expectedEndDate', 
         'expectedCost',
-        'projectStatus'
+        'projectStatus',
+        'settings'
     ];
     
     displayedColumnFilters: string[] = [
         'name-filter',
         'expectedEndDate-filter',
         'expectedCost-filter',
-        'projectStatus-filter'
+        'projectStatus-filter',
+        'settingsPlaceholder'
     ];
 
     filters: BaseFilter[] = [

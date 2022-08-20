@@ -94,14 +94,9 @@ namespace ConcreteNg.Services.Services
             throw new Exception();
         }
 
-        public int AddProject(Project project, int managerId)
+        public int CreateOrUpdateProject(Project project, int managerId)
         {
-            Employer employer = unitOfWork.employerRepository.Read(int.Parse(httpContextAccessor.HttpContext.User.FindFirst("EmployerID").Value));
-            var projectToAdd = new Project(employer, project.Name, project.ExpectedStartDate, project.ExpectedEndDate, project.ExpectedCost, Shared.Enums.ProjectStatusEnum.ToDo, 0);
-            var manager = unitOfWork.userRepository.Read(managerId);
-            projectToAdd.Users = new List<User>() { manager};
-            unitOfWork.projectRepository.Create(projectToAdd);
-            return unitOfWork.Complete();
+            return unitOfWork.projectRepository.CreateOrUpdateProject(project, managerId, int.Parse(httpContextAccessor.HttpContext.User.FindFirst("EmployerID").Value));
         }
 
         public IEnumerable<User> GetEligibleManagers()
@@ -184,6 +179,19 @@ namespace ConcreteNg.Services.Services
 
 
             return new GraphData(taskCompletions, gaugeData);
+        }
+
+        public int UpdateProjectStatus(int status, int projectId)
+        {
+            var project = unitOfWork.projectRepository.Read(projectId);
+            project.ProjectStatus = (ProjectStatusEnum)status;
+            unitOfWork.projectRepository.Update(project);
+            return unitOfWork.Complete();
+        }
+
+        public User GetManager(int projectId)
+        {
+            return unitOfWork.projectRepository.GetManager(projectId);
         }
     }
 }

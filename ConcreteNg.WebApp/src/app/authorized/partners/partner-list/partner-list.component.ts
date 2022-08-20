@@ -3,6 +3,7 @@ import { DialogPosition, MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { ToastrService } from 'ngx-toastr';
 import { AccountService } from '../../../account.service';
 import { PartnerListFilterEnum } from '../../../enums/partner-list-filter-enum';
 import { UserTypeEnum } from '../../../enums/user-type';
@@ -63,7 +64,8 @@ export class PartnerListComponent implements OnInit {
     constructor(
         private employerService: EmployerService,
         public dialog: MatDialog,
-        private accountService: AccountService) { }
+        private accountService: AccountService,
+        private toastr: ToastrService) { }
 
     ngOnInit(): void {
         this.userRole = this.accountService.userValue?.userType;
@@ -142,6 +144,9 @@ export class PartnerListComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(result => {
             if(result){
+                this.toastr.success("Succesfully added/edited partner!", "",{
+                    positionClass: 'toast-top-full-width'
+                });
                 this.loadData();
             }
         });
@@ -149,6 +154,9 @@ export class PartnerListComponent implements OnInit {
 
     deleteItem(id: number){
         this.employerService.deletePartner(id).subscribe(() => {
+            this.toastr.success("Succesfully deleted partner!", "",{
+                positionClass: 'toast-top-full-width'
+            });
             this.loadData();
         })
     }

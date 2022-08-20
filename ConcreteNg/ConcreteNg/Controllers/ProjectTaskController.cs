@@ -34,10 +34,10 @@ namespace ConcreteNg.Controllers
         }
 
         [HttpPost]
-        [Route("updateItem")]
-        public async Task<ActionResult> UpdateProjectItem([FromBody] ProjectTaskItem projectTaskItem)
+        [Route("updateItem/{projectId}")]
+        public async Task<ActionResult> UpdateProjectItem([FromBody] ProjectTaskItem projectTaskItem, int projectId)
         {
-            if (projectTaskService.UpdateTaskItem(projectTaskItem))
+            if (projectTaskService.UpdateTaskItem(projectTaskItem, projectId))
             {
                 return Ok();
             }

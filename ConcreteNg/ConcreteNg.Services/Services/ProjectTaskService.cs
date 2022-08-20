@@ -36,7 +36,7 @@ namespace ConcreteNg.Services.Services
             return tasks;
         }
 
-        public bool UpdateTaskItem(ProjectTaskItem projectTaskItem)
+        public bool UpdateTaskItem(ProjectTaskItem projectTaskItem, int projectId)
         {
             unitOfWork.projectTaskItemRepository.Update(projectTaskItem);
             var updated = unitOfWork.Complete();
@@ -68,7 +68,7 @@ namespace ConcreteNg.Services.Services
                 unitOfWork.projectTaskRepository.Update(task);
             }
 
-            if(unitOfWork.Complete() == 1 )
+            if(unitOfWork.Complete() > 0)
             {
                 return task;
             }
@@ -112,7 +112,7 @@ namespace ConcreteNg.Services.Services
                 unitOfWork.projectTaskItemRepository.Update(item);
             }
 
-            if (unitOfWork.Complete() == 1)
+            if (unitOfWork.Complete() > 0)
             {
                 return item;
             }

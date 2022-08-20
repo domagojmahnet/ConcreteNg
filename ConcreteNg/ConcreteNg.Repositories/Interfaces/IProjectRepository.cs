@@ -12,5 +12,7 @@ namespace ConcreteNg.Repositories.Interfaces
     {
         User GetProjectBuyer(int projectId);
         int AssignBuyer(int userId, int projectId);
+        User GetManager(int projectId);
+        int CreateOrUpdateProject(Project project, int managerId, int employerId);
     }
 }

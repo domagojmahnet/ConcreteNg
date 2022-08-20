@@ -60,9 +60,9 @@ namespace ConcreteNg.Controllers
 
         [HttpPost]
         [Route("project/{managerId}")]
-        public async Task<ActionResult<DiaryItem>> AddProject([FromBody] Project project, int managerId)
+        public async Task<ActionResult<DiaryItem>> CreateOrUpdateProject([FromBody] Project project, int managerId)
         {
-            var result = projectService.AddProject(project, managerId);
+            var result = projectService.CreateOrUpdateProject(project, managerId);
             return Ok(result);
         }
 
@@ -105,5 +105,22 @@ namespace ConcreteNg.Controllers
             var result = projectService.GetGraphData(projectId);
             return Ok(result);
         }
+
+        [HttpPost]
+        [Route("updateStatus/{projectId}")]
+        public async Task<ActionResult> UpdateProjectStatus([FromBody] int projectStatus, int projectId)
+        {
+            var result = projectService.UpdateProjectStatus(projectStatus, projectId);
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("manager/{projectId}")]
+        public async Task<ActionResult<GraphData>> GetManager(int projectId)
+        {
+            var result = projectService.GetManager(projectId);
+            return Ok(result);
+        }
+
     }
 }

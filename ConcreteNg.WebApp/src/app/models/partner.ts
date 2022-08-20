@@ -3,5 +3,6 @@ export interface Partner {
     name: string;
     address: string;
     contactPerson: string,
-    contactNumber: string
+    contactNumber: string,
+    isActive: boolean,
 }

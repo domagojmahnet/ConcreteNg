@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ExpenseTypeEnum } from '../../../../../../enums/expense-type-enum';
 import { Expense } from '../../../../../../models/expense';
 import { Partner } from '../../../../../../models/partner';
@@ -32,7 +32,8 @@ export class AddExpenseComponent implements OnInit {
         @Optional() @Inject(MAT_DIALOG_DATA) public data: {projectTaskItemId: number, unitOfMeasurement: string, pricingListItemId: number},
         private projectDetailsService: ProjectDetailsService,
         private employerService: EmployerService,
-        private formBuilder: FormBuilder
+        private formBuilder: FormBuilder,
+        private dialogRef: MatDialogRef<AddExpenseComponent>
     ) { }
 
     ngOnInit(): void {
@@ -70,16 +71,25 @@ export class AddExpenseComponent implements OnInit {
                 this.form.get('partner')?.updateValueAndValidity();
                 break;
         }
-        debugger;
         if(this.form.valid){
             let expense: Expense = {
                 expenseId: -1,
                 expenseType: this.selectedType
             };
             this.selectedType === this.expenseTypeEnum.Labour ? expense.quantity = this.form.get("quantity")?.value : expense.totalCost = this.form.get("totalCost")?.value;
-            this.selectedType === this.expenseTypeEnum.Partner ? 
-                this.projectDetailsService.addExpense(expense, this.data.projectTaskItemId, this.data.pricingListItemId, this.form.get("partner")?.value)
-                : this.projectDetailsService.addExpense(expense, this.data.projectTaskItemId, this.data.pricingListItemId);
+            if(this.selectedType === this.expenseTypeEnum.Partner){
+                this.projectDetailsService.addExpense(expense, this.data.projectTaskItemId, this.data.pricingListItemId, this.form.get("partner")?.value).subscribe((res) => {
+                    this.projectDetailsService.handleExpenseAddition(res);
+                    this.dialogRef.close(true);
+                });
+            } 
+            else
+            {
+                this.projectDetailsService.addExpense(expense, this.data.projectTaskItemId, this.data.pricingListItemId).subscribe((res) => {
+                    this.projectDetailsService.handleExpenseAddition(res);
+                    this.dialogRef.close(true);
+                });
+            } 
         }
     }
         

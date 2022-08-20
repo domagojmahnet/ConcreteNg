@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
 import { ProjectStatusEnum } from '../../../enums/project-status';
 import { Project } from '../../../models/project';
 import { User } from '../../../models/user';
@@ -28,7 +29,8 @@ export class AddEditProjectComponent implements OnInit {
         @Optional() @Inject(MAT_DIALOG_DATA) public data: {project: Project},
         private dialogRef: MatDialogRef<AddEditProjectComponent>,
         private formBuilder: FormBuilder,
-        private projectService: ProjectService
+        private projectService: ProjectService,
+        private toastr: ToastrService
     ) { }
 
     ngOnInit(): void {
@@ -36,6 +38,23 @@ export class AddEditProjectComponent implements OnInit {
             this.eligibleManagers = res;
             this.searchedEligibleManagers = res;
         });
+
+        this.projectService.getManager(this.data.project.projectId).subscribe((res) => {
+            this.form
+        })
+
+        if(this.data){
+            this.projectService.getManager(this.data.project.projectId).subscribe((res) => {
+                let a = this.searchedEligibleManagers.find(x => x.userId === res.userId);
+                this.form = this.formBuilder.group({
+                    name: this.data.project.name,
+                    expectedStartDate: this.data.project.expectedStartDate,
+                    expectedEndDate: this.data.project.expectedEndDate,
+                    expectedCost: this.data.project.expectedCost,
+                    manager: this.searchedEligibleManagers.find(x => x.userId === res.userId)
+                });
+            });
+        }
     }
 
     saveChanges(){
@@ -49,7 +68,10 @@ export class AddEditProjectComponent implements OnInit {
                 projectStatus: this.data.project === undefined ? ProjectStatusEnum['To Do'] : this.data.project.projectStatus,
                 currentCost: 0
             }
-            this.projectService.AddEditProject(project, this.form.get("manager")?.value).subscribe(() => {
+            this.projectService.AddEditProject(project, this.form.get("manager")?.value.userId).subscribe(() => {
+                this.toastr.success("Succesfully added/edited project!", "",{
+                    positionClass: 'toast-top-full-width'
+                });
                 this.dialogRef.close(true);
             });
         }
@@ -64,7 +86,7 @@ export class AddEditProjectComponent implements OnInit {
         return this.eligibleManagers.filter(x => (x.firstName.toLowerCase() + " " + x.lastName.toLowerCase()).includes(filter));
     }
 
-    compareUserObjects(object1: any, object2: any) {
-        return object1 && object2 && object1.userId == object2.userId;
+    compareUserObjects(object1: User, object2: User) {
+        return object1 && object2 && object1.userId === object2.userId;
     }
 }

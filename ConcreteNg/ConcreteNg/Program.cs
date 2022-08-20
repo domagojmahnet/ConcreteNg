@@ -47,6 +47,18 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = false,
         }
     );
+
+builder.Services.AddCors(options =>
+{
+    var address = builder.Configuration.GetSection("FrontendSource")["Address"];
+    options.AddPolicy("CorsPolicy",
+        builder => builder
+            .AllowAnyMethod()
+            .AllowCredentials()
+            .SetIsOriginAllowed((host) => { return host == address; })
+            .AllowAnyHeader());
+});
+
 var app = builder.Build();
 app.UseStatusCodePages();
 // Configure the HTTP request pipeline.
@@ -55,10 +67,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseCors(options => options.WithOrigins("http://localhost:4200")
-    .AllowAnyMethod()
-    .AllowAnyHeader()
-);
+app.UseCors("CorsPolicy");
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseRouting();

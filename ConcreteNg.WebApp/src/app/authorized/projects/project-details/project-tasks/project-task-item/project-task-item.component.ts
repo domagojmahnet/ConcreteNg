@@ -3,6 +3,7 @@ import { DialogPosition, MatDialog } from '@angular/material/dialog';
 import { AccountService } from '../../../../../account.service';
 import { ProjectStatusEnum } from '../../../../../enums/project-status';
 import { UserTypeEnum } from '../../../../../enums/user-type';
+import { Project } from '../../../../../models/project';
 import { ProjectTaskItem } from '../../../../../models/project-task';
 import { ProjectDetailsService } from '../../project-details.service';
 import { AddEditProjectTaskItemComponent } from './add-edit-project-task-item/add-edit-project-task-item.component';
@@ -17,6 +18,7 @@ export class ProjectTaskItemComponent implements OnInit {
 
     @Input() projectTaskItem: ProjectTaskItem
     @Input() projectTaskId: number;
+    @Input() project: Project;
     projectStatusEnum = ProjectStatusEnum;
     userRole: UserTypeEnum | undefined;
 
@@ -49,7 +51,7 @@ export class ProjectTaskItemComponent implements OnInit {
                 updatedProjectTaskItem.finishTime = undefined;
                 break;
         }
-        this.projectDetailsService.updateProjectTaskItem(updatedProjectTaskItem).subscribe((data) => {
+        this.projectDetailsService.updateProjectTaskItem(updatedProjectTaskItem, this.project.projectId).subscribe((data) => {
             this.projectTaskItem = updatedProjectTaskItem;
             this.projectDetailsService.taskChange.emit();
         })

@@ -3,6 +3,7 @@ import { DialogPosition, MatDialog } from '@angular/material/dialog';
 import { AccountService } from '../../../../../account.service';
 import { ProjectStatusEnum } from '../../../../../enums/project-status';
 import { UserTypeEnum } from '../../../../../enums/user-type';
+import { Project } from '../../../../../models/project';
 import { ProjectTask, ProjectTaskItem } from '../../../../../models/project-task';
 import { ProjectDetailsService } from '../../project-details.service';
 import { AddEditProjectTaskItemComponent } from '../project-task-item/add-edit-project-task-item/add-edit-project-task-item.component';
@@ -15,6 +16,7 @@ import { AddEditProjectTaskItemComponent } from '../project-task-item/add-edit-p
 export class ProjectTaskComponent implements OnInit, OnChanges {
 
     @Input() task: ProjectTask;
+    @Input() project: Project;
     @Output() taskChange = new EventEmitter<ProjectTask>();
     progressPercentage: number;
     userRole: UserTypeEnum | undefined;

@@ -16,5 +16,6 @@ namespace ConcreteNg.Services.Interfaces
         IEnumerable<Partner> GetEmployerPartners();
         TableResponse GetEmployerPartnersTable(TableRequest tableRequest);
         int AddEditPartner(Partner partner);
+        int DeletePartner(int id);
     }
 }

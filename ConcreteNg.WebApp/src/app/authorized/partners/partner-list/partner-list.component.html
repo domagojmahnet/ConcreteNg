@@ -28,7 +28,7 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header><mat-icon>settings</mat-icon>Settings</th>
             <td mat-cell *matCellDef="let element"> 
                 <mat-icon (click)="OpenAddEditItemDialog(element)" matTooltip="Edit item">settings</mat-icon>
-                <mat-icon (click)="deleteItem(element.pricingListItemId)" matTooltip="Edit item">delete</mat-icon></td>
+                <mat-icon (click)="deleteItem(element.partnerId)" matTooltip="Edit item">delete</mat-icon></td>
         </ng-container>
         
         <ng-container matColumnDef="name-filter">

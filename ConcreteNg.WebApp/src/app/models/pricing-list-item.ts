@@ -3,5 +3,6 @@ export interface PricingListItem {
     pricingListItemName: string;
     unitOfMeasurement: string;
     price: number,
+    isActive: boolean,
     employer?: any
 }

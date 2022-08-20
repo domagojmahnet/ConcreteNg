@@ -1,6 +1,9 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { DialogPosition, MatDialog } from '@angular/material/dialog';
 import { LegendPosition } from '@swimlane/ngx-charts';
+import { AccountService } from '../../../../account.service';
+import { ProjectStatusEnum } from '../../../../enums/project-status';
+import { UserTypeEnum } from '../../../../enums/user-type';
 import { GraphData, PieGrid, TaskCompletion } from '../../../../models/graph-models/graph-data';
 import { Project } from '../../../../models/project';
 import { User } from '../../../../models/user';
@@ -18,7 +21,13 @@ export class ProjectOverviewComponent implements OnInit {
     @Input() project: Project;
     @Output() projectChange = new EventEmitter<Project>();
 
-    graphData: GraphData
+    graphData: GraphData;
+    projectStatusEnum = ProjectStatusEnum;
+    userRole: UserTypeEnum | undefined;
+
+    public get userTypeEnum(): typeof UserTypeEnum {
+        return UserTypeEnum; 
+    }
 
     legend: boolean = true;
     legendPosition: LegendPosition = LegendPosition.Right;
@@ -26,10 +35,12 @@ export class ProjectOverviewComponent implements OnInit {
     constructor(
         public dialog: MatDialog,
         private projectDetailsService: ProjectDetailsService,
-        private projectService: ProjectService
+        private projectService: ProjectService,
+        private accountService: AccountService
     ) { }
 
     ngOnInit(): void {
+        this.userRole = this.accountService.userValue?.userType;
         this.projectService.getProjectGraphData(this.project.projectId).subscribe((res) =>{
             this.graphData = res;
         })
@@ -54,6 +65,13 @@ export class ProjectOverviewComponent implements OnInit {
                     this.projectDetailsService.assignBuyerToProject(res.userId, this.project.projectId).subscribe();
                 }
             });
+        })
+    }
+
+    updateProjectStatus(projectStatus: ProjectStatusEnum){
+        this.projectService.updateProjectStatus(projectStatus, this.project.projectId).subscribe((data) => {
+            this.project.projectStatus = projectStatus;
+            this.projectChange.emit(this.project);
         })
     }
 }

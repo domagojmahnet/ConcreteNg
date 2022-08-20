@@ -12,6 +12,7 @@
         <app-project-task-item *ngFor="let taskItem of task.projectTaskItems; let i = index" 
             [projectTaskItem]="task.projectTaskItems[i]"
             [projectTaskId]="task.projectTaskId"
+            [project]="project"
         >
         </app-project-task-item>
     </ng-container>

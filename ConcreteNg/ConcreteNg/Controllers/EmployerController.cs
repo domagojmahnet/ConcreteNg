@@ -47,6 +47,14 @@ namespace ConcreteNg.Controllers
             return Ok();
         }
 
+        [HttpDelete]
+        [Route("partner/{id}")]
+        public async Task<ActionResult> DeletePartner(int id)
+        {
+            var result = employerService.DeletePartner(id);
+            return Ok();
+        }
+
         [HttpGet]
         [Route("partners")]
         public async Task<ActionResult<IEnumerable<PricingListItem>>> GetEmployerPartners()

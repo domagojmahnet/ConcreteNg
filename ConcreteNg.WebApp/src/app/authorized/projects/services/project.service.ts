@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from '../../../../environments/environment';
 import { AccountService } from '../../../account.service';
+import { ProjectStatusEnum } from '../../../enums/project-status';
 import { CostOverview } from '../../../models/cost-everview';
 import { DiaryItem } from '../../../models/diary-item';
 import { GraphData } from '../../../models/graph-models/graph-data';
@@ -59,5 +60,13 @@ export class ProjectService {
 
     getProjectGraphData(projectId: number){
         return this.http.get<GraphData>(this.projectApiUrl + "/graphData/" + projectId);
+    }
+
+    updateProjectStatus(projectStatus: ProjectStatusEnum, projectId: number){
+        return this.http.post<any>(this.projectApiUrl + "/updateStatus/" + projectId, projectStatus);
+    }
+
+    getManager(projectId: number){
+        return this.http.get<User>(this.projectApiUrl + "/manager/" + projectId);
     }
 }

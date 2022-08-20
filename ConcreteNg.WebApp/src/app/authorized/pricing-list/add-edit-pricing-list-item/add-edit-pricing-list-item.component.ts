@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
 import { PricingListItem } from '../../../models/pricing-list-item';
 import { EmployerService } from '../../employer-service.service';
 
@@ -20,7 +21,8 @@ export class AddEditPricingListItemComponent implements OnInit {
     constructor(
         @Optional() @Inject(MAT_DIALOG_DATA) public data: {pricingListItem: PricingListItem},
         private formBuilder: FormBuilder,
-        private employerService: EmployerService
+        private employerService: EmployerService,
+        private toastr: ToastrService
     ) { }
 
     ngOnInit(): void {
@@ -39,9 +41,12 @@ export class AddEditPricingListItemComponent implements OnInit {
             pricingListItemName: this.form.get("pricingListItemName")?.value,
             unitOfMeasurement: this.form.get("unitOfMeasurement")?.value,
             price: this.form.get("price")?.value,
+            isActive: true
         }
         this.employerService.createOrUpdatePricingListItem(pricingListItem).subscribe(() => {
-            
+            this.toastr.success("Succesfully added/edited pricing list item!", "",{
+                positionClass: 'toast-top-full-width'
+            });
         })
     }
 

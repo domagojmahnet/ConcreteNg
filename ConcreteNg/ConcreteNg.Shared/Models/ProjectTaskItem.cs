@@ -19,8 +19,6 @@ namespace ConcreteNg.Shared.Models
         public DateTimeOffset? StartTime { get; set; }
         public DateTimeOffset? FinishTime { get; set; }
 
-
-        [IgnoreDataMember]
         [JsonIgnore]
         public ProjectTask? ProjectTask { get; set; }
 

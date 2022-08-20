@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ProjectStatusEnum } from '../../../../../../enums/project-status';
 import { PricingListItem } from '../../../../../../models/pricing-list-item';
 import { ProjectTaskItem } from '../../../../../../models/project-task';
@@ -33,7 +33,8 @@ export class AddEditProjectTaskItemComponent implements OnInit {
         @Optional() @Inject(MAT_DIALOG_DATA) public data: {projectTaskItem: ProjectTaskItem, projectTaskId: number},
         private employerService: EmployerService,
         private projectDetailsService: ProjectDetailsService,
-        private formBuilder: FormBuilder
+        private formBuilder: FormBuilder,
+        private dialogRef: MatDialogRef<AddEditProjectTaskItemComponent>
     ) { }
 
     ngOnInit(): void {
@@ -70,7 +71,10 @@ export class AddEditProjectTaskItemComponent implements OnInit {
                 finishTime: this.form.get("finishDate")?.value,
                 taskItemStatus: this.data.projectTaskItem === undefined ? ProjectStatusEnum['To Do'] : this.data.projectTaskItem.taskItemStatus,
             }
-            this.projectDetailsService.createOrUpdateProjectTaskItem(projectTaskItem, this.data.projectTaskId);
+            this.projectDetailsService.createOrUpdateProjectTaskItem(projectTaskItem, this.data.projectTaskId).subscribe((res) => {
+                this.projectDetailsService.handleProjectTaskItemCreateOrUpdate(projectTaskItem, this.data.projectTaskId, res);
+                this.dialogRef.close(true);
+            });
         }
     }
 
@@ -79,6 +83,6 @@ export class AddEditProjectTaskItemComponent implements OnInit {
     }
 
     comparePricingListObjects(object1: any, object2: any) {
-        return object1 && object2 && object1.pricingListItemId == object2.pricingListItemId;
+        return object1 && object2 && object1.pricingListItemId === object2.pricingListItemId;
     }
 }
