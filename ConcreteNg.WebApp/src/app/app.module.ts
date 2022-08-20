@@ -1,5 +1,4 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { UnauthorizedModule } from './unauthorized/unauthorized.module';
@@ -21,10 +20,11 @@ import { AuthorizedModule } from './authorized/authorized.module';
         NavComponent
     ],
     imports: [
+        BrowserAnimationsModule,
+        AppRoutingModule,
         SharedModule,
         ToastrModule.forRoot(),
         UnauthorizedModule,
-        AuthorizedModule
     ],
     providers: [{ provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true },],
     bootstrap: [AppComponent],

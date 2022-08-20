@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -12,25 +11,23 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { ProjectCardComponent } from './authorized/projects/project-card/project-card.component';
 
 @NgModule({
     declarations: [],
-    imports:[
+    imports: [
         CommonModule
     ],
     exports: [
-        BrowserModule,
-        AppRoutingModule,
         ToastrModule,
         NgbModule,
         HttpClientModule,
         NgxChartsModule,
-        BrowserAnimationsModule,
         AngularMaterialModule,
         FlexLayoutModule,
         FormsModule,
         ReactiveFormsModule,
-        RouterModule
+        RouterModule,
     ],
     providers: [],
     bootstrap: [AppComponent],

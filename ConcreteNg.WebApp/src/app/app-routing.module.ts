@@ -16,21 +16,7 @@ import { UserTypeEnum } from './enums/user-type';
 const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'home', component: LandingPageComponent },
-    { path: 'authorized', component: BaseContainerComponent,
-        canActivate: [AuthGuard],
-        children: [
-            {
-                path: 'employer-overview',
-                component: EmployerOverviewComponent,
-            },
-            { path: '',   redirectTo: 'employer-overview', pathMatch: 'full'},
-            { path: 'project-details/:id', component: ProjectDetailsComponent },
-            { path: 'pricing-list', component: PricingListComponent },
-            { path: 'partners', component: PartnerListComponent},
-            { path: 'projects', component: ProjectListComponent},
-            { path: 'employees', component: UserListComponent, data:{role: UserTypeEnum.Administrator}}
-        ]
-        },
+    { path: 'authorized', component:BaseContainerComponent, loadChildren: () => import('./authorized/authorized.module').then(m => m.AuthorizedModule), canActivate: [AuthGuard]},
     { path: '**', component: LandingPageComponent },
     { path: '',   redirectTo: '**', pathMatch: 'full' },
 ];
