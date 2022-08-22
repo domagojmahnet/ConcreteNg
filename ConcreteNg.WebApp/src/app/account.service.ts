@@ -9,6 +9,8 @@ import { User } from './models/user';
 })
 export class AccountService {
 
+    constructor(private router: Router){}
+
     LoggedIn = new Subject();
 
     public get userValue(): any {
@@ -31,5 +33,6 @@ export class AccountService {
     public clearCurrentUser(): void {
         this.LoggedIn.next(false)
         sessionStorage.clear();
+        this.router.navigate(['/login']);
     }
 }

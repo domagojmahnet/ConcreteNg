@@ -1,9 +1,13 @@
 ﻿namespace ConcreteNg.Shared.Enums
 {
+    [Flags]
     public enum UserTypeEnum
     {
-        Manager = 0,
-        Administrator = 1,
-        Buyer = 2,
+        None = 0,
+        Buyer = 1,
+        Manager = 2,
+        Administrator = 4,
+        ManagerAndAdmin = Manager | Administrator,
+        All = Buyer | Manager | Administrator,
     }
 }

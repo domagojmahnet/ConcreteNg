@@ -1,4 +1,6 @@
 ﻿using ConcreteNg.Shared.Enums;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Controllers;
 using System.Net;
 
 namespace ConcreteNg.Proxy
@@ -7,15 +9,6 @@ namespace ConcreteNg.Proxy
     {
         private readonly ISubject subject;
 
-        List<string> BuyerAccessibleRoutes = new List<string> 
-        {
-            "login",
-            "user",
-            "allProjects",
-            "diaryItems/",
-            "costOverview/"
-        };
-
         public SecureProxy(ISubject _subject)
         {
             subject = _subject;
@@ -23,27 +16,37 @@ namespace ConcreteNg.Proxy
 
         public async Task ProcessRequest(UserTypeEnum? userType, RequestDelegate nextRequest, HttpContext context)
         {
-            /*if (userType == UserTypeEnum.Buyer && CheckBuyerPermissions(context))
+            bool isAuthorized = true;
+            var controllerActionDescriptor = context
+                .GetEndpoint()
+                .Metadata
+                .GetMetadata<ControllerActionDescriptor>();
+
+            if (controllerActionDescriptor.EndpointMetadata.Any(x => x is AuthorizeRoles))
             {
-                await ReturnErrorResponse(context);
+                var authorizeAttribute = (AuthorizeRoles)controllerActionDescriptor.EndpointMetadata.FirstOrDefault(x => x is AuthorizeRoles);
+                var role = (UserTypeEnum)Enum.Parse(typeof(UserTypeEnum), authorizeAttribute.Role);
+
+                if (!role.HasFlag(userType))
+                {
+                    isAuthorized = false;
+                    await ReturnErrorResponse(context);
+                }
             }
-            else
-            {*/
+            if(isAuthorized)
+            {
                 await subject.ProcessRequest(userType, nextRequest, context);
-            //}
+            }
         }
 
         private async Task ReturnErrorResponse(HttpContext context)
         {
             context.Response.ContentType = "application/json";
-            context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+            context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+            context.Response.WriteAsJsonAsync(new { message = "Forbidden" });
             await context.Response.StartAsync();
         }
-        
-        private bool CheckBuyerPermissions(HttpContext context)
-        {
-            return BuyerAccessibleRoutes.Any(s => context.Request.Path.ToString().Contains(s));
-        }
+ 
     }
     
 }

@@ -1,4 +1,5 @@
 ﻿using ConcreteNg.Services.Interfaces;
+using ConcreteNg.Shared.Enums;
 using ConcreteNg.Shared.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,6 +16,7 @@ namespace ConcreteNg.Controllers
             employerService = _employerService;
         }
 
+        [AuthorizeRoles(UserTypeEnum.ManagerAndAdmin)]
         [HttpPost]
         [Route("pricingListItems/table")]
         public async Task<ActionResult<IEnumerable<PricingListItem>>> GetEmployerPricingListItemsTable([FromBody] TableRequest tableRequest)
@@ -23,6 +25,7 @@ namespace ConcreteNg.Controllers
             return Ok(items);
         }
 
+        [AuthorizeRoles(UserTypeEnum.ManagerAndAdmin)]
         [HttpGet]
         [Route("pricingListItems")]
         public async Task<ActionResult<IEnumerable<PricingListItem>>> GetEmployerPricingListItems()
@@ -31,6 +34,7 @@ namespace ConcreteNg.Controllers
             return Ok(items);
         }
 
+        [AuthorizeRoles(UserTypeEnum.Administrator)]
         [HttpPost]
         [Route("pricingListItem")]
         public async Task<ActionResult> CreateOrUpdatePricingListItem([FromBody] PricingListItem item)
@@ -39,6 +43,7 @@ namespace ConcreteNg.Controllers
             return Ok();
         }
 
+        [AuthorizeRoles(UserTypeEnum.Administrator)]
         [HttpDelete]
         [Route("pricingListItem/{id}")]
         public async Task<ActionResult> DeletePricingListItem(int id)
@@ -47,6 +52,7 @@ namespace ConcreteNg.Controllers
             return Ok();
         }
 
+        [AuthorizeRoles(UserTypeEnum.Administrator)]
         [HttpDelete]
         [Route("partner/{id}")]
         public async Task<ActionResult> DeletePartner(int id)
@@ -55,6 +61,7 @@ namespace ConcreteNg.Controllers
             return Ok();
         }
 
+        [AuthorizeRoles(UserTypeEnum.ManagerAndAdmin)]
         [HttpGet]
         [Route("partners")]
         public async Task<ActionResult<IEnumerable<PricingListItem>>> GetEmployerPartners()
@@ -63,6 +70,7 @@ namespace ConcreteNg.Controllers
             return Ok(items);
         }
 
+        [AuthorizeRoles(UserTypeEnum.ManagerAndAdmin)]
         [HttpPost]
         [Route("partners")]
         public async Task<ActionResult<TableResponse>> GetEmployerPartnersTable([FromBody] TableRequest tableRequest)
@@ -71,6 +79,7 @@ namespace ConcreteNg.Controllers
             return Ok(items);
         }
 
+        [AuthorizeRoles(UserTypeEnum.Administrator)]
         [HttpPost]
         [Route("partner")]
         public async Task<ActionResult<int>> AddEditPartner([FromBody] Partner partner)

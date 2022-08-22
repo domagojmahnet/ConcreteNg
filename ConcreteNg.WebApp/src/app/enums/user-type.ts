@@ -1,5 +1,5 @@
 export enum UserTypeEnum {
-    Manager = 0,
-    Administrator = 1,
-    Buyer = 2,
+    Buyer = 1,
+    Manager = 2,
+    Administrator = 4,
 }

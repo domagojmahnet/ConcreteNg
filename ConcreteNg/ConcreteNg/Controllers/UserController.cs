@@ -1,4 +1,5 @@
 ﻿using ConcreteNg.Services.Interfaces;
+using ConcreteNg.Shared.Enums;
 using ConcreteNg.Shared.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -6,7 +7,6 @@ using System.Security.Claims;
 
 namespace ConcreteNg.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
@@ -18,6 +18,7 @@ namespace ConcreteNg.Controllers
             userService = _userService;
         }
 
+        [AuthorizeRoles(UserTypeEnum.All)]
         [HttpGet]
         public async Task<ActionResult<User>> GetUser()
         {
@@ -25,6 +26,7 @@ namespace ConcreteNg.Controllers
             return Ok(userService.GetUser(int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier))));
         }
 
+        [AuthorizeRoles(UserTypeEnum.Administrator)]
         [HttpPost]
         [Route("users")]
         public async Task<ActionResult<TableResponse>> GetEmployedUsers([FromBody] TableRequest tableRequest)
@@ -33,6 +35,7 @@ namespace ConcreteNg.Controllers
             return Ok(items);
         }
 
+        [AuthorizeRoles(UserTypeEnum.Administrator)]
         [HttpPost]
         [Route("user")]
         public async Task<ActionResult<User>> AddEditUser([FromBody] User user)
@@ -48,6 +51,7 @@ namespace ConcreteNg.Controllers
             }
         }
 
+        [AuthorizeRoles(UserTypeEnum.Administrator)]
         [HttpDelete]
         [Route("{id}")]
         public async Task<ActionResult> DeleteUser(int id)

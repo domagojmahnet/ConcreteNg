@@ -1,4 +1,5 @@
 ﻿using ConcreteNg.Services.Interfaces;
+using ConcreteNg.Shared.Enums;
 using ConcreteNg.Shared.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -17,6 +18,7 @@ namespace ConcreteNg.Controllers
             projectTaskService = _projectTaskService;
         }
 
+        [AuthorizeRoles(UserTypeEnum.All)]
         [HttpGet]
         [Route("{projectId}")]
         public async Task<ActionResult<IEnumerable<ProjectTask>>> GetProjectTasks(int projectId)
@@ -25,6 +27,7 @@ namespace ConcreteNg.Controllers
             return Ok(projects);
         }
 
+        [AuthorizeRoles(UserTypeEnum.ManagerAndAdmin)]
         [HttpPost]
         [Route("projectTask/{projectId}")]
         public async Task<ActionResult<ProjectTask>> CreateOrUpdateProjectTask([FromBody] ProjectTask projectTask, int projectId)
@@ -33,6 +36,7 @@ namespace ConcreteNg.Controllers
             return Ok(result);
         }
 
+        [AuthorizeRoles(UserTypeEnum.ManagerAndAdmin)]
         [HttpPost]
         [Route("updateItem/{projectId}")]
         public async Task<ActionResult> UpdateProjectItem([FromBody] ProjectTaskItem projectTaskItem, int projectId)
@@ -44,6 +48,7 @@ namespace ConcreteNg.Controllers
             return BadRequest();
         }
 
+        [AuthorizeRoles(UserTypeEnum.ManagerAndAdmin)]
         [HttpDelete]
         [Route("deleteTask/{id}")]
         public async Task<ActionResult> DeleteProjectTask(int id)
@@ -55,6 +60,7 @@ namespace ConcreteNg.Controllers
             return BadRequest();
         }
 
+        [AuthorizeRoles(UserTypeEnum.ManagerAndAdmin)]
         [HttpDelete]
         [Route("deleteTaskItem/{id}")]
         public async Task<ActionResult> DeleteProjectTaskItem(int id)
@@ -66,6 +72,7 @@ namespace ConcreteNg.Controllers
             return BadRequest();
         }
 
+        [AuthorizeRoles(UserTypeEnum.ManagerAndAdmin)]
         [HttpPost]
         [Route("projectTaskItem/{taskId}")]
         public async Task<ActionResult<ProjectTask>> CreateOrUpdateProjectTaskItem([FromBody] ProjectTaskItem projectTaskItem, int taskId)
@@ -74,6 +81,7 @@ namespace ConcreteNg.Controllers
             return Ok(result);
         }
 
+        [AuthorizeRoles(UserTypeEnum.ManagerAndAdmin)]
         [HttpPost]
         [Route("expense/{taskItemId}/{pricingListItemId}/{partnerId?}")]
         public async Task<ActionResult<Expense>> AddExpense(Expense expense, int taskItemId, int pricingListItemId, int? partnerId = null)

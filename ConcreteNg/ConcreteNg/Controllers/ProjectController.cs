@@ -1,4 +1,5 @@
 ﻿using ConcreteNg.Services.Interfaces;
+using ConcreteNg.Shared.Enums;
 using ConcreteNg.Shared.Models;
 using ConcreteNg.Shared.Models.GraphModels;
 using Microsoft.AspNetCore.Authorization;
@@ -26,6 +27,7 @@ namespace ConcreteNg.Controllers
             return Ok(projects);
         }
 
+        [AuthorizeRoles(UserTypeEnum.All)]
         [HttpPost]
         [Route("allProjects")]
         public async Task<ActionResult<TableResponse>> GetProjects([FromBody] TableRequest tableRequest)
@@ -34,6 +36,7 @@ namespace ConcreteNg.Controllers
             return Ok(projects);
         }
 
+        [AuthorizeRoles(UserTypeEnum.All)]
         [HttpGet]
         [Route("{projectId}")]
         public async Task<ActionResult<Project>> GetProject(int projectId)
@@ -42,6 +45,7 @@ namespace ConcreteNg.Controllers
             return Ok(projects);
         }
 
+        [AuthorizeRoles(UserTypeEnum.All)]
         [HttpPost]
         [Route("diaryItems/{projectId}")]
         public async Task<ActionResult<TableResponse>> GetDiaryItemsTable([FromBody] TableRequest tableRequest, int projectId)
@@ -50,6 +54,7 @@ namespace ConcreteNg.Controllers
             return Ok(result);
         }
 
+        [AuthorizeRoles(UserTypeEnum.ManagerAndAdmin)]
         [HttpPost]
         [Route("diaryItem/{projectId}")]
         public async Task<ActionResult<DiaryItem>> AddDiaryItem([FromBody] DiaryItem diary, int projectId)
@@ -58,6 +63,7 @@ namespace ConcreteNg.Controllers
             return Ok(result);
         }
 
+        [AuthorizeRoles(UserTypeEnum.Administrator)]
         [HttpPost]
         [Route("project/{managerId}")]
         public async Task<ActionResult<DiaryItem>> CreateOrUpdateProject([FromBody] Project project, int managerId)
@@ -66,6 +72,7 @@ namespace ConcreteNg.Controllers
             return Ok(result);
         }
 
+        [AuthorizeRoles(UserTypeEnum.ManagerAndAdmin)]
         [HttpGet]
         [Route("managers")]
         public async Task<ActionResult<DiaryItem>> GetEligibleManagers()
@@ -74,6 +81,7 @@ namespace ConcreteNg.Controllers
             return Ok(result);
         }
 
+        [AuthorizeRoles(UserTypeEnum.All)]
         [HttpGet]
         [Route("costOverview/{projectId}")]
         public async Task<ActionResult<CostOverview>> GetCostOverview(int projectId)
@@ -82,6 +90,7 @@ namespace ConcreteNg.Controllers
             return Ok(result);
         }
 
+        [AuthorizeRoles(UserTypeEnum.All)]
         [HttpGet]
         [Route("projectBuyer/{projectId}")]
         public async Task<ActionResult<User>> GetProjectBuyer(int projectId)
@@ -90,6 +99,7 @@ namespace ConcreteNg.Controllers
             return Ok(result);
         }
 
+        [AuthorizeRoles(UserTypeEnum.ManagerAndAdmin)]
         [HttpGet]
         [Route("assignBuyer/{userId}/{projectId}")]
         public async Task<ActionResult> AssignBuyer(int userId, int projectId)
@@ -98,6 +108,7 @@ namespace ConcreteNg.Controllers
             return Ok(result);
         }
 
+        [AuthorizeRoles(UserTypeEnum.All)]
         [HttpGet]
         [Route("graphData/{projectId}")]
         public async Task<ActionResult<GraphData>> GetGraphData(int projectId)
@@ -106,6 +117,7 @@ namespace ConcreteNg.Controllers
             return Ok(result);
         }
 
+        [AuthorizeRoles(UserTypeEnum.ManagerAndAdmin)]
         [HttpPost]
         [Route("updateStatus/{projectId}")]
         public async Task<ActionResult> UpdateProjectStatus([FromBody] int projectStatus, int projectId)
@@ -114,6 +126,7 @@ namespace ConcreteNg.Controllers
             return Ok(result);
         }
 
+        [AuthorizeRoles(UserTypeEnum.ManagerAndAdmin)]
         [HttpGet]
         [Route("manager/{projectId}")]
         public async Task<ActionResult<GraphData>> GetManager(int projectId)
