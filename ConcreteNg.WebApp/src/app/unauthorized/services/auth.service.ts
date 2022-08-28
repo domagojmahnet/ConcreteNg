@@ -18,24 +18,19 @@ export class AuthService {
         private accountService: AccountService
         ) {
     }
-
-
     userUrl: string = environment.BASE_URL+ "api/Auth";
 
     LogUser(username: string, password: string) {
         const data = {"Username" : username, "Password" : password};
-
         this.http.post<any>(this.userUrl + "/login", data).subscribe({
             next: (token: any) =>{
                 this.accountService.JwtTokenValue = token;
-
                 this.http.get(environment.BASE_URL + "api/User").subscribe((data: any)=>{
                     this.accountService.userValue = data;
                     this.router.navigate(['authorized/employer-overview']);
                 })
             },
             error: err => {
-                debugger;
                 if(err.status === 404){
                     this.toastr.error("Invalid Credentials", "",{
                         positionClass: 'toast-top-full-width'

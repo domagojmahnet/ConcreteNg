@@ -105,7 +105,6 @@ export class UserListComponent implements OnInit {
 
         this.employerService.getUsersTable(tableRequest).subscribe((response: TableResponse) => {
             this.dataSource.data = response.data;
-            debugger
             setTimeout(() => {
                 this.paginator.pageIndex = this.currentPage;
                 this.paginator.length = response.totalRows;

@@ -56,7 +56,8 @@ builder.Services.AddCors(options =>
             .AllowAnyMethod()
             .AllowCredentials()
             .SetIsOriginAllowed((host) => { return host == address; })
-            .AllowAnyHeader());
+            .AllowAnyHeader()
+            .WithExposedHeaders("Content-Disposition"));
 });
 
 var app = builder.Build();

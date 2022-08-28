@@ -18,6 +18,7 @@ namespace ConcreteNg.Services
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<IProjectTaskService, ProjectTaskService>();
             services.AddScoped<IEmployerService, EmployerService>();
+            services.AddScoped<IFileService, FileService>();
 
             return services;
         }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ConcreteNg.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220720092827_PricingList")]
-    partial class PricingList
+    [Migration("20220827142407_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,31 +24,29 @@ namespace ConcreteNg.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("ConcreteNg.Shared.Models.Cost", b =>
+            modelBuilder.Entity("ConcreteNg.Shared.Models.DiaryItem", b =>
                 {
-                    b.Property<int>("CostId")
+                    b.Property<int>("DiaryItemId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CostId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DiaryItemId"), 1L, 1);
 
-                    b.Property<int>("CostVersion")
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ProjectId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsActiveVersion")
-                        .HasColumnType("bit");
+                    b.HasKey("DiaryItemId");
 
-                    b.Property<float>("Price")
-                        .HasColumnType("real");
+                    b.HasIndex("ProjectId");
 
-                    b.Property<int>("PricingListItemId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CostId");
-
-                    b.HasIndex("PricingListItemId");
-
-                    b.ToTable("Costs");
+                    b.ToTable("DiaryItems");
                 });
 
             modelBuilder.Entity("ConcreteNg.Shared.Models.Employer", b =>
@@ -79,22 +77,99 @@ namespace ConcreteNg.Data.Migrations
                     b.ToTable("Employers");
                 });
 
-            modelBuilder.Entity("ConcreteNg.Shared.Models.PricingList", b =>
+            modelBuilder.Entity("ConcreteNg.Shared.Models.Expense", b =>
                 {
-                    b.Property<int>("PricingListId")
+                    b.Property<int>("ExpenseId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PricingListId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ExpenseId"), 1L, 1);
 
-                    b.Property<int>("EmployerId")
+                    b.Property<int>("ExpenseType")
                         .HasColumnType("int");
 
-                    b.HasKey("PricingListId");
+                    b.Property<int?>("PartnerId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ProjectTaskItemId")
+                        .HasColumnType("int");
+
+                    b.Property<float?>("Quantity")
+                        .HasColumnType("real");
+
+                    b.Property<float?>("TotalCost")
+                        .HasColumnType("real");
+
+                    b.HasKey("ExpenseId");
+
+                    b.HasIndex("PartnerId");
+
+                    b.HasIndex("ProjectTaskItemId");
+
+                    b.ToTable("Expenses");
+                });
+
+            modelBuilder.Entity("ConcreteNg.Shared.Models.File", b =>
+                {
+                    b.Property<int>("FileId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FileId"), 1L, 1);
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FilePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ProjectId")
+                        .HasColumnType("int");
+
+                    b.HasKey("FileId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("Files");
+                });
+
+            modelBuilder.Entity("ConcreteNg.Shared.Models.Partner", b =>
+                {
+                    b.Property<int>("PartnerId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PartnerId"), 1L, 1);
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContactNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContactPerson")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("EmployerId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("PartnerId");
 
                     b.HasIndex("EmployerId");
 
-                    b.ToTable("PricingLists");
+                    b.ToTable("Partners");
                 });
 
             modelBuilder.Entity("ConcreteNg.Shared.Models.PricingListItem", b =>
@@ -105,16 +180,26 @@ namespace ConcreteNg.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PricingListItemId"), 1L, 1);
 
-                    b.Property<int>("PricingListId")
+                    b.Property<int?>("EmployerId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<float>("Price")
+                        .HasColumnType("real");
 
                     b.Property<string>("PricingListItemName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UnitOfMeasurement")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("PricingListItemId");
 
-                    b.HasIndex("PricingListId");
+                    b.HasIndex("EmployerId");
 
                     b.ToTable("PricingListItems");
                 });
@@ -170,7 +255,7 @@ namespace ConcreteNg.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProjectTaskId"), 1L, 1);
 
-                    b.Property<int>("ProjectId")
+                    b.Property<int?>("ProjectId")
                         .HasColumnType("int");
 
                     b.Property<string>("ProjectTaskName")
@@ -198,12 +283,11 @@ namespace ConcreteNg.Data.Migrations
                     b.Property<DateTimeOffset?>("FinishTime")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<int?>("ProjectTaskId")
+                    b.Property<int>("PricingListItemId")
                         .HasColumnType("int");
 
-                    b.Property<string>("ProjectTaskItemName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("ProjectTaskId")
+                        .HasColumnType("int");
 
                     b.Property<float?>("Quantity")
                         .HasColumnType("real");
@@ -215,6 +299,8 @@ namespace ConcreteNg.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("ProjectTaskItemId");
+
+                    b.HasIndex("PricingListItemId");
 
                     b.HasIndex("ProjectTaskId");
 
@@ -229,15 +315,18 @@ namespace ConcreteNg.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"), 1L, 1);
 
-                    b.Property<int>("EmployerId")
+                    b.Property<int?>("EmployerId")
                         .HasColumnType("int");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset>("HireDate")
+                    b.Property<DateTimeOffset?>("HireDate")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -280,37 +369,55 @@ namespace ConcreteNg.Data.Migrations
                     b.ToTable("ProjectUser");
                 });
 
-            modelBuilder.Entity("ConcreteNg.Shared.Models.Cost", b =>
+            modelBuilder.Entity("ConcreteNg.Shared.Models.DiaryItem", b =>
                 {
-                    b.HasOne("ConcreteNg.Shared.Models.PricingListItem", "PricingListItem")
+                    b.HasOne("ConcreteNg.Shared.Models.Project", "Project")
                         .WithMany()
-                        .HasForeignKey("PricingListItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ProjectId");
 
-                    b.Navigation("PricingListItem");
+                    b.Navigation("Project");
                 });
 
-            modelBuilder.Entity("ConcreteNg.Shared.Models.PricingList", b =>
+            modelBuilder.Entity("ConcreteNg.Shared.Models.Expense", b =>
+                {
+                    b.HasOne("ConcreteNg.Shared.Models.Partner", "Partner")
+                        .WithMany()
+                        .HasForeignKey("PartnerId");
+
+                    b.HasOne("ConcreteNg.Shared.Models.ProjectTaskItem", "ProjectTaskItem")
+                        .WithMany()
+                        .HasForeignKey("ProjectTaskItemId");
+
+                    b.Navigation("Partner");
+
+                    b.Navigation("ProjectTaskItem");
+                });
+
+            modelBuilder.Entity("ConcreteNg.Shared.Models.File", b =>
+                {
+                    b.HasOne("ConcreteNg.Shared.Models.Project", "Project")
+                        .WithMany()
+                        .HasForeignKey("ProjectId");
+
+                    b.Navigation("Project");
+                });
+
+            modelBuilder.Entity("ConcreteNg.Shared.Models.Partner", b =>
                 {
                     b.HasOne("ConcreteNg.Shared.Models.Employer", "Employer")
                         .WithMany()
-                        .HasForeignKey("EmployerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("EmployerId");
 
                     b.Navigation("Employer");
                 });
 
             modelBuilder.Entity("ConcreteNg.Shared.Models.PricingListItem", b =>
                 {
-                    b.HasOne("ConcreteNg.Shared.Models.PricingList", "PricingList")
+                    b.HasOne("ConcreteNg.Shared.Models.Employer", "Employer")
                         .WithMany()
-                        .HasForeignKey("PricingListId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("EmployerId");
 
-                    b.Navigation("PricingList");
+                    b.Navigation("Employer");
                 });
 
             modelBuilder.Entity("ConcreteNg.Shared.Models.Project", b =>
@@ -326,18 +433,24 @@ namespace ConcreteNg.Data.Migrations
                 {
                     b.HasOne("ConcreteNg.Shared.Models.Project", "Project")
                         .WithMany()
-                        .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ProjectId");
 
                     b.Navigation("Project");
                 });
 
             modelBuilder.Entity("ConcreteNg.Shared.Models.ProjectTaskItem", b =>
                 {
+                    b.HasOne("ConcreteNg.Shared.Models.PricingListItem", "PricingListItem")
+                        .WithMany()
+                        .HasForeignKey("PricingListItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("ConcreteNg.Shared.Models.ProjectTask", "ProjectTask")
                         .WithMany("ProjectTaskItems")
                         .HasForeignKey("ProjectTaskId");
+
+                    b.Navigation("PricingListItem");
 
                     b.Navigation("ProjectTask");
                 });
@@ -346,9 +459,7 @@ namespace ConcreteNg.Data.Migrations
                 {
                     b.HasOne("ConcreteNg.Shared.Models.Employer", "Employer")
                         .WithMany()
-                        .HasForeignKey("EmployerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("EmployerId");
 
                     b.Navigation("Employer");
                 });

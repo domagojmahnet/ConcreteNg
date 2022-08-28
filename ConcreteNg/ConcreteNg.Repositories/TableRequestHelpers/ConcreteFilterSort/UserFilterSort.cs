@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ConcreteNg.Repositories.TableRequestHelpers.ConcreteFilterSort
 {
-    internal class UserFilterSort : FilterTemplate<User>, IFilterTemplate<User>
+    public class UserFilterSort : FilterTemplate<User>, IFilterTemplate<User>
     {
         public override IQueryable<User> ApplyFilters(IQueryable<User> query, BaseFilter filter)
         {

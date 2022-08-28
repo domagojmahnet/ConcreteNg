@@ -107,6 +107,32 @@ namespace ConcreteNg.Data.Migrations
                     b.ToTable("Expenses");
                 });
 
+            modelBuilder.Entity("ConcreteNg.Shared.Models.File", b =>
+                {
+                    b.Property<int>("FileId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FileId"), 1L, 1);
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FilePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ProjectId")
+                        .HasColumnType("int");
+
+                    b.HasKey("FileId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("Files");
+                });
+
             modelBuilder.Entity("ConcreteNg.Shared.Models.Partner", b =>
                 {
                     b.Property<int>("PartnerId")
@@ -363,6 +389,15 @@ namespace ConcreteNg.Data.Migrations
                     b.Navigation("Partner");
 
                     b.Navigation("ProjectTaskItem");
+                });
+
+            modelBuilder.Entity("ConcreteNg.Shared.Models.File", b =>
+                {
+                    b.HasOne("ConcreteNg.Shared.Models.Project", "Project")
+                        .WithMany()
+                        .HasForeignKey("ProjectId");
+
+                    b.Navigation("Project");
                 });
 
             modelBuilder.Entity("ConcreteNg.Shared.Models.Partner", b =>

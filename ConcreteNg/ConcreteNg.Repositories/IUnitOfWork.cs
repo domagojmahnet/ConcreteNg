@@ -18,6 +18,7 @@ namespace ConcreteNg.Repositories
         IExpenseRepository expenseRepository { get; }
         IPartnerRepository partnerRepository { get; }
         IDiaryRepository diaryRepository { get; }
+        IFileRepository fileRepository { get; }
         int Complete();
     }
     

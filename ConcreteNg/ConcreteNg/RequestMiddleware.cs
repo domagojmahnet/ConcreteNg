@@ -8,12 +8,10 @@ namespace ConcreteNg
     public class RequestMiddleware
     {
         private readonly RequestDelegate next;
-        private readonly IHttpContextAccessor httpContextAccessor;
 
-        public RequestMiddleware(RequestDelegate _next, IHttpContextAccessor _httpContextAccessor)
+        public RequestMiddleware(RequestDelegate _next)
         {
             next = _next;
-            httpContextAccessor = _httpContextAccessor;
         }
 
         public async Task InvokeAsync(HttpContext context)

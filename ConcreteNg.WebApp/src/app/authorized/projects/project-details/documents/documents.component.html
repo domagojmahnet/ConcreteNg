@@ -1,0 +1,6 @@
+<button type="button" mat-raised-button color="primary" (click)="fileInput.click()">Upload File</button>
+<input hidden (change)="onFileSelected($event)"  #fileInput type="file" id="file">
+<div style="display: flex; padding-top: 10px;" *ngFor="let item of files">
+    <p>{{item.fileName}}</p>
+    <mat-icon style="margin-left: auto;" (click)="downloadFile(item.fileId, item.fileName)">download</mat-icon>
+</div>

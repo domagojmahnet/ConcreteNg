@@ -21,6 +21,7 @@ namespace ConcreteNg.Repositories
         public IExpenseRepository expenseRepository { get; }
         public IPartnerRepository partnerRepository { get; }
         public IDiaryRepository diaryRepository { get; }
+        public IFileRepository fileRepository { get; }
 
         public UnitOfWork(
             DataContext dbContext, 
@@ -32,7 +33,8 @@ namespace ConcreteNg.Repositories
             IEmployerRepository _employerRepository,
             IExpenseRepository _expenseRepository,
             IPartnerRepository _partnerRepository,
-            IDiaryRepository _diaryRepository)
+            IDiaryRepository _diaryRepository,
+            IFileRepository _fileRepository)
         {
             dataContext = dbContext;
             userRepository = _userRepository;
@@ -44,6 +46,7 @@ namespace ConcreteNg.Repositories
             expenseRepository = _expenseRepository;
             partnerRepository = _partnerRepository;
             diaryRepository = _diaryRepository;
+            fileRepository = _fileRepository;
         }
 
         public void Dispose()

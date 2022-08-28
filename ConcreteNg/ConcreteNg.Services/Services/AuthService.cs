@@ -54,8 +54,6 @@ namespace ConcreteNg.Services.Services
 
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
             return jwt;
-        }
-
-        
+        }  
     }
 }

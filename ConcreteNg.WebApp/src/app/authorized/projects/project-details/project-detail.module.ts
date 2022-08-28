@@ -14,6 +14,7 @@ import { AddEditProjectTaskComponent } from './project-tasks/project-task/add-ed
 import { ProjectTaskComponent } from './project-tasks/project-task/project-task.component';
 import { ProjectTasksComponent } from './project-tasks/project-tasks.component';
 import { SharedModule } from '../../../shared.module';
+import { DocumentsComponent } from './documents/documents.component';
 
 
 @NgModule({
@@ -28,12 +29,13 @@ import { SharedModule } from '../../../shared.module';
         AddExpenseComponent,
         DiaryComponent,
         AddDiaryItemComponent,
-        ExpensesComponent
+        ExpensesComponent,
+        DocumentsComponent
     ],
     imports: [
         CommonModule,
         SharedModule,
-        ProjectDetailRoutingModule
+        ProjectDetailRoutingModule,
     ]
 })
 export class ProjectDetailModule { }

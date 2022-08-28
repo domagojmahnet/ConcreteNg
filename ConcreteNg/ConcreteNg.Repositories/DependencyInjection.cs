@@ -17,6 +17,7 @@ namespace ConcreteNg.Repositories
             services.AddScoped<IPartnerRepository, PartnerRepository>();
             services.AddScoped<IExpenseRepository, ExpenseRepository>();
             services.AddScoped<IDiaryRepository, DiaryRepository>();
+            services.AddScoped<IFileRepository, FileRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             return services;

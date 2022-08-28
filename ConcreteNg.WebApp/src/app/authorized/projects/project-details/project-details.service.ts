@@ -1,10 +1,12 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EventEmitter, Injectable, Output } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from '../../../../environments/environment';
 import { Expense } from '../../../models/expense';
 import { Project } from '../../../models/project';
 import { ProjectTask, ProjectTaskItem } from '../../../models/project-task';
+import { File as CustomFile } from '../../../models/file';
+import * as FileSaver from 'file-saver';
 
 @Injectable({
   providedIn: 'root'
@@ -125,5 +127,23 @@ export class ProjectDetailsService {
 
     assignBuyerToProject(userId: number, projectId: number){
         return this.http.get<any>(this.projectApiUrl + "/assignBuyer/" + userId + "/" + projectId);
+    }
+
+    getProjectFiles(projectId: number){
+        return this.http.get<CustomFile[]>(this.projectApiUrl + "/files/" + projectId);
+    }
+
+    downloadFile(fileId: number, fileName: string){
+        this.http.get<any>(this.projectApiUrl + "/download/" + fileId, { observe: 'response', responseType: 'blob' as 'json' }).subscribe((res) => {
+            FileSaver.saveAs(res.body, fileName);
+        });
+    }
+
+    uploadFile(fileList: FileList, projectId: number){
+        const formData: FormData = new FormData();
+        Array.from(fileList).forEach(element => {
+            formData.append('files', element, element.name);
+        });
+        return this.http.post(this.projectApiUrl + "/upload/" + projectId, formData);
     }
 }

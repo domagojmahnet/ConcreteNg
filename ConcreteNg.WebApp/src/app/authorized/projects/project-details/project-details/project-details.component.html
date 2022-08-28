@@ -6,7 +6,11 @@
                 <app-project-overview [(project)]="project"></app-project-overview>
             </ng-template>
         </mat-tab>
-        <mat-tab label="Documents"> test 2 </mat-tab>
+        <mat-tab label="Documents">
+            <ng-template matTabContent>
+                <app-documents [(project)]="project"></app-documents>
+            </ng-template>
+        </mat-tab>
         <mat-tab label="Tasks">
             <ng-template matTabContent>
                 <app-project-tasks [(project)]="project"></app-project-tasks>

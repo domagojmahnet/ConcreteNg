@@ -1,5 +1,6 @@
 ﻿using ConcreteNg.Shared.Models;
 using Microsoft.EntityFrameworkCore;
+using File = ConcreteNg.Shared.Models.File;
 
 namespace ConcreteNg.Data
 {
@@ -15,6 +16,7 @@ namespace ConcreteNg.Data
         public DbSet<Expense> Expenses { get; set; }
         public DbSet<Partner> Partners { get; set; }
         public DbSet<DiaryItem> DiaryItems { get; set; }
+        public DbSet<File> Files { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -24,6 +26,7 @@ namespace ConcreteNg.Data
             modelBuilder.Entity<Expense>().Property(i => i.ExpenseId).ValueGeneratedOnAdd();
             modelBuilder.Entity<Partner>().Property(i => i.PartnerId).ValueGeneratedOnAdd();
             modelBuilder.Entity<DiaryItem>().Property(i => i.DiaryItemId).ValueGeneratedOnAdd();
+            modelBuilder.Entity<File>().Property(i => i.FileId).ValueGeneratedOnAdd();
         }
     }
 }
